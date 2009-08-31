@@ -48,10 +48,26 @@ class opCalendarPluginExtension
       ->where('profile_id = ?', self::$birth_prof_id)
       ->andWhereIn('member_id', self::$friendIds);
 
+    $driverName = Doctrine::getConnectionByTableName('MemberProfile')->getDriverName();
     foreach ($months as $month)
     {
-      $targetValue = $day ? array('%m-%d', sprintf('%02d-%02d', (int)$month, (int)$day)) : array('%m', sprintf('%02d', (int)$month));
-      $q->andWhere('DATE_FORMAT(value_datetime, ?) = ?', $targetValue);
+      $targetDate = $day ? sprintf('%02d-%02d', (int)$month, (int)$day) : sprintf('%02d', (int)$month);
+
+      if ($driverName === 'Sqlite')
+      {
+        $targetValue = array($day ? '%m-%d' : '%m', $targetDate);
+        $q->andWhere('strftime(?, value_datetime) = ?', $targetValue);
+      }
+      else if ($driverName === 'Pgsql')
+      {
+        $targetValue = array($day ? 'MM-DD' : 'MM', $targetDate);
+        $q->andWhere('to_char(value_datetime, ?) = ?', $targetValue);
+      }
+      else
+      {
+        $targetValue = array($day ? '%m-%d' : '%m', $targetDate);
+        $q->andWhere('DATE_FORMAT(value_datetime, ?) = ?', $targetValue);
+      }
     }
     $birthResults = $q->execute(array(), Doctrine::HYDRATE_NONE);
 
