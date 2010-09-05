@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>opCalendarPlugin</name>
+ <channel>plugins.openpne.jp</channel>
+ <summary>カレンダープラグイン</summary>
+ <description>コミュニティトピックプラグインのイベントや自身で作成したスケジュールを表示するためのプラグインです</description>
+ <lead>
+  <name>Shinichi Urabe</name>
+  <user>urabe</user>
+  <email />
+  <active>yes</active>
+ </lead>
+ <date>2010-09-06</date>
+ <time>00:17:32</time>
+ <version>
+  <release>0.9.0</release>
+  <api>0.9.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license>Apache</license>
+ <notes>
+first release
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" md5sum="1d0510df95435c14df078b803e094a69" name="apps/pc_backend/config/routing.yml" role="data" />
+   <file baseinstalldir="/" md5sum="7dca1542745c00b3e09e0a360d3c35e6" name="apps/pc_backend/modules/holiday/actions/actions.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="bc2e9166b5e4ef52f3309959a1ec1b25" name="apps/pc_backend/modules/holiday/templates/listSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="fb60a9ee17ad0a9f40fe2221684ffbd1" name="apps/pc_frontend/config/routing.yml" role="data" />
+   <file baseinstalldir="/" md5sum="b8a5d30d19b42f6a12c83664ebf7acb7" name="apps/pc_frontend/modules/calendar/actions/actions.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="0bb6a3d94d565bc0823a697b69d39236" name="apps/pc_frontend/modules/calendar/actions/components.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="23a85a877ba78a09b520b19d03c3650c" name="apps/pc_frontend/modules/calendar/config/security.yml" role="data" />
+   <file baseinstalldir="/" md5sum="07b9b31053b38baa66aff7e597d6003c" name="apps/pc_frontend/modules/calendar/config/view.yml" role="data" />
+   <file baseinstalldir="/" md5sum="fcfad39eb26a64b7811672906e4297ce" name="apps/pc_frontend/modules/calendar/templates/indexSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="5f5f606042d53ff3558c3b46b2d13047" name="apps/pc_frontend/modules/calendar/templates/_weekly.php" role="data" />
+   <file baseinstalldir="/" md5sum="8526e838c0b4566af359922c17245662" name="apps/pc_frontend/modules/schedule/actions/actions.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="23a85a877ba78a09b520b19d03c3650c" name="apps/pc_frontend/modules/schedule/config/security.yml" role="data" />
+   <file baseinstalldir="/" md5sum="07b9b31053b38baa66aff7e597d6003c" name="apps/pc_frontend/modules/schedule/config/view.yml" role="data" />
+   <file baseinstalldir="/" md5sum="32464a8abb5fed9d5b2f6d1552e1640d" name="apps/pc_frontend/modules/schedule/templates/deleteConfirmSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="0884cf3fb04b4ba51807190c4e99f54d" name="apps/pc_frontend/modules/schedule/templates/editSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="6016e2d5048bc6b44b43738c9a465c9c" name="apps/pc_frontend/modules/schedule/templates/newSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="45291c89a4b1c67905fd5dcc344ea5ee" name="apps/pc_frontend/modules/schedule/templates/showSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="327c46e98fa02bc7aef8db2f0cf56625" name="apps/pc_frontend/modules/schedule/templates/_detailScheduleTable.php" role="data" />
+   <file baseinstalldir="/" md5sum="b53cf71410e4afa86569934480a15e02" name="apps/pc_frontend/modules/schedule/templates/_formSchedule.php" role="data" />
+   <file baseinstalldir="/" md5sum="a3cae5cbb2581f6775b146c3d20e54be" name="apps/pc_frontend/modules/schedule/templates/_inputScheduleTable.php" role="data" />
+   <file baseinstalldir="/" md5sum="d84869340ae5f83c754f9959e8beb44f" name="config/gadget.yml" role="data" />
+   <file baseinstalldir="/" md5sum="2121835f5af749e9301a36450eac0884" name="config/doctrine/schema.yml" role="data" />
+   <file baseinstalldir="/" md5sum="01559f77b0f810d6d732bb9624772985" name="data/fixtures/000_revision.yml" role="data" />
+   <file baseinstalldir="/" md5sum="9ef7cb67ef1ea8957c6925f37878bd7d" name="data/fixtures/001_import_backend_navi_menu.yml" role="data" />
+   <file baseinstalldir="/" md5sum="75fd4d246f7d060278564e8547e58c8a" name="data/fixtures/002_gadget.yml" role="data" />
+   <file baseinstalldir="/" md5sum="8ea9e603b909e123466e5d51fddb8cfd" name="data/migrations/v1/001_dummy.php" role="data" />
+   <file baseinstalldir="/" md5sum="7716e749b673da8c791da4269cdce932" name="data/migrations/v1/fixtures/001_gadget_and_navi.yml" role="data" />
+   <file baseinstalldir="/" md5sum="0dfa202398fcc9248d81f88f97fa2f67" name="lib/filter/doctrine/PluginHolidayFormFilter.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="5e4f38068e9260b3bb70b0b3b8058067" name="lib/filter/doctrine/PluginScheduleFormFilter.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="5eae8ebb213977a84b358cbecf2a1ab3" name="lib/form/MiniScheduleForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="b46b39fc8d36b369b58f4aea78e2b744" name="lib/form/doctrine/PluginHolidayForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="342eff81ceabd98abcb8453a43516bcd" name="lib/form/doctrine/PluginScheduleForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="77f819a718065477b438a688501afd95" name="lib/model/opCalendarPluginExtension.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="f5ff5ecf7b32e1a9e803344197b0018a" name="lib/model/doctrine/PluginHoliday.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="2cb5676eb4e71e2fe8cf1a60ed356a4b" name="lib/model/doctrine/PluginHolidayTable.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="f00564f522b9f163d8cb421f64d23ba6" name="lib/model/doctrine/PluginSchedule.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="c7bed3e98c0c63e5a1000d0519f81063" name="lib/model/doctrine/PluginScheduleTable.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="6059fe5458d6348af2659d38af527912" name="test/bootstrap/database.php" role="data" />
+   <file baseinstalldir="/" md5sum="155ce720c060aa5fc9e2bbbc779b7a13" name="test/bootstrap/functional.php" role="data" />
+   <file baseinstalldir="/" md5sum="53df737807ad0e3ba7dd2abb8cab3e3c" name="test/bootstrap/unit.php" role="data" />
+   <file baseinstalldir="/" md5sum="8471fade12b0760fab6715ffb8b8f9e4" name="test/fixtures/test_data.yml" role="data" />
+   <file baseinstalldir="/" md5sum="8a98cacfcc151f2808c399543fd52679" name="test/functional/mobile_frontend/skeletonActionsTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="1faa199e87c1ce270e86edee706b37fd" name="test/functional/pc_frontend/skeletonActionsTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="52440ab0abcc01c98551283f1e9942e1" name="test/unit/model/SkeletonTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="581002ebef72ad6ddf05f36dfb447e3a" name="web/css/main.css" role="data" />
+   <file baseinstalldir="/" md5sum="12375c0e5e68f2bf6be9474d9463393d" name="web/images/icon_birthday.gif" role="data" />
+   <file baseinstalldir="/" md5sum="69c87344d1479f6842f936184fca0e14" name="web/images/icon_event_B.gif" role="data" />
+   <file baseinstalldir="/" md5sum="ec7fd03de7c5f9a05dd53ddb536b5c87" name="web/images/icon_event_R.gif" role="data" />
+   <file baseinstalldir="/" md5sum="47ee08f7d7de1a8a379c56fdaa518518" name="web/images/icon_pen.gif" role="data" />
+   <file baseinstalldir="/" md5sum="917b162cdaf85390511198ae211ceb44" name="web/images/icon_schedule.gif" role="data" />
+   <file baseinstalldir="/" md5sum="3b83ef96387f14655fc854ddc3c6bd57" name="LICENSE" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.3</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.9.0</release>
+    <api>0.9.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-09-06</date>
+   <license>Apache</license>
+   <notes>
+first release
+   </notes>
+  </release>
+ </changelog>
+</package>
