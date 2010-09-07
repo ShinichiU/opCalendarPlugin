@@ -1,0 +1,5 @@
+Gadget:
+  op_weekly_calendar:
+    type: "contents"
+    name: "opWeeklyCalendar"
+    sort_order: 1

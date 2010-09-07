@@ -1,0 +1,195 @@
+@charset "UTF-8";
+
+* {
+  word-wrap: break-word;
+}
+
+/*==============================================================================
+ * weeklyCalendarTable
+ *----------------------------------------------------------------------------*/
+.weeklyCalendarTable div.formBox {
+  margin: 8px 0 6px;
+  padding: 0 4px;
+}
+.weeklyCalendarTable div.formBox input#weekly_schedule_title {
+  width: 100px;
+}
+.weeklyCalendarTable div.formBox span.pager {
+  margin-left: 1em;
+  white-space: nowrap;
+  letter-spacing: 2px;
+}
+.weeklyCalendarTable div.moreInfo {
+  padding: 5px;
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  border-color: #ccc;
+}
+.weeklyCalendarTable div.moreInfo ul {
+  width: 10em;
+  margin: 0 2px 0 auto;
+}
+.weeklyCalendarTable table td,
+.weeklyCalendarTable table td * {
+  letter-spacing: 0;
+}
+.weeklyCalendarTable table td {
+  padding: 0;
+  vertical-align: top;
+}
+.weeklyCalendarTable table td.today {
+  background: #ffc;
+}
+.weeklyCalendarTable table td.today p.day {
+  font-weight: bold;
+}
+.weeklyCalendarTable table td p {
+  padding: 2px;
+  border-bottom: 1px solid #f9f9f9;
+  line-height: 1.2;
+}
+.weeklyCalendarTable table td p.day {
+  padding: 3px 4px;
+}
+.weeklyCalendarTable table td p.day span {
+  display: block;
+  white-space: nowrap;
+}
+.weeklyCalendarTable table td p span.icon {
+  white-space: nowrap;
+}
+.weeklyCalendarTable table td p.birthday,
+.weeklyCalendarTable table td p.event,
+.weeklyCalendarTable table td p.schedule {
+  padding: 0;
+}
+.weeklyCalendarTable table td p.birthday a,
+.weeklyCalendarTable table td p.event a,
+.weeklyCalendarTable table td p.schedule a {
+  display: block;
+  padding: 2px;
+  text-decoration: none;
+}
+.weeklyCalendarTable table td p.birthday a:hover,
+.weeklyCalendarTable table td p.event a:hover,
+.weeklyCalendarTable table td p.schedule a:hover {
+  text-decoration: underline;  
+}
+
+/*==============================================================================
+ * monthlyCalendarTable
+ *----------------------------------------------------------------------------*/
+.monthlyCalendarTable p.pager a {
+  white-space: nowrap;
+}
+.monthlyCalendarTable div.topBox {
+  zoom: 1;
+  overflow: hidden;
+  padding: 0 5px 5px;
+}
+.monthlyCalendarTable div.topBox p.moreInfo {
+  float: left;
+  width: 50%;
+}
+.monthlyCalendarTable div.topBox p.pager {
+  float: right;
+  width: 48%;
+  padding: 0 1px 1px 0;
+  text-align: right;
+}
+.monthlyCalendarTable div.bottomBox {
+  padding: 5px;
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  border-color: #ccc;
+}
+.monthlyCalendarTable div.bottomBox p.pager {
+  padding: 2px 1px 1px 0;
+  text-align: right;
+}
+.monthlyCalendarTable div.partsInfo {
+  padding: 5px;
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  border-color: #ccc;
+}
+.monthlyCalendarTable div.partsInfo p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+.monthlyCalendarTable div.partsInfo p img {
+  margin: 0 1px;
+}
+.monthlyCalendarTable table th {
+  padding: 2px;
+}
+.monthlyCalendarTable table td,
+.monthlyCalendarTable table td * {
+  letter-spacing: 0;
+}
+.monthlyCalendarTable table td {
+  height: 60px;
+  padding: 0;
+  vertical-align: top;
+}
+.monthlyCalendarTable table td.today {
+  background: #ffc;
+}
+.monthlyCalendarTable table td.today p.day {
+  font-weight: bold;
+}
+.monthlyCalendarTable table td p {
+  padding: 2px;
+  border-bottom: 1px solid #f9f9f9;
+  line-height: 1.2;
+}
+.monthlyCalendarTable table td p.day {
+  padding: 2px 4px 0;
+  border-bottom: none;
+}
+.monthlyCalendarTable table td p.new_schedule {
+  padding-top: 0;
+}
+.monthlyCalendarTable table td p span.icon {
+  white-space: nowrap;
+}
+.monthlyCalendarTable table td p.birthday,
+.monthlyCalendarTable table td p.event,
+.monthlyCalendarTable table td p.schedule {
+  padding: 0;
+}
+.monthlyCalendarTable table td p.birthday a,
+.monthlyCalendarTable table td p.event a,
+.monthlyCalendarTable table td p.schedule a {
+  display: block;
+  padding: 2px;
+  text-decoration: none;
+}
+.monthlyCalendarTable table td p.birthday a:hover,
+.monthlyCalendarTable table td p.event a:hover,
+.monthlyCalendarTable table td p.schedule a:hover {
+  text-decoration: underline;
+}
+
+/*==============================================================================
+ * formSchedule (detailScheduleTable, inputScheduleTable)
+ *----------------------------------------------------------------------------*/
+#formSchedule table {
+  margin: 4px 0 0;
+}
+#formSchedule th {
+  padding: 5px 1em;
+  line-height: 1.4;
+}
+#formSchedule td {
+  padding: 5px;
+}
+#formSchedule div.operation {
+  padding: 5px;
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  border-color: #ccc;
+}
+#formSchedule .inputScheduleTable select {
+  margin: 0 2px 0 4px;
+}

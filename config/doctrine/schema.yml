@@ -1,0 +1,33 @@
+options:
+  charset: utf8
+
+Schedule:
+  actAs: [Timestampable]
+  columns:
+    id: { type: integer(4), primary: true, autoincrement: true }
+    member_id: { type: integer(4), notnull: true }
+    title: { type: string, notnull: true }
+    body: { type: string }
+    start_date: { type: date, notnull: true }
+    start_time: { type: time }
+    end_date: { type: date, notnull: true }
+    end_time: { type: time }
+  relations:
+    Member:
+      onDelete: cascade
+  indexes:
+    member_id_INDEX:
+      fields: [member_id]
+    start_date_end_date_INDEX:
+      fields: [start_date, end_date]
+
+Holiday:
+  actAs: [Timestampable]
+  columns:
+    id: { type: integer(4), primary: true, autoincrement: true }
+    name: { type: string, notnull: true }
+    month: { type: integer(4), notnull: true }
+    day: { type: integer(4), notnull: true }
+  indexes:
+    month_day_INDEX:
+      fields: [month, day]

@@ -1,0 +1,8 @@
+Navigation:
+  backend_side_holiday:
+    type: "backend_side"
+    uri:  "@holiday"
+    sort_order: 100
+    Translation:
+      ja_JP:
+        caption: "祝日設定"

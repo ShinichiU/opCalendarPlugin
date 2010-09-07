@@ -1,0 +1,84 @@
+calendar:
+  url: /calendar
+  param: { module: calendar, action: index }
+
+calendar_year_month:
+  url: /calendar/:year/:month
+  param: { module: calendar, action: index }
+  requirements:
+    year: "[12][0-9]{3}"
+    month: "(0?[1-9])|(1[0-2])"
+
+calendar_nodefault:
+  url: /calendar/*
+  param: { module: default, action: error }
+
+schedule_new:
+  url: /schedule/new
+  param: { module: schedule, action: new }
+
+schedule_new_for_this_date:
+  url: /schedule/new/:year/:month/:day
+  param: { module: schedule, action: new }
+  requirements:
+    year: "[12][0-9]{3}"
+    month: "(0?[1-9])|(1[0-2])"
+    day: "(0?[1-9])|([12][0-9])|(3[01])"
+
+schedule_create:
+  url: /schedule/create
+  param: { module: schedule, action: create }
+  requirements:
+    sf_method: [post]
+
+schedule_create_mini:
+  url: /schedule/createmini
+  param: { module: schedule, action: miniCreate }
+  requirements:
+    sf_method: [post]
+
+schedule_show:
+  url: /schedule/:id
+  class: sfDoctrineRoute
+  options: { model: Schedule, type: object }
+  param: { module: schedule, action: show }
+  requirements:
+    id: \d+
+
+schedule_edit:
+  url: /schedule/edit/:id
+  class: sfDoctrineRoute
+  options: { model: Schedule, type: object }
+  param: { module: schedule, action: edit }
+  requirements:
+    id: \d+
+
+schedule_update:
+  url: /schedule/update/:id
+  class: sfDoctrineRoute
+  options: { model: Schedule, type: object }
+  param: { module: schedule, action: update }
+  requirements:
+    id: \d+
+    sf_method: [put]
+
+schedule_delete_confirm:
+  url: /schedule/deleteConfirm/:id
+  class: sfDoctrineRoute
+  options: { model: Schedule, type: object }
+  param: { module: schedule, action: deleteConfirm }
+  requirements:
+    id: \d+
+
+schedule_delete:
+  url: /schedule/delete/:id
+  class: sfDoctrineRoute
+  options: { model: Schedule, type: object }
+  param: { module: schedule, action: delete }
+  requirements:
+    id: \d+
+    sf_method: [post]
+
+schedule_nodefaults:
+  url: /schedule/*
+  param: { module: default, action: error }

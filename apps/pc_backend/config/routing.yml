@@ -1,0 +1,31 @@
+holiday:
+  url: /holiday
+  param: { module: holiday, action: list }
+
+holiday_create:
+  url: /holiday/create
+  param: { module: holiday, action: create }
+  requirements:
+    sf_method: [post]
+
+holiday_update:
+  url: /holiday/update/:id
+  class: sfDoctrineRoute
+  options: { model: Holiday, type: object }
+  param: { module: holiday, action: update }
+  requirements:
+    id: \d+
+    sf_method: [put]
+
+holiday_delete:
+  url: /holiday/delete/:id
+  class: sfDoctrineRoute
+  options: { model: Holiday, type: object }
+  param: { module: holiday, action: delete }
+  requirements:
+    id: \d+
+    sf_method: [post]
+
+holiday_nodefaults:
+  url: /holiday/*
+  param: { module: default, action: error }
