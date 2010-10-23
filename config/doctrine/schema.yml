@@ -5,21 +5,39 @@ Schedule:
   actAs: [Timestampable]
   columns:
     id: { type: integer(4), primary: true, autoincrement: true }
-    member_id: { type: integer(4), notnull: true }
+    member_id: { type: integer(4), notnull: false }
     title: { type: string, notnull: true }
     body: { type: string }
     start_date: { type: date, notnull: true }
     start_time: { type: time }
     end_date: { type: date, notnull: true }
     end_time: { type: time }
+    public_flag: { type: integer(1), notnull: true, default: 1 }
   relations:
     Member:
-      onDelete: cascade
+      foreignAlias: Schedules
+      onDelete: set null
   indexes:
     member_id_INDEX:
       fields: [member_id]
     start_date_end_date_INDEX:
       fields: [start_date, end_date]
+
+ScheduleMember:
+  columns:
+    id: { type: integer(4), primary: true, autoincrement: true }
+    member_id: { type: integer(4), notnull: true }
+    schedule_id: { type: integer(4), notnull: true }
+  relations:
+    Member:
+      foreignAlias: ScheduleMembers
+      onDelete: cascade
+    Schedule:
+      foreignAlias: ScheduleMembers
+      onDelete: cascade
+  indexes:
+    member_id_schedule_id_INDEX:
+      fields: [member_id, schedule_id]
 
 Holiday:
   actAs: [Timestampable]

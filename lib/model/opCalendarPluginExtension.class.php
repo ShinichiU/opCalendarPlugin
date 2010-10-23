@@ -178,4 +178,44 @@ class opCalendarPluginExtension
 
     return self::$myId;
   }
+
+  static public function getAllowedFriendMember(Member $member)
+  {
+    static $queryCacheHash;
+
+    $result = array($member->id => $member->name);
+
+    $q = Doctrine::getTable('MemberRelationship')->createQuery()
+       ->select('member_id_from')
+       ->where('member_id_to = ?', $member->id)
+       ->andWhere('is_friend = ?', true)
+       ->andWhere('is_access_block = ? OR is_access_block IS NULL', false);
+
+    if (!$queryCacheHash)
+    {
+      $friendMemberIds = $q->execute(array(), Doctrine::HYDRATE_NONE);
+      $queryCacheHash = $q->calculateQueryCacheHash();
+    }
+    else
+    {
+      $q->setCachedQueryCacheHash($queryCacheHash);
+      $friendMemberIds = $q->execute(array(), Doctrine::HYDRATE_NONE);
+    }
+
+    $inactiveMemberIds = Doctrine::getTable('Member')->getInactiveMemberIds();
+
+    foreach ($friendMemberIds as $friend)
+    {
+      if (!isset($inactiveMemberIds[$friend[0]]))
+      {
+        $member = Doctrine::getTable('Member')->find($friend[0]);
+        if ($member && $member->id)
+        {
+          $result[$member->id] = $member->name;
+        }
+      }
+    }
+
+    return $result;
+  }
 }

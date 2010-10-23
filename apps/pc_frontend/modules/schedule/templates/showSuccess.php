@@ -2,6 +2,7 @@
 <div class="partsHeading"><h3>予定</h3></div>
 <?php include_partial('detailScheduleTable', array('schedule' => $schedule)) ?>
 
+<?php if ($schedule->isEditable($sf_user->getMemberId())): ?>
 <div class="operation">
 <ul class="moreInfo button">
 <li>
@@ -16,4 +17,5 @@
 </li>
 </ul>
 </div>
+<?php endif; ?>
 </div></div>

@@ -2,6 +2,19 @@
 
 class scheduleActions extends sfActions
 {
+  public function preExecute()
+  {
+    if (is_callable(array($this->getRoute(), 'getObject')))
+    {
+      $object = $this->getRoute()->getObject();
+      if ($object instanceof Schedule)
+      {
+        $this->schedule = $object;
+        $this->member = $this->schedule->Member;
+      }
+    }
+  }
+
   public function executeNew(sfWebRequest $request)
   {
     $this->form = new ScheduleForm();
@@ -12,8 +25,6 @@ class scheduleActions extends sfActions
     );
     $this->form->setDefault('start_date', $date);
     $this->form->setDefault('end_date', $date);
-
-    return sfView::SUCCESS;
   }
 
   public function executeCreate(sfWebRequest $request)
@@ -23,45 +34,31 @@ class scheduleActions extends sfActions
     $this->processForm($request, $this->form);
 
     $this->setTemplate('new');
-
-    return sfView::SUCCESS;
   }
 
   public function executeShow(sfWebRequest $request)
   {
-    $this->schedule = $this->getRoute()->getObject();
-    $this->forward404Unless($this->schedule->isEditable($this->getUser()->getMemberId()));
-
-    return sfView::SUCCESS;
+    $this->forward404Unless($this->schedule->isShowable($this->getUser()->getMemberId()));
   }
 
   public function executeEdit(sfWebRequest $request)
   {
-    $this->schedule = $this->getRoute()->getObject();
     $this->forward404Unless($this->schedule->isEditable($this->getUser()->getMemberId()));
     $this->form = new ScheduleForm($this->schedule);
-
-    return sfView::SUCCESS;
   }
 
   public function executeUpdate(sfWebRequest $request)
   {
-    $this->schedule = $this->getRoute()->getObject();
     $this->forward404Unless($this->schedule->isEditable($this->getUser()->getMemberId()));
     $this->form = new ScheduleForm($this->schedule);
     $this->processForm($request, $this->form);
     $this->setTemplate('edit');
-
-    return sfView::SUCCESS;
   }
 
   public function executeDeleteConfirm(sfWebRequest $request)
   {
-    $this->schedule = $this->getRoute()->getObject();
     $this->forward404Unless($this->schedule->isEditable($this->getUser()->getMemberId()));
     $this->form = new sfForm();
-
-    return sfView::SUCCESS;
   }
 
   public function executeDelete(sfWebRequest $request)

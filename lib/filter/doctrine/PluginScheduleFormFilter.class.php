@@ -3,10 +3,9 @@
 /**
  * PluginSchedule form.
  *
- * @package    ##PROJECT_NAME##
+ * @package    opCalendarPlugin
  * @subpackage filter
- * @author     ##AUTHOR_NAME##
- * @version    SVN: $Id: sfDoctrineFormFilterPluginTemplate.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ * @author     Shinichi Urabe <urabe@tejimaya.com>
  */
 abstract class PluginScheduleFormFilter extends BaseScheduleFormFilter
 {

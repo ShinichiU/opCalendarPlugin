@@ -45,6 +45,11 @@ class MiniScheduleForm extends sfForm
     $schedule->setBody('');
     $schedule->setMember(sfContext::getInstance()->getUser()->getMember());
 
-    return $schedule->save();
+    $scheduleMember = new ScheduleMember();
+    $scheduleMember->setSchedule($schedule);
+    $scheduleMember->setMember($schedule->Member);
+    $scheduleMember->save($con);
+
+    return $schedule->save($con);
   }
 }

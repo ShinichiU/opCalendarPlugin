@@ -1,0 +1,6 @@
+schedule:
+  _attributes:
+    caption: "Schedule Configuration"
+    enable_pc:     true
+    enable_mobile: false
+  schedule:

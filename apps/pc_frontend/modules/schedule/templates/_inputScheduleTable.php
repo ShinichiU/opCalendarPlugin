@@ -20,4 +20,12 @@
 <th><label for="schedule_body">詳細</label></th>
 <td><?php echo $form['body']->render() ?></td>
 </tr>
+<tr class="public_flag">
+<th><label for="schedule_public_flag">公開範囲 <strong>*</strong></label></th>
+<td><?php echo $form['public_flag']->render() ?></td>
+</tr>
+<tr class="schedule_member">
+<th><label for="schedule_schedule_member">参加メンバー <strong>*</strong></label></th>
+<td><?php echo $form['schedule_member']->render() ?></td>
+</tr>
 </table>

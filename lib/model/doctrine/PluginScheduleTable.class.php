@@ -3,19 +3,43 @@
  */
 class PluginScheduleTable extends Doctrine_Table
 {
-  private $memberId = null;
+  const PUBLIC_FLAG_SNS              = 1;
+  const PUBLIC_FLAG_SCHEDULE_MEMBER  = 2;
+
+  protected static $publicFlags = array(
+    self::PUBLIC_FLAG_SNS              => 'All Members',
+    self::PUBLIC_FLAG_SCHEDULE_MEMBER  => 'Only schedule member',
+  );
+
+  public function getPublicFlags()
+  {
+    $publicFlags = array();
+    foreach (self::$publicFlags as $key => $publicFlag)
+    {
+      $publicFlags[$key] = sfContext::getInstance()->getI18N()->__($publicFlag);
+    }
+
+    return $publicFlags;
+  }
 
   public function getScheduleByThisDay($year, $month, $day)
   {
     $day = sprintf('%04d-%02d-%02d', (int)$year, (int)$month, (int)$day);
-    $this->getMyId();
+    $scheduleIds = Doctrine::getTable('ScheduleMember')->getScheduleIdsByMemberId($this->getMyId());
 
-    $values = $this->createQuery()
+    $q = $this->createQuery()
       ->select('id, title')
       ->where('start_date <= ?', $day)
-      ->andWhere('end_date >= ?', $day)
-      ->andWhere('member_id = ?', (int)$this->memberId)
-      ->execute(array(), Doctrine::HYDRATE_NONE);
+      ->andWhere('end_date >= ?', $day);
+    if (!count($scheduleIds))
+    {
+      $q->andWhere('member_id = ?', (int)$this->getMyId());
+    }
+    else
+    {
+      $q->andWhere('member_id = ? OR id IN ('.implode(', ', $scheduleIds).')', (int)$this->getMyId());
+    }
+    $values = $q->execute(array(), Doctrine::HYDRATE_NONE);
 
     if (!count($values))
     {
@@ -35,11 +59,13 @@ class PluginScheduleTable extends Doctrine_Table
 
   private function getMyId()
   {
-    if (is_null($this->memberId))
+    static $memberId;
+
+    if (!isset($memberId))
     {
-      $this->memberId = sfContext::getInstance()->getUser()->getMemberId();
+      $memberId = sfContext::getInstance()->getUser()->getMemberId();
     }
 
-    return $this->memberId;
+    return $memberId;
   }
 }
