@@ -45,7 +45,7 @@ class calendarComponents extends sfComponents
         'births' => opCalendarPluginExtension::getScheduleBirthMemberByTargetDay($m, $d),
         'events' => opCalendarPluginExtension::getMyCommunityEventByTargetDay($y, $m, $d),
         'schedules' => Doctrine::getTable('Schedule')->getScheduleByThisDay($y, $m, $d),
-        'holidays' => Doctrine::getTable('Holiday')->getByMonthAndDay($m, $d),
+        'holidays' => Doctrine::getTable('Holiday')->getByYearAndMonthAndDay($y, $m, $d),
       );
 
       $calendar[$i++] = $item;

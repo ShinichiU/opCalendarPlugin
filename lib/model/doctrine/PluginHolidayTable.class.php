@@ -3,15 +3,16 @@
  */
 class PluginHolidayTable extends Doctrine_Table
 {
-  public function getByMonthAndDay($month, $day)
+  public function getByYearAndMonthAndDay($year, $month, $day)
   {
-    if (!$month || !$day)
+    if (!$year || !$month || !$day)
     {
       return array();
     }
     $results = $this->createQuery()
       ->select('name')
-      ->where('month = ?', (int)$month)
+      ->where('year = ? OR year IS NULL', (int)$year)
+      ->andWhere('month = ?', (int)$month)
       ->andWhere('day = ?', (int)$day)
       ->execute(array(), Doctrine::HYDRATE_NONE);
 
@@ -32,7 +33,8 @@ class PluginHolidayTable extends Doctrine_Table
   public function getHolidayList()
   {
     $results = $this->createQuery()
-      ->orderBy('month ASC')
+      ->orderBy('year ASC')
+      ->addOrderBy('month ASC')
       ->addOrderBy('day ASC')
       ->execute();
 

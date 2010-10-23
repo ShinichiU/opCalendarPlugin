@@ -67,7 +67,7 @@ class calendarActions extends sfActions
           'births' => isset($birth_list[$month_day]) ? $birth_list[$month_day] : array(),
           'events' => isset($event_list[$year_month_day]) ? $event_list[$year_month_day] : array(),
           'schedules' => Doctrine::getTable('Schedule')->getScheduleByThisDay($this->year, $this->month, $day),
-          'holidays' => Doctrine::getTable('Holiday')->getByMonthAndDay($this->month, $day),
+          'holidays' => Doctrine::getTable('Holiday')->getByYearAndMonthAndDay($this->year, $this->month, $day),
         );
 
         $this->calendar[$row][$col++] = $item;

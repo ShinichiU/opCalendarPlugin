@@ -2,7 +2,7 @@
 
 <h3>祝日設定</h3>
 
-<p>祝日名称と祝日を設定してください。</p>
+<p>祝日名称と祝日を設定してください。<br />※年を未入力にした場合、毎年表示される祝日となります。</p>
 
 <table>
 <thead>
@@ -19,7 +19,7 @@
 <td>
 <?php echo $activeForm->renderHiddenFields() ?>
 <?php echo $activeForm['name']->render() ?></td>
-<td><?php echo $activeForm['month']->render() ?> <?php echo $activeForm['day']->render() ?></td>
+<td><?php echo $activeForm['year']->render(array('size' => 4)) ?>年 <?php echo $activeForm['month']->render() ?> <?php echo $activeForm['day']->render() ?></td>
 <td><input type="submit" value="変更" /></td>
 </form>
 <td>
@@ -34,7 +34,7 @@
 <?php echo $newForm->renderFormTag(url_for('@holiday_create')) ?>
 <?php echo $newForm->renderHiddenFields() ?>
 <td><?php echo $newForm['name']->render() ?></td>
-<td><?php echo $newForm['month']->render() ?> <?php echo $newForm['day']->render() ?></td>
+<td><?php echo $newForm['year']->render(array('size' => 4)) ?>年 <?php echo $newForm['month']->render() ?> <?php echo $newForm['day']->render() ?></td>
 <td colspan="2">
 <input type="submit" value="項目追加" />
 </td>

@@ -10,6 +10,7 @@
 abstract class PluginHolidayForm extends BaseHolidayForm
 {
   protected
+    $years = array(),
     $months = array(),
     $days = array();
 
@@ -20,17 +21,19 @@ abstract class PluginHolidayForm extends BaseHolidayForm
     $this->generateMonthDate();
 
     $this->setWidget('name', new sfWidgetFormInputText());
+    $this->setWidget('year', new sfWidgetFormInputText());
     $this->setWidget('month', new sfWidgetFormSelect(array('choices' => $this->months)));
     $this->setWidget('day', new sfWidgetFormSelect(array('choices' => $this->days)));
 
     $this->validatorSchema['name'] = new opValidatorString(array('trim' => true));
+    $this->validatorSchema['year'] = new sfValidatorInteger(array('required' => false, 'min' => 1));
     $this->validatorSchema['month'] = new sfValidatorChoice(array('choices' => array_keys($this->months)));
     $this->validatorSchema['day'] = new sfValidatorChoice(array('choices' => array_keys($this->days)));
 
     $this->validatorSchema->setPostValidator(new sfValidatorCallback(
       array('callback' => array($this, 'validateMonthDay'))
     ));
-    $this->useFields(array('name', 'month', 'day'));
+    $this->useFields(array('name', 'year', 'month', 'day'));
   }
 
   private function generateMonthDate()
@@ -48,7 +51,7 @@ abstract class PluginHolidayForm extends BaseHolidayForm
   public function validateMonthDay(sfValidatorBase $validator, $values)
   {
     $limitedMonths = array(
-      2 => 29,
+      2 => $values['year'] ? $this->isLeap((int)$values['year']) ? 29 : 28 : 29,
       4 => 30,
       6 => 30,
       9 => 30,
@@ -60,5 +63,25 @@ abstract class PluginHolidayForm extends BaseHolidayForm
     }
 
     return $values;
+  }
+
+  private function isLeap($year)
+  {
+    if (0 == $year % 4)
+    {
+      if (0 == $year % 100)
+      {
+        if (0 == $year % 400)
+        {
+          return true;
+        }
+
+        return false;
+      }
+
+      return true;
+    }
+
+    return false;
   }
 }

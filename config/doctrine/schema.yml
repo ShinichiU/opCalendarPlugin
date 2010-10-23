@@ -26,8 +26,9 @@ Holiday:
   columns:
     id: { type: integer(4), primary: true, autoincrement: true }
     name: { type: string, notnull: true }
+    year: { type: integer(4), notnull: false }
     month: { type: integer(4), notnull: true }
     day: { type: integer(4), notnull: true }
   indexes:
-    month_day_INDEX:
-      fields: [month, day]
+    year_month_day_INDEX:
+      fields: [year, month, day]
