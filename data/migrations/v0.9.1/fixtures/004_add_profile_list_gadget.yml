@@ -1,9 +1,4 @@
 Gadget:
-  op_weekly_calendar:
-    type: "contents"
-    name: "opWeeklyCalendar"
-    sort_order: 1
-
   op_weekly_calendar_profile_list:
     type: "profileContents"
     name: "opWeeklyCalendar"

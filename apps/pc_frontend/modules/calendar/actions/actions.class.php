@@ -10,6 +10,32 @@
  */
 class calendarActions extends sfActions
 {
+  public function preExecute()
+  {
+    if (is_callable(array($this->getRoute(), 'getObject')))
+    {
+      $object = $this->getRoute()->getObject();
+      if ($object instanceof Member)
+      {
+        $this->member = $object;
+      }
+    }
+
+    if (!isset($this->member))
+    {
+      $this->member = $this->getUser()->getMember();
+    }
+
+    $this->isSelf = true;
+    if ($this->member->id !== $this->getUser()->getMemberId())
+    {
+      $this->isSelf = false;
+      sfConfig::set('sf_nav_type', 'friend');
+      sfConfig::set('sf_nav_id', $this->member->id);
+      $relation = Doctrine::getTable('MemberRelationship')->retrieveByFromAndTo($this->member->id, $this->getUser()->getMemberId());
+      $this->forwardIf($relation && $relation->is_access_block, 'default', 'error');
+    }
+  }
  /**
   * Executes index action
   *
@@ -23,10 +49,10 @@ class calendarActions extends sfActions
 
     $this->add_schedule = $this->year < date('Y') || $this->year > date('Y') + 1 ? false : true;
 
-    $birth_list = opCalendarPluginExtension::getScheduleBirthMemberByMonths(array($this->month));
+    $birth_list = $this->isSelf ? opCalendarPluginExtension::getScheduleBirthMemberByMonths(array($this->month)) : array();
     $first_day = sprintf('%04d-%02d-01', $this->year, $this->month);
     $end_day =  sprintf('%04d-%02d-%02d', $this->year, $this->month, date('t', strtotime($first_day)));
-    $event_list = opCalendarPluginExtension::getMyCommunityEventByStartDayToEndDay($first_day, $end_day);
+    $event_list = $this->isSelf ? opCalendarPluginExtension::getMyCommunityEventByStartDayToEndDay($first_day, $end_day) : array();
 
     $Month = new Calendar_Month_Weekdays($this->year, $this->month, 1);
     $Month->build();
@@ -66,7 +92,7 @@ class calendarActions extends sfActions
           'today' => $is_today,
           'births' => isset($birth_list[$month_day]) ? $birth_list[$month_day] : array(),
           'events' => isset($event_list[$year_month_day]) ? $event_list[$year_month_day] : array(),
-          'schedules' => Doctrine::getTable('Schedule')->getScheduleByThisDay($this->year, $this->month, $day),
+          'schedules' => Doctrine::getTable('Schedule')->getScheduleByThisDayAndMember($this->year, $this->month, $day, $this->member),
           'holidays' => Doctrine::getTable('Holiday')->getByYearAndMonthAndDay($this->year, $this->month, $day),
         );
 

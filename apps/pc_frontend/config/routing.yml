@@ -2,10 +2,28 @@ calendar:
   url: /calendar
   param: { module: calendar, action: index }
 
+calendar_member_obj:
+  url: /calendar/:id
+  class: sfDoctrineRoute
+  options: { model: Member, type: object }
+  param: { module: calendar, action: index }
+  requirements:
+    id: \d+
+
 calendar_year_month:
   url: /calendar/:year/:month
   param: { module: calendar, action: index }
   requirements:
+    year: "[12][0-9]{3}"
+    month: "(0?[1-9])|(1[0-2])"
+
+calendar_year_month_member_obj:
+  url: /calendar/:id/:year/:month
+  class: sfDoctrineRoute
+  options: { model: Member, type: object }
+  param: { module: calendar, action: index }
+  requirements:
+    id: \d+
     year: "[12][0-9]{3}"
     month: "(0?[1-9])|(1[0-2])"
 

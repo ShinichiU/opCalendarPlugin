@@ -22,10 +22,10 @@ class PluginScheduleTable extends Doctrine_Table
     return $publicFlags;
   }
 
-  public function getScheduleByThisDay($year, $month, $day)
+  public function getScheduleByThisDayAndMember($year, $month, $day, Member $member)
   {
     $day = sprintf('%04d-%02d-%02d', (int)$year, (int)$month, (int)$day);
-    $scheduleIds = Doctrine::getTable('ScheduleMember')->getScheduleIdsByMemberId($this->getMyId());
+    $scheduleIds = Doctrine::getTable('ScheduleMember')->getScheduleIdsByMemberId($member->getId());
 
     $q = $this->createQuery()
       ->select('id, title')
@@ -33,11 +33,11 @@ class PluginScheduleTable extends Doctrine_Table
       ->andWhere('end_date >= ?', $day);
     if (!count($scheduleIds))
     {
-      $q->andWhere('member_id = ?', (int)$this->getMyId());
+      $q->andWhere('member_id = ?', (int)$member->getId());
     }
     else
     {
-      $q->andWhere('member_id = ? OR id IN ('.implode(', ', $scheduleIds).')', (int)$this->getMyId());
+      $q->andWhere('member_id = ? OR id IN ('.implode(', ', $scheduleIds).')', (int)$member->getId());
     }
     $values = $q->execute(array(), Doctrine::HYDRATE_NONE);
 
@@ -55,17 +55,5 @@ class PluginScheduleTable extends Doctrine_Table
     }
 
     return $results;
-  }
-
-  private function getMyId()
-  {
-    static $memberId;
-
-    if (!isset($memberId))
-    {
-      $memberId = sfContext::getInstance()->getUser()->getMemberId();
-    }
-
-    return $memberId;
   }
 }

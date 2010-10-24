@@ -2,6 +2,7 @@
 <div class="dparts weeklyCalendarTable" id="homeCalendarList_<?php echo $gadget->id ?>"><div class="parts">
 <div class="partsHeading"><h3>週間カレンダー</h3></div>
 
+<?php if ($isSelf): ?>
 <div class="block formBox">
 <?php echo $form->renderFormTag(url_for('@schedule_create_mini')), "\n" ?>
 <?php echo $form->renderHiddenFields(), "\n" ?>
@@ -17,6 +18,7 @@
 </span>
 </form>
 </div>
+<?php endif; ?>
 
 <table class="calendar">
 <tbody><tr>
@@ -66,7 +68,7 @@ else
 
 <div class="block moreInfo">
 <ul class="moreInfo">
-<li><?php echo link_to('月別カレンダー', @calendar) ?></li>
+<li><?php echo link_to('月別カレンダー', 'calendar_member_obj', $member) ?></li>
 </ul>
 </div>
 </div></div>

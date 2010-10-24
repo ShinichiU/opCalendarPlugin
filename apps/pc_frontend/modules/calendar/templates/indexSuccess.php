@@ -1,11 +1,13 @@
 <div class="dparts monthlyCalendarTable"><div class="parts">
-<div class="partsHeading"><h3><?php echo sprintf('%04d年%02d月', $ym['year_disp'], $ym['month_disp']) ?>のカレンダー</h3></div>
+<div class="partsHeading"><h3><?php echo $isSelf ? '' : sprintf('%sさんの', $member->name) ?><?php echo sprintf('%04d年%02d月', $ym['year_disp'], $ym['month_disp']) ?>のカレンダー</h3></div>
 
 <div class="block topBox">
+<?php if ($isSelf): ?>
 <p class="moreInfo"><?php echo image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '')) ?> <?php echo link_to('予定を追加する', '@schedule_new') ?></p>
-<p class="pager"><?php echo link_to('&lt;&lt; 前の月', sprintf('@calendar_year_month?year=%d&month=%d', $ym['year_prev'], $ym['month_prev']), array('class' => 'prev')) ?>
- | <?php echo link_to('今月', '@calendar', array('class' => 'curr')) ?>
- | <?php echo link_to('次の月 &gt;&gt;', sprintf('@calendar_year_month?year=%d&month=%d', $ym['year_next'], $ym['month_next']), array('class' => 'next')) ?></p>
+<?php endif; ?>
+<p class="pager"><?php echo link_to('&lt;&lt; 前の月', sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_prev'], $ym['month_prev']), array('class' => 'prev')) ?>
+ | <?php echo link_to('今月', '@calendar_member_obj?id='.$member->id, array('class' => 'curr')) ?>
+ | <?php echo link_to('次の月 &gt;&gt;', sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_next'], $ym['month_next']), array('class' => 'next')) ?></p>
 </div>
 
 <table class="calendar">
@@ -45,7 +47,7 @@ $cls_holiday = count($item['holidays']) ? ' holiday' : '';
 ?>
 <?php echo sprintf('<td class="%s%s%s">', $item['dayofweek_en'], $cls_today, $cls_holiday), "\n" ?>
 <p class="day"><span class="date"><?php echo $item['day'] ?></span></p>
-<?php if ($add_schedule): ?>
+<?php if ($isSelf && $add_schedule): ?>
 <p class="new_schedule"><?php echo link_to(image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '予定を追加する')), '@schedule_new_for_this_date?year='.$ym['year_disp'].'&month='.$ym['month_disp'].'&day='.$item['day']) ?></p>
 <?php endif ?>
 <?php foreach ($item['holidays'] as $holiday): ?>
@@ -82,14 +84,14 @@ else
 </table>
 
 <div class="block bottomBox">
-<p class="pager"><?php echo link_to('&lt;&lt; 前の月', sprintf('@calendar_year_month?year=%d&month=%d', $ym['year_prev'], $ym['month_prev']), array('class' => 'prev')) ?>
- | <?php echo link_to('今月', '@calendar', array('class' => 'curr')) ?>
- | <?php echo link_to('次の月 &gt;&gt;', sprintf('@calendar_year_month?year=%d&month=%d', $ym['year_next'], $ym['month_next']), array('class' => 'next')) ?></p>
+<p class="pager"><?php echo link_to('&lt;&lt; 前の月', sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_prev'], $ym['month_prev']), array('class' => 'prev')) ?>
+ | <?php echo link_to('今月', '@calendar_member_obj?id='.$member->id, array('class' => 'curr')) ?>
+ | <?php echo link_to('次の月 &gt;&gt;', sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_next'], $ym['month_next']), array('class' => 'next')) ?></p>
 </div>
 
 <div class="partsInfo">
-<?php if ($add_schedule): ?>
-<p class="note_schedule">※<?php echo image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '"予定を追加する"')) ?>をクリックすると予定を追加することができます。予定は他の人には公開されません。</p>
+<?php if ($isSelf && $add_schedule): ?>
+<p class="note_schedule">※<?php echo image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '"予定を追加する"')) ?>をクリックすると予定を追加することができます。</p>
 <?php endif ?>
 <p class="note_birthday">※<?php echo image_tag('/opCalendarPlugin/images/icon_birthday.gif', array('alt' => '[誕]')) ?>は<?php echo $op_term['friend']->titleize() ?>の誕生日、<?php echo image_tag('/opCalendarPlugin/images/icon_event_B.gif', array('alt' => '[イ]')) ?>はイベント、<?php echo image_tag('/opCalendarPlugin/images/icon_event_R.gif', array('alt' => '[参]')) ?>は参加イベントを意味します。</p>
 </div>

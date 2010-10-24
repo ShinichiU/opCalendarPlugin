@@ -1,0 +1,6 @@
+opWeeklyCalendar:
+  caption:
+    ja_JP: "ウィークリーカレンダー"
+  description:
+    ja_JP: "メンバーの一週間分の予定を表示します"
+  component: [calendar, weekly]
