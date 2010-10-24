@@ -13,6 +13,11 @@ abstract class PluginSchedule extends BaseSchedule
 {
   public function isShowable($memberId)
   {
+    if ($this->public_flag == ScheduleTable::PUBLIC_FLAG_SNS)
+    {
+      return true;
+    }
+
     return $this->isEditable($memberId) || $this->isScheduleMember($memberId);
   }
 

@@ -58,7 +58,9 @@ else
 <p class="event"><?php echo link_to(sprintf('<span class="icon">%s </span>%s', image_tag('/opCalendarPlugin/images/'.$eventIcon, array('alt' => $eventAlt)), op_truncate($event['name'], 20, '...', 1)), '@communityEvent_show?id='.$event['id']) ?></p>
 <?php endforeach ?>
 <?php foreach ($item['schedules'] as $schedule): ?>
-<p class="schedule"><?php echo link_to(sprintf('<span class="icon">%s </span>%s', image_tag('/opCalendarPlugin/images/icon_pen.gif', array('alt' => '[予]')), op_truncate($schedule['title'], 20, '...', 1)), '@schedule_show?id='.$schedule['id']) ?></p>
+<?php if ($schedule->isShowable($sf_user->getMemberId())): ?>
+<p class="schedule"><?php echo link_to(sprintf('<span class="icon">%s </span>%s', image_tag('/opCalendarPlugin/images/icon_pen.gif', array('alt' => '[予]')), op_truncate($schedule->title, 20, '...', 1)), '@schedule_show?id='.$schedule->id) ?></p>
+<?php endif ?>
 <?php endforeach ?>
 </td>
 <?php endforeach ?>
