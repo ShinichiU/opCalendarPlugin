@@ -5,7 +5,7 @@ Schedule:
   actAs: [Timestampable]
   columns:
     id: { type: integer(4), primary: true, autoincrement: true }
-    member_id: { type: integer(4), notnull: false }
+    member_id: { type: integer(4), notnull: true }
     title: { type: string, notnull: true }
     body: { type: string }
     start_date: { type: date, notnull: true }
@@ -16,7 +16,7 @@ Schedule:
   relations:
     Member:
       foreignAlias: Schedules
-      onDelete: set null
+      onDelete: cascade
   indexes:
     member_id_INDEX:
       fields: [member_id]
