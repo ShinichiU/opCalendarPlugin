@@ -6,11 +6,13 @@
 ?>
 <table class="detailScheduleTable">
 <tbody>
-<tr class="title"><th>タイトル</th><td><?php echo $schedule->getTitle() ?></td></tr>
+<tr class="title"><th>タイトル</th><td><?php echo $schedule->getTitle() ?> (<?php echo $schedule->getPublicFlagLabel() ?>)</td></tr>
 <tr class="body"><th>スケジュール作成者</th><td><?php echo op_link_to_member($schedule->getMember()) ?></td></tr>
 <tr class="start"><th>開始</th><td><?php echo op_format_date($schedule->getStartDate(), 'yyyy年MM月dd日') ?> <?php echo $startTime ?></td></tr>
 <tr class="end"><th>終了</th><td><?php echo op_format_date($schedule->getEndDate(), 'yyyy年MM月dd日') ?> <?php echo $endTime ?></td></tr>
+<?php if ($schedule->getBody()): ?>
 <tr class="body"><th>詳細</th><td><?php echo nl2br($schedule->getBody()) ?></td></tr>
+<?php endif ?>
 <tr class="members"><th>参加メンバー</th>
 <td>
 <?php foreach($sf_data->getRaw('schedule')->getScheduleMembers() as $scheduleMember): ?>

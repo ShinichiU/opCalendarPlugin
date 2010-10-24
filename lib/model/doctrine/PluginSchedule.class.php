@@ -11,8 +11,20 @@
  */
 abstract class PluginSchedule extends BaseSchedule
 {
+  public function getPublicFlagLabel()
+  {
+    $publicFlags = $this->getTable()->getPublicFlags();
+
+    return $publicFlags[$this->public_flag];
+  }
+
   public function isShowable($memberId)
   {
+    if (ScheduleTable::PUBLIC_FLAG_SNS == $this->public_flag)
+    {
+      return true;
+    }
+
     return $this->isEditable($memberId) || $this->isScheduleMember($memberId);
   }
 

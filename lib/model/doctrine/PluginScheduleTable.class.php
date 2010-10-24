@@ -8,7 +8,7 @@ class PluginScheduleTable extends Doctrine_Table
 
   protected static $publicFlags = array(
     self::PUBLIC_FLAG_SNS              => 'All Members',
-    self::PUBLIC_FLAG_SCHEDULE_MEMBER  => 'Only schedule member',
+    self::PUBLIC_FLAG_SCHEDULE_MEMBER  => 'Participants only scheduled public',
   );
 
   public function getPublicFlags()
@@ -39,21 +39,7 @@ class PluginScheduleTable extends Doctrine_Table
     {
       $q->andWhere('member_id = ? OR id IN ('.implode(', ', $scheduleIds).')', (int)$member->getId());
     }
-    $values = $q->execute(array(), Doctrine::HYDRATE_NONE);
 
-    if (!count($values))
-    {
-      return array();
-    }
-    $results = array();
-    foreach ($values as $value)
-    {
-      $results[] = array(
-        'id' => $value[0],
-        'title' => $value[1],
-      );
-    }
-
-    return $results;
+    return $q->execute();
   }
 }

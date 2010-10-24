@@ -72,7 +72,9 @@ else
 <p class="event"><?php echo link_to(sprintf('<span class="icon">%s </span>%s', image_tag('/opCalendarPlugin/images/'.$eventIcon, array('alt' => $eventAlt)), op_truncate($event['name'], 40, '...', 1)), '@communityEvent_show?id='.$event['id']) ?></p>
 <?php endforeach ?>
 <?php foreach ($item['schedules'] as $schedule): ?>
-<p class="schedule"><?php echo link_to(sprintf('<span class="icon">%s </span>%s', image_tag('/opCalendarPlugin/images/icon_pen.gif', array('alt' => '[予]')), op_truncate($schedule['title'], 40, '...', 1)), '@schedule_show?id='.$schedule['id']) ?></p>
+<?php if ($schedule->isShowable($sf_user->getMemberId())): ?>
+<p class="schedule"><?php echo link_to(sprintf('<span class="icon">%s </span>%s', image_tag('/opCalendarPlugin/images/icon_pen.gif', array('alt' => '[予]')), op_truncate($schedule->title, 40, '...', 1)), '@schedule_show?id='.$schedule->id) ?></p>
+<?php endif ?>
 <?php endforeach ?>
 </td>
 <?php endforeach ?>
@@ -89,10 +91,12 @@ else
  | <?php echo link_to('次の月 &gt;&gt;', sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_next'], $ym['month_next']), array('class' => 'next')) ?></p>
 </div>
 
+<?php if ($isSelf): ?>
 <div class="partsInfo">
-<?php if ($isSelf && $add_schedule): ?>
+<?php if ($add_schedule): ?>
 <p class="note_schedule">※<?php echo image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '"予定を追加する"')) ?>をクリックすると予定を追加することができます。</p>
 <?php endif ?>
 <p class="note_birthday">※<?php echo image_tag('/opCalendarPlugin/images/icon_birthday.gif', array('alt' => '[誕]')) ?>は<?php echo $op_term['friend']->titleize() ?>の誕生日、<?php echo image_tag('/opCalendarPlugin/images/icon_event_B.gif', array('alt' => '[イ]')) ?>はイベント、<?php echo image_tag('/opCalendarPlugin/images/icon_event_R.gif', array('alt' => '[参]')) ?>は参加イベントを意味します。</p>
 </div>
+<?php endif ?>
 </div></div>
