@@ -39,6 +39,54 @@ ScheduleMember:
     member_id_schedule_id_INDEX:
       fields: [member_id, schedule_id]
 
+ScheduleResource:
+  columns:
+    id: { type: integer(4), primary: true, autoincrement: true }
+    name: { type: string(64), default: "", notnull: true }
+    resource_type: { type: integer(4), default: 1, notnull: true }
+    description: { type: string }
+    member_id: { type: integer(4), notnull: false }
+    admin_user_id: { type: integer(4), notnull: false }
+  relations:
+    Member:
+      foreignAlias: Members
+      onDelete: cascade
+    AdminUser:
+      foreignAlias: AdminUsers
+      onDelete: cascade
+  indexes:
+    name_UNIQUE:
+      fields: [name]
+      type: unique
+    member_id:
+      fields: [member_id]
+    admin_user_id:
+      fields: [admin_user_id]
+    resource_type:
+      fields: [resource_type]
+  options:
+    collate: utf8_bin
+
+ScheduleResourceLock:
+  columns:
+    id: { type: integer(4), primary: true, autoincrement: true }
+    schedule_resource_id: { type: integer(4), notnull: true }
+    schedule_id: { type: integer(4), notnull: true }
+    lock_start_time: { type: timestamp, notnull: true }
+    lock_end_time: { type: timestamp, notnull: true }
+  relations:
+    ScheduleResource:
+      onDelete: cascade
+    Schedule:
+      onDelete: cascade
+  indexes:
+    schedule_resource_id:
+      fields: [schedule_resource_id]
+    schedule_id:
+      fields: [schedule_id]
+    lock_start_time_lock_end_time:
+      fields: [lock_start_time, lock_end_time]
+
 Holiday:
   actAs: [Timestampable]
   columns:
