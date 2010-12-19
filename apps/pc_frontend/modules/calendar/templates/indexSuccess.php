@@ -53,8 +53,8 @@ $cls_holiday = count($item['holidays']) ? ' holiday' : '';
 <?php foreach ($item['holidays'] as $holiday): ?>
 <p class="holiday"><?php echo $holiday ?></p>
 <?php endforeach ?>
-<?php foreach ($item['births'] as $member): ?>
-<p class="birthday"><?php echo op_link_to_member($member, array('link_target' => sprintf('<span class="icon">%s </span>%sさん', image_tag('/opCalendarPlugin/images/icon_birthday.gif', array('alt' => '[誕]')), $member->getName()))) ?></p>
+<?php foreach ($item['births'] as $birth_member): ?>
+<p class="birthday"><?php echo op_link_to_member($birth_member, array('link_target' => sprintf('<span class="icon">%s </span>%sさん', image_tag('/opCalendarPlugin/images/icon_birthday.gif', array('alt' => '[誕]')), $birth_member->getName()))) ?></p>
 <?php endforeach ?>
 <?php foreach ($item['events'] as $event): ?>
 <?php
