@@ -39,21 +39,34 @@ ScheduleMember:
     member_id_schedule_id_INDEX:
       fields: [member_id, schedule_id]
 
+ResourceType:
+  columns:
+    id: { type: integer(4), primary: true, autoincrement: true }
+    name: { type: string(64), default: "", notnull: true }
+    description: { type: string, default: "", notnull: true }
+  indexes:
+    name_UNIQUE:
+      fields: [name]
+      type: unique
+  options:
+    collate: utf8_bin
+
 ScheduleResource:
   columns:
     id: { type: integer(4), primary: true, autoincrement: true }
     name: { type: string(64), default: "", notnull: true }
-    resource_type: { type: integer(4), default: 1, notnull: true }
+    resource_type_id: { type: integer(4), notnull: false }
+    resource_limit: { type: integer(4), default: 1, notnull: false }
     description: { type: string }
     member_id: { type: integer(4), notnull: false }
     admin_user_id: { type: integer(4), notnull: false }
   relations:
     Member:
-      foreignAlias: Members
       onDelete: cascade
     AdminUser:
-      foreignAlias: AdminUsers
       onDelete: cascade
+    ResourceType:
+      onDelete: set null
   indexes:
     name_UNIQUE:
       fields: [name]
@@ -62,8 +75,8 @@ ScheduleResource:
       fields: [member_id]
     admin_user_id:
       fields: [admin_user_id]
-    resource_type:
-      fields: [resource_type]
+    resource_type_id:
+      fields: [resource_type_id]
   options:
     collate: utf8_bin
 
