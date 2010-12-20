@@ -29,3 +29,75 @@ holiday_delete:
 holiday_nodefaults:
   url: /holiday/*
   param: { module: default, action: error }
+
+opCalendarPlugin:
+  url: /opCalendarPlugin
+  param: { module: opCalendarPlugin, action: index }
+
+opCalendarPlugin_resource_create:
+  url: /opCalendarPlugin/resourceCreate
+  param: { module: opCalendarPlugin, action: resourceCreate }
+  requirements:
+    sf_method: [post]
+
+opCalendarPlugin_resource_update:
+  url: /opCalendarPlugin/resourceUpdate/:id
+  class: sfDoctrineRoute
+  options: { model: ScheduleResource, type: object }
+  param: { module: opCalendarPlugin, action: resourceUpdate }
+  requirements:
+    id: \d+
+    sf_method: [put]
+
+opCalendarPlugin_resource_delete_confirm:
+  url: /opCalendarPlugin/resourceDeleteConfirm/:id
+  class: sfDoctrineRoute
+  options: { model: ScheduleResource, type: object }
+  param: { module: opCalendarPlugin, action: resourceDeleteConfirm }
+  requirements:
+    id: \d+
+
+opCalendarPlugin_resource_delete:
+  url: /opCalendarPlugin/resourceDelete/:id
+  class: sfDoctrineRoute
+  options: { model: ScheduleResource, type: object }
+  param: { module: opCalendarPlugin, action: resourceDelete }
+  requirements:
+    id: \d+
+    sf_method: [delete]
+
+opCalendarPlugin_resource_type_create:
+  url: /opCalendarPlugin/resourceTypeCreate
+  param: { module: opCalendarPlugin, action: resourceTypeCreate }
+  requirements:
+    sf_method: [post]
+
+opCalendarPlugin_resource_type_update:
+  url: /opCalendarPlugin/resourceTypeUpdate/:id
+  class: sfDoctrineRoute
+  options: { model: ResourceType, type: object }
+  param: { module: opCalendarPlugin, action: resourceTypeUpdate }
+  requirements:
+    id: \d+
+    sf_method: [put]
+
+opCalendarPlugin_resource_type_delete_confirm:
+  url: /opCalendarPlugin/resourceTypeDeleteConfirm/:id
+  class: sfDoctrineRoute
+  options: { model: ResourceType, type: object }
+  param: { module: opCalendarPlugin, action: resourceTypeDeleteConfirm }
+  requirements:
+    id: \d+
+
+opCalendarPlugin_resource_type_delete:
+  url: /opCalendarPlugin/resourceTypeDelete/:id
+  class: sfDoctrineRoute
+  options: { model: ResourceType, type: object }
+  param: { module: opCalendarPlugin, action: resourceTypeDelete }
+  requirements:
+    id: \d+
+    sf_method: [delete]
+
+opCalendarPlugin_nodefaults:
+  url: /opCalendarPlugin/*
+  param: { module: default, action: error }
