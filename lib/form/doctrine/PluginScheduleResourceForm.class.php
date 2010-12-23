@@ -22,7 +22,7 @@ abstract class PluginScheduleResourceForm extends BaseScheduleResourceForm
 
     $this->validatorSchema['name'] = new opValidatorString(array('trim' => true));
     $this->validatorSchema['description'] = new opValidatorString(array('rtrim' => true));
-    $this->validatorSchema['resource_type_id'] = new sfValidatorChoice(array('choices' => array_keys($resourceTypes)));
+    $this->validatorSchema['resource_type_id'] = new sfValidatorChoice(array('required' => true, 'choices' => array_keys($resourceTypes)));
     $this->validatorSchema['resource_limit'] = new sfValidatorInteger(array('min' => 1, 'max' => 100));
 
     $this->useFields(array('name', 'description', 'resource_type_id', 'resource_limit'));

@@ -1,8 +1,18 @@
+<?php use_helper('opCalendar') ?>
 <?php slot('submenu') ?>
 <?php include_partial('plugin/submenu') ?>
 <?php end_slot(); ?>
 <h2><?php echo __('アプリケーションプラグイン設定') ?></h2>
 <h3><?php echo __('カレンダープラグイン設定') ?></h3>
+
+<p>
+スケジュールリソースタイプはリソースの種類を設定します。（会議室、物品）<br />
+スケジュールリソースは実体を設定します。(会議室A、大会議室B、ホワイトボード)<br />
+リソースタイプを設定しないとスケジュールリソースを作成することはできません。<br />
+スケジュールタイプ、スケジュールリソースを削除、リソース数を変更する場合は、<br />
+SNS利用者がすでにリソースを予約している可能性もあるので
+十分してください。
+</p>
 
 <h4>スケジュールリソースタイプ</h4>
 
@@ -58,6 +68,7 @@
 <th>説明</th>
 <th>リソースタイプ</th>
 <th>リソース数(整数値)</th>
+<th>作成者</th>
 <th colspan="2">操作</th>
 </tr>
 </thead>
@@ -74,7 +85,8 @@
 </td><td>
 <?php echo $scheduleResourceForm['resource_limit']->render() ?>
 </td><td>
-<?php echo $scheduleResourceForm->renderHiddenFields() ?>
+<?php echo get_auther_name($scheduleResourceForm->getObject(), true) ?>
+</td><td>
 <input type="submit" value=" 更 新 " />
 </td><td>
 </form>
@@ -94,12 +106,13 @@
 <?php echo $newScheduleResourceForm['resource_type_id']->render() ?>
 </td><td>
 <?php echo $newScheduleResourceForm['resource_limit']->render() ?>
-</td><td>
+</td>
+<td>&lrm;
+</td><td colspan="2">
 <?php echo $newScheduleResourceForm->renderHiddenFields() ?>
 <input type="submit" value=" 作 成 " />
 </td>
 </form>
-<td></td>
 </tr>
 </tbody>
 </table>

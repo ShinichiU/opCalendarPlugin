@@ -34,7 +34,7 @@ class opCalendarPluginActions extends sfActions
       'notice' => 'スケジュールリソースを更新しました',
     ),
     self::SCHEDULE_RESOURCE_DELETE => array(
-      'error' => 'スケジュールリソースを削除に失敗しました',
+      'error' => 'スケジュールリソースの削除に失敗しました',
       'notice' => 'スケジュールリソースを削除しました',
     ),
     self::RESOURCE_TYPE_CREATE => array(
@@ -182,7 +182,7 @@ class opCalendarPluginActions extends sfActions
     $this->redirect('@opCalendarPlugin');
   }
 
-  private function processDelete($obj, sfWebRequest $request, $type = null)
+  private function processDelete(Doctrine_Record $obj, sfWebRequest $request, $type = null)
   {
     $request->checkCSRFProtection();
     $this->setFlashMessageByType($obj->delete(), $type);

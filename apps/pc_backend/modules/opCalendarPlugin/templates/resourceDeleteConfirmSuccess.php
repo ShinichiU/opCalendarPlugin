@@ -1,3 +1,4 @@
+<?php use_helper('opCalendar') ?>
 <?php slot('submenu') ?>
 <?php include_partial('plugin/submenu') ?>
 <?php end_slot(); ?>
@@ -14,6 +15,7 @@
 <th>説明</th>
 <th>リソースタイプ名</th>
 <th>リソース数</th>
+<th>作成者</th>
 </tr>
 </thead>
 <tbody>
@@ -26,6 +28,8 @@
 <?php echo $scheduleResource->ResourceType->name ?>
 </td><td>
 <?php echo $scheduleResource->resource_limit ?>
+</td><td>
+<?php echo get_auther_name($scheduleResource, true) ?>
 </td>
 </tr>
 </tbody>
