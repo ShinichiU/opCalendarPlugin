@@ -19,5 +19,13 @@
 <?php echo op_link_to_member($scheduleMember->Member) ?><br />
 <?php endforeach; ?>
 </td></tr>
+<?php if (count($schedule->ScheduleResourceLocks)): ?>
+<tr class="members"><th>スケジュールリソース</th>
+<td>
+<?php foreach($schedule->ScheduleResourceLocks as $scheduleResourceLock): ?>
+<?php echo $scheduleResourceLock->ScheduleResource->name ?><br />
+<?php endforeach ?>
+</td></tr>
+<?php endif ?>
 </tbody>
 </table>

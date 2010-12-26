@@ -58,7 +58,7 @@ class scheduleActions extends sfActions
   public function executeDeleteConfirm(sfWebRequest $request)
   {
     $this->forward404Unless($this->schedule->isEditable($this->getUser()->getMemberId()));
-    $this->form = new sfForm();
+    $this->form = new BaseForm();
   }
 
   public function executeDelete(sfWebRequest $request)
@@ -99,7 +99,7 @@ class scheduleActions extends sfActions
     $this->redirect('@homepage'.$paramstring);
   }
 
-  protected function processForm(sfWebRequest $request, sfForm $form)
+  protected function processForm(sfWebRequest $request, BaseForm $form)
   {
     $form->bind(
       $request->getParameter($form->getName()),

@@ -7,13 +7,35 @@
  */
 class PluginScheduleResourceTable extends Doctrine_Table
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object PluginScheduleResourceTable
-     */
-    public static function getInstance()
+  /**
+   * getResourcesByMember
+   * Returns an member schedule resorce results.
+   *
+   * @param  object  $member Member object. If you use in template please note that as OutputEscaper object.
+   * @param  bool    $isGetAdminResource. add admin scheduleResource from pc_backend.
+   * @return array   sql results PDOStatement::fetchAll()
+   */
+  public function getResourcesByMember(Member $member, $isGetAdminResource = true)
+  {
+    $con = $this->getConnection();
+    $sql = 'SELECT * FROM '.$this->getTableName()
+         . ' WHERE member_id = ?';
+    $params = array((int)$member->id);
+    if ($isGetAdminResource)
     {
-        return Doctrine_Core::getTable('PluginScheduleResource');
+      $sql .= ' OR admin_user_id IS NOT NULL';
     }
+
+    return $con->fetchAll($sql, $params);
+  }
+
+  /**
+   * Returns an instance of this class.
+   *
+   * @return object PluginScheduleResourceTable
+   */
+  public static function getInstance()
+  {
+    return Doctrine_Core::getTable('PluginScheduleResource');
+  }
 }

@@ -7,7 +7,7 @@
  * @subpackage form
  * @author     Shinichi Urabe <urabe@tejimaya.com>
  */
-class MiniScheduleForm extends sfForm
+class MiniScheduleForm extends BaseForm
 {
   private $params = array();
 

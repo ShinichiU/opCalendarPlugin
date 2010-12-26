@@ -61,6 +61,31 @@ abstract class PluginScheduleForm extends BaseScheduleForm
     ));
 
     $this->useFields(array('title', 'start_date', 'start_time', 'end_date', 'end_time', 'body', 'public_flag', 'schedule_member'));
+
+    if (!$this->isNew())
+    {
+      $scheduleResourceLocks = $this->getObject()->ScheduleResourceLocks;
+    }
+
+    $max = (int)sfConfig::get('app_schedule_resource_list_max', 5);
+    for ($i = 1; $i <= $max; $i++)
+    {
+      $key = 'schedule_resource_lock_'.$i;
+
+      if (isset($scheduleResourceLocks[$i - 1]))
+      {
+        $scheduleResourceLock = $scheduleResourceLocks[$i - 1];
+      }
+      else
+      {
+        $scheduleResourceLock = new ScheduleResourceLock();
+        $scheduleResourceLock->setSchedule($this->getObject());
+      }
+
+      $scheduleResourceLockForm = new ScheduleResourceLockForm($scheduleResourceLock);
+      $scheduleResourceLockForm->getWidgetSchema()->setFormFormatterName('list');
+      $this->embedForm($key, $scheduleResourceLockForm, '<ul id="schedule_resource_lock_'.$key.'">%content%</ul>');
+    }
   }
 
   private function generateDateTime()
@@ -113,6 +138,16 @@ abstract class PluginScheduleForm extends BaseScheduleForm
   public function updateObject($values = null)
   {
     $object = parent::updateObject($values);
+
+    foreach ($this->embeddedForms as $key => $form)
+    {
+      $values = $this->getValue($key);
+      if (!($form->getObject() && $values['schedule_resource_id']))
+      {
+        unset($this->embeddedForms[$key]);
+      }
+    }
+
     $scheduleMembers = $this->getObject()->getScheduleMembers();
     foreach ($scheduleMembers as $scheduleMember)
     {

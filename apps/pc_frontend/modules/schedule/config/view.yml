@@ -1,2 +1,12 @@
 all:
   stylesheets: [/opCalendarPlugin/css/main]
+
+newSuccess:
+  javascripts:
+    - /opCalendarPlugin/js/opCalendarPlugin
+    - %SF_PROTOTYPE_WEB_DIR%/js/prototype
+
+editSuccess:
+  javascripts:
+    - /opCalendarPlugin/js/opCalendarPlugin
+    - %SF_PROTOTYPE_WEB_DIR%/js/prototype

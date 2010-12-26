@@ -35,7 +35,7 @@ class holidayActions extends sfActions
     {
       $this->activeForms[] = new HolidayForm($holiday);
     }
-    $this->form = new sfForm();
+    $this->form = new BaseForm();
   }
 
  /**
@@ -97,7 +97,7 @@ class holidayActions extends sfActions
     $this->redirect('@holiday');
   }
 
-  private function processForm($params, sfForm $form)
+  private function processForm($params, BaseForm $form)
   {
     $form->bind($params);
     if ($form->isValid())

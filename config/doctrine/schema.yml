@@ -91,6 +91,7 @@ ScheduleResourceLock:
     ScheduleResource:
       onDelete: cascade
     Schedule:
+      foreignAlias: ScheduleResourceLocks
       onDelete: cascade
   indexes:
     schedule_resource_id:
