@@ -29,7 +29,7 @@
 <td><?php echo $form['schedule_member']->render() ?></td>
 </tr>
 <?php $max = (int)sfConfig::get('app_schedule_resource_list_max', 5) ?>
-<?php for ($i = 1; $i <= 5; $i++): ?>
+<?php for ($i = 1; $i <= $max; $i++): ?>
 <tr class="schedule_resource_lock" id="schedule_resource_lock_<?php echo $i ?>">
 <th><label for="schedule_schedule_resource_lock_<?php echo $i ?>_id">スケジュールリソース<?php echo $i ?> </label></th>
 <td><?php echo $form['schedule_resource_lock_'.$i]->render() ?></td>

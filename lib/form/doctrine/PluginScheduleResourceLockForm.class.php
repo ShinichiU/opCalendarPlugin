@@ -26,7 +26,7 @@ abstract class PluginScheduleResourceLockForm extends BaseScheduleResourceLockFo
   {
     $member = sfContext::getInstance()->getUser()->getMember();
     $resources = Doctrine::getTable('ScheduleResource')->getResourcesByMember($member);
-    $params = array(null => '選択してください');
+    $params = $this->isNew() ? array(null => '選択してください') : array();
 
     foreach ($resources as $resource)
     {

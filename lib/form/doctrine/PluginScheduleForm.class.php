@@ -59,6 +59,10 @@ abstract class PluginScheduleForm extends BaseScheduleForm
       array('callback' => array($this, 'validateEndDate')),
       array('invalid' => '終了日時は開始日時より前に設定できません')
     ));
+    $this->validatorSchema->setPostValidator(new sfValidatorCallback(
+      array('callback' => array($this, 'validateResourceLock')),
+      array('invalid' => '予約済みのスケジュールリソースを選択しています')
+    ));
 
     $this->useFields(array('title', 'start_date', 'start_time', 'end_date', 'end_time', 'body', 'public_flag', 'schedule_member'));
 
@@ -114,6 +118,22 @@ abstract class PluginScheduleForm extends BaseScheduleForm
     if ($start > $end)
     {
       throw new sfValidatorError($validator, 'invalid');
+    }
+
+    return $values;
+  }
+
+  public function validateResourceLock(sfValidatorBase $validator, $values)
+  {
+    foreach (array_keys($this->embeddedForms) as $key)
+    {
+      if ($schedule_resource_id = $values[$key]['schedule_resource_id'])
+      {
+        if (!Doctrine::getTable('ScheduleResourceLock')->isValidScheduleResource($schedule_resource_id, $values['start_date'], $values['end_date'], $values['start_time'], $values['end_time'], $this->getObject()->id))
+        {
+          throw new sfValidatorError($validator, 'invalid');
+        }
+      }
     }
 
     return $values;

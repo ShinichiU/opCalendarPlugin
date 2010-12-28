@@ -7,13 +7,73 @@
  */
 class PluginScheduleResourceLockTable extends Doctrine_Table
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object PluginScheduleResourceLockTable
-     */
-    public static function getInstance()
+  public function isValidScheduleResource($schedule_resource_id, $start_date, $end_date, $start_time = null, $end_time = null, $ignoreScheduleId = null)
+  {
+    static $resources = array();
+
+    if (isset($resources[$schedule_resource_id]))
     {
-        return Doctrine_Core::getTable('PluginScheduleResourceLock');
+      $resources[$schedule_resource_id]++;
     }
+    else
+    {
+      $resources[$schedule_resource_id] = 1;
+    }
+
+    $start_date .= $start_time ? ' '.$start_time : ' 00:00:00';
+    $end_date .= $end_time ? ' '.$end_time : ' 23:59:59';
+
+    $con = $this->getConnection();
+    $sql = 'SELECT count(*) FROM '.$this->getTableName()
+         . ' WHERE schedule_resource_id = ?'
+         . ' AND lock_start_time < ?'
+         . ' AND lock_end_time > ?';
+    $params = array((int)$schedule_resource_id, $end_date, $start_date);
+    if ($ignoreScheduleId)
+    {
+      $sql .= ' AND schedule_id <> ?';
+      $params[] = (int)$ignoreScheduleId;
+    }
+    $resourceCount = $con->fetchOne($sql, $params);
+
+    $scheduleResource = Doctrine::getTable('ScheduleResource')->find($schedule_resource_id);
+
+    if ($scheduleResource && (int)$scheduleResource->resource_limit < (int)$resourceCount + $resources[$schedule_resource_id])
+    {
+      return false;
+    }
+
+    return true;
+  }
+  /**
+   * getResourcesByMember
+   * Returns an member schedule resorce results.
+   *
+   * @param  object  $member Member object. If you use in template please note that as OutputEscaper object.
+   * @param  bool    $isGetAdminResource. add admin scheduleResource from pc_backend.
+   * @return array   sql results PDOStatement::fetchAll()
+   */
+  public function getResourcesByMember(Member $member, $isGetAdminResource = true)
+  {
+    $con = $this->getConnection();
+    $sql = 'SELECT * FROM '.$this->getTableName()
+         . ' WHERE member_id = ?';
+    $params = array((int)$member->id);
+    if ($isGetAdminResource)
+    {
+      $sql .= ' OR admin_user_id IS NOT NULL';
+    }
+
+    return $con->fetchAll($sql, $params);
+  }
+
+  /**
+   * Returns an instance of this class.
+   *
+   * @return object PluginScheduleResourceLockTable
+   */
+  public static function getInstance()
+  {
+    return Doctrine_Core::getTable('PluginScheduleResourceLock');
+  }
 }
