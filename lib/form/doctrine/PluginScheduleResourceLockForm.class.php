@@ -64,6 +64,12 @@ abstract class PluginScheduleResourceLockForm extends BaseScheduleResourceLockFo
 
     $scheduleResourceLock->setLockStartTime($start);
     $scheduleResourceLock->setLockEndTime($end);
+    if (!$values['schedule_resource_id'] && $scheduleResourceLock->id)
+    {
+      $scheduleResourceLock->setId($scheduleResourceLock->id);
+      $scheduleResourceLock->setScheduleResourceId($scheduleResourceLock->schedule_resource_id);
+      $scheduleResourceLock->delete();
+    }
 
     return $object;
   }

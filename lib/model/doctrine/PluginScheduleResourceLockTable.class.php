@@ -10,6 +10,7 @@ class PluginScheduleResourceLockTable extends Doctrine_Table
   public function isValidScheduleResource($schedule_resource_id, $start_date, $end_date, $start_time = null, $end_time = null, $ignoreScheduleId = null)
   {
     static $resources = array();
+    static $resourceCounts = array();
 
     if (isset($resources[$schedule_resource_id]))
     {
@@ -20,25 +21,27 @@ class PluginScheduleResourceLockTable extends Doctrine_Table
       $resources[$schedule_resource_id] = 1;
     }
 
-    $start_date .= $start_time ? ' '.$start_time : ' 00:00:00';
-    $end_date .= $end_time ? ' '.$end_time : ' 23:59:59';
-
-    $con = $this->getConnection();
-    $sql = 'SELECT count(*) FROM '.$this->getTableName()
-         . ' WHERE schedule_resource_id = ?'
-         . ' AND lock_start_time < ?'
-         . ' AND lock_end_time > ?';
-    $params = array((int)$schedule_resource_id, $end_date, $start_date);
-    if ($ignoreScheduleId)
+    if (!empty($resourceCounts[$schedule_resource_id]))
     {
-      $sql .= ' AND schedule_id <> ?';
-      $params[] = (int)$ignoreScheduleId;
+      $start_date .= $start_time ? ' '.$start_time : ' 00:00:00';
+      $end_date .= $end_time ? ' '.$end_time : ' 23:59:59';
+      $con = $this->getConnection();
+      $sql = 'SELECT count(*) FROM '.$this->getTableName()
+           . ' WHERE schedule_resource_id = ?'
+           . ' AND lock_start_time < ?'
+           . ' AND lock_end_time > ?';
+      $params = array((int)$schedule_resource_id, $end_date, $start_date);
+      if ($ignoreScheduleId)
+      {
+        $sql .= ' AND schedule_id <> ?';
+        $params[] = (int)$ignoreScheduleId;
+      }
+      $resourceCounts[$schedule_resource_id] = $con->fetchOne($sql, $params);
     }
-    $resourceCount = $con->fetchOne($sql, $params);
 
     $scheduleResource = Doctrine::getTable('ScheduleResource')->find($schedule_resource_id);
 
-    if ($scheduleResource && (int)$scheduleResource->resource_limit < (int)$resourceCount + $resources[$schedule_resource_id])
+    if ($scheduleResource && (int)$scheduleResource->resource_limit < (int)$resourceCounts[$schedule_resource_id] + $resources[$schedule_resource_id])
     {
       return false;
     }
