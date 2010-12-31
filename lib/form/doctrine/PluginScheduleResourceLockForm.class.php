@@ -10,25 +10,42 @@
  */
 abstract class PluginScheduleResourceLockForm extends BaseScheduleResourceLockForm
 {
+  private static $resources = null;
+
   public function setup()
   {
     parent::setup();
+    $this->useFields(array('schedule_resource_id'));
 
     $resources = $this->getResources();
 
-    $this->setWidget('schedule_resource_id', new sfWidgetFormSelect(array('choices' => $resources)));
-    $this->validatorSchema['schedule_resource_id'] = new sfValidatorChoice(array('required' => false, 'choices' => array_keys($resources)));
-    $this->widgetSchema->setLabel('schedule_resource_id', '&lrm;');
-    $this->useFields(array('schedule_resource_id'));
+    $options = array(
+      'with_delete'  => true,
+      'delete_label' => 'リソースを削除する',
+      'label'        => false,
+      'edit_mode'    => !$this->isNew(),
+      'choices'      => $resources,
+    );
+
+    $this->setWidget('schedule_resource_id', new opWidgetFormSelectEditable($options));
+    $this->validatorSchema['schedule_resource_id'] = new sfValidatorChoice(array('required' => !$this->isNew(), 'choices' => array_keys($resources)));
+    if (!$this->isNew())
+    {
+      $this->setValidator('schedule_resource_id_delete', new sfValidatorBoolean(array('required' => false)));
+    }
+    $this->widgetSchema->setLabel('schedule_resource_id', false);
   }
 
   private function getResources()
   {
     $member = sfContext::getInstance()->getUser()->getMember();
-    $resources = Doctrine::getTable('ScheduleResource')->getResourcesByMember($member);
-    $params = $this->isNew() ? array(null => '選択してください') : array();
+    if (null === self::$resources)
+    {
+      self::$resources = Doctrine::getTable('ScheduleResource')->getResourcesByMember($member);
+    }
+    $params = $this->isNew() ? array('' => '選択してください') : array();
 
-    foreach ($resources as $resource)
+    foreach (self::$resources as $resource)
     {
       $params[$resource['id']] = $resource['name'];
     }
@@ -64,12 +81,6 @@ abstract class PluginScheduleResourceLockForm extends BaseScheduleResourceLockFo
 
     $scheduleResourceLock->setLockStartTime($start);
     $scheduleResourceLock->setLockEndTime($end);
-    if (!$values['schedule_resource_id'] && $scheduleResourceLock->id)
-    {
-      $scheduleResourceLock->setId($scheduleResourceLock->id);
-      $scheduleResourceLock->setScheduleResourceId($scheduleResourceLock->schedule_resource_id);
-      $scheduleResourceLock->delete();
-    }
 
     return $object;
   }

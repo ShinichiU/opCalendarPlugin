@@ -55,13 +55,17 @@ abstract class PluginScheduleForm extends BaseScheduleForm
       'choices' => array_keys($members),
       'multiple' => true,
     ));
-    $this->validatorSchema->setPostValidator(new sfValidatorCallback(
+    $this->mergePostValidator(new sfValidatorCallback(
       array('callback' => array($this, 'validateEndDate')),
       array('invalid' => '終了日時は開始日時より前に設定できません')
     ));
-    $this->validatorSchema->setPostValidator(new sfValidatorCallback(
+    $this->mergePostValidator(new sfValidatorCallback(
       array('callback' => array($this, 'validateResourceLock')),
-      array('invalid' => '予約済みのスケジュールリソースを選択しています')
+      array('invalid' => 'スケジュールリソースに空きがありません')
+    ));
+    $this->mergePostValidator(new sfValidatorCallback(
+      array('callback' => array($this, 'validateClosedSchedule')),
+      array('invalid' => '非公開のスケジュールでスケジュールリソースは使えません')
     ));
 
     $this->useFields(array('title', 'start_date', 'start_time', 'end_date', 'end_time', 'body', 'public_flag', 'schedule_member'));
@@ -125,13 +129,53 @@ abstract class PluginScheduleForm extends BaseScheduleForm
 
   public function validateResourceLock(sfValidatorBase $validator, $values)
   {
+    static $resources = array();
+    static $resourceCounts = array();
+    $start_date = $values['start_date']. $values['start_time'] ? ' '.$values['start_time'] : ' 00:00:00';
+    $end_date = $values['end_date']. $values['end_time'] ? ' '.$values['end_time'] : ' 00:00:00';
     foreach (array_keys($this->embeddedForms) as $key)
     {
       if ($schedule_resource_id = $values[$key]['schedule_resource_id'])
       {
-        if (!Doctrine::getTable('ScheduleResourceLock')->isValidScheduleResource($schedule_resource_id, $values['start_date'], $values['end_date'], $values['start_time'], $values['end_time'], $this->getObject()->id))
+        if (isset($resources[$schedule_resource_id]))
         {
-          throw new sfValidatorError($validator, 'invalid');
+          $resources[$schedule_resource_id]++;
+        }
+        else
+        {
+          $resources[$schedule_resource_id] = 1;
+        }
+        if (isset($values[$key]['schedule_resource_id_delete']) && $values[$key]['schedule_resource_id_delete'])
+        {
+          $resources[$schedule_resource_id] = $resources[$schedule_resource_id] - 2;
+        }
+      }
+    }
+    foreach ($resources as $k => $v)
+    {
+      $count = Doctrine::getTable('ScheduleResourceLock')->getLockedResourceCount($k, $start_date, $end_date, $this->getObject()->id);
+      $scheduleResource = Doctrine::getTable('ScheduleResource')->find($k);
+      if ($scheduleResource && (int)$scheduleResource->resource_limit < $count + $v)
+      {
+        throw new sfValidatorError($validator, 'invalid');
+      }
+    }
+
+    return $values;
+  }
+
+  public function validateClosedSchedule(sfValidatorBase $validator, $values)
+  {
+    if (PluginScheduleTable::PUBLIC_FLAG_SCHEDULE_MEMBER == $values['public_flag'])
+    {
+      foreach (array_keys($this->embeddedForms) as $key)
+      {
+        if ($values[$key]['schedule_resource_id'])
+        {
+          if (!isset($values[$key]['schedule_resource_id_delete']) || !$values[$key]['schedule_resource_id_delete'])
+          {
+            throw new sfValidatorError($validator, 'invalid');
+          }
         }
       }
     }
@@ -161,8 +205,8 @@ abstract class PluginScheduleForm extends BaseScheduleForm
 
     foreach ($this->embeddedForms as $key => $form)
     {
-      $values = $this->getValue($key);
-      if (!($form->getObject() && $values['schedule_resource_id']))
+      $enbedded_values = $this->getValue($key);
+      if (!($form->getObject() && $enbedded_values['schedule_resource_id']))
       {
         unset($this->embeddedForms[$key]);
       }
@@ -186,5 +230,24 @@ abstract class PluginScheduleForm extends BaseScheduleForm
     }
 
     return $object;
+  }
+
+  public function doSave($con = null)
+  {
+    $result = parent::doSave($con);
+    foreach ($this->embeddedForms as $key => $form)
+    {
+      $enbedded_values = $this->getValue($key);
+      if ($form->getObject() && isset($enbedded_values['schedule_resource_id_delete']) && $enbedded_values['schedule_resource_id_delete'])
+      {
+        $scheduleResourceLock = Doctrine::getTable('ScheduleResourceLock')->find($form->getObject()->id);
+        if ($scheduleResourceLock)
+        {
+          $scheduleResourceLock->delete($con);
+        }
+      }
+    }
+
+    return $result;
   }
 }

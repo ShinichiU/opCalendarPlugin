@@ -7,47 +7,22 @@
  */
 class PluginScheduleResourceLockTable extends Doctrine_Table
 {
-  public function isValidScheduleResource($schedule_resource_id, $start_date, $end_date, $start_time = null, $end_time = null, $ignoreScheduleId = null)
+  public function getLockedResourceCount($schedule_resource_id, $start_date, $end_date, $ignoreScheduleId = null)
   {
-    static $resources = array();
-    static $resourceCounts = array();
-
-    if (isset($resources[$schedule_resource_id]))
+    $con = $this->getConnection();
+    $sql = 'SELECT count(*) FROM '.$this->getTableName()
+         . ' WHERE schedule_resource_id = ?'
+         . ' AND lock_start_time < ?'
+         . ' AND lock_end_time > ?';
+    $params = array((int)$schedule_resource_id, $end_date, $start_date);
+    if ($ignoreScheduleId)
     {
-      $resources[$schedule_resource_id]++;
+      $sql .= ' AND schedule_id <> ?';
+      $params[] = (int)$ignoreScheduleId;
     }
-    else
-    {
-      $resources[$schedule_resource_id] = 1;
-    }
-
-    if (!empty($resourceCounts[$schedule_resource_id]))
-    {
-      $start_date .= $start_time ? ' '.$start_time : ' 00:00:00';
-      $end_date .= $end_time ? ' '.$end_time : ' 23:59:59';
-      $con = $this->getConnection();
-      $sql = 'SELECT count(*) FROM '.$this->getTableName()
-           . ' WHERE schedule_resource_id = ?'
-           . ' AND lock_start_time < ?'
-           . ' AND lock_end_time > ?';
-      $params = array((int)$schedule_resource_id, $end_date, $start_date);
-      if ($ignoreScheduleId)
-      {
-        $sql .= ' AND schedule_id <> ?';
-        $params[] = (int)$ignoreScheduleId;
-      }
-      $resourceCounts[$schedule_resource_id] = $con->fetchOne($sql, $params);
-    }
-
-    $scheduleResource = Doctrine::getTable('ScheduleResource')->find($schedule_resource_id);
-
-    if ($scheduleResource && (int)$scheduleResource->resource_limit < (int)$resourceCounts[$schedule_resource_id] + $resources[$schedule_resource_id])
-    {
-      return false;
-    }
-
-    return true;
+    return (int)$con->fetchOne($sql, $params);
   }
+
   /**
    * getResourcesByMember
    * Returns an member schedule resorce results.
