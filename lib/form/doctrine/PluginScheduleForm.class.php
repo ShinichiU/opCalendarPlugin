@@ -130,7 +130,6 @@ abstract class PluginScheduleForm extends BaseScheduleForm
   public function validateResourceLock(sfValidatorBase $validator, $values)
   {
     static $resources = array();
-    static $resourceCounts = array();
     $start_date = $values['start_date']. $values['start_time'] ? ' '.$values['start_time'] : ' 00:00:00';
     $end_date = $values['end_date']. $values['end_time'] ? ' '.$values['end_time'] : ' 00:00:00';
     foreach (array_keys($this->embeddedForms) as $key)
@@ -232,9 +231,14 @@ abstract class PluginScheduleForm extends BaseScheduleForm
     return $object;
   }
 
-  public function doSave($con = null)
+  protected function doSave($con = null)
   {
-    $result = parent::doSave($con);
+    if (null === $con)
+    {
+      $con = $this->getConnection();
+    }
+    parent::doSave($con);
+
     foreach ($this->embeddedForms as $key => $form)
     {
       $enbedded_values = $this->getValue($key);
@@ -247,7 +251,5 @@ abstract class PluginScheduleForm extends BaseScheduleForm
         }
       }
     }
-
-    return $result;
   }
 }
