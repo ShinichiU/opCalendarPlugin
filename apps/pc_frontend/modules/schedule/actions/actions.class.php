@@ -109,7 +109,9 @@ class scheduleActions extends sfActions
     if ($form->isValid())
     {
       $schedule = $form->save();
-      $this->redirect('@calendar');
+      $this->getUser()->setFlash('notice', $form->isNew() ? '予定を追加しました' : '予定を更新しました');
+      $results = explode('-', $schedule->start_date);
+      $this->redirect(sprintf('@calendar_year_month?year=%d&month=%d', $results[0], $results[1]));
     }
   }
 }
