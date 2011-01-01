@@ -212,8 +212,8 @@ abstract class PluginScheduleForm extends BaseScheduleForm
 
     foreach ($this->embeddedForms as $key => $form)
     {
-      $enbedded_values = $this->getValue($key);
-      if (!($form->getObject() && $enbedded_values['schedule_resource_id']))
+      $embedded_values = $this->getValue($key);
+      if (!($form->getObject() && $embedded_values['schedule_resource_id']))
       {
         unset($this->embeddedForms[$key]);
       }
@@ -249,8 +249,8 @@ abstract class PluginScheduleForm extends BaseScheduleForm
 
     foreach ($this->embeddedForms as $key => $form)
     {
-      $enbedded_values = $this->getValue($key);
-      if ($form->getObject() && isset($enbedded_values['schedule_resource_id_delete']) && $enbedded_values['schedule_resource_id_delete'])
+      $embedded_values = $this->getValue($key);
+      if ($form->getObject() && isset($embedded_values['schedule_resource_id_delete']) && $embedded_values['schedule_resource_id_delete'])
       {
         $scheduleResourceLock = Doctrine::getTable('ScheduleResourceLock')->find($form->getObject()->id);
         if ($scheduleResourceLock)
