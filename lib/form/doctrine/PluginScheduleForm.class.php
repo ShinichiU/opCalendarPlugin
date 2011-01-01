@@ -98,8 +98,16 @@ abstract class PluginScheduleForm extends BaseScheduleForm
 
   private function generateDateTime()
   {
-    $startYear = (int)date('Y');
-    $endYear = $startYear + 1;
+    if ($this->isNew())
+    {
+      $startYear = (int)date('Y');
+    }
+    else
+    {
+      $startArray = explode('-', $this->getObject()->start_date, 1);
+      $startYear = $startArray[0];
+    }
+    $endYear = (int)date('Y') + 1;
     $years = range($startYear, $endYear);
     $this->dateTime['years'] = array_combine($years, $years);
 
