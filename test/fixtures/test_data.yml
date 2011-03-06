@@ -1,19 +1,53 @@
+<?php $max = 20 ?>
 Member:
-  member_1:
-    id: ~
-    name: "OpenPNE君"
+<?php for ($i = 1; $i <= $max; $i++): ?>
+  member_<?php echo $i ?>:
+    name: "tetete君<?php echo $i ?>"
     is_active: 1
+<?php endfor ?>
 
 MemberConfig:
-  member_address_1:
+<?php for ($i = 1; $i <= $max; $i++): ?>
+  member_address_<?php echo $i ?>:
     name: "pc_address"
-    value: "sns@example.com"
-    Member: member_1
-  member_mobile_address_1:
+    value: "sns<?php echo $i ?>@example.com"
+    Member: member_<?php echo $i."\n" ?>
+  member_mobile_address_<?php echo $i ?>:
     name: "mobile_address"
-    value: "sns@example.com"
-    Member: member_1
-  member_password_1:
+    value: "sns<?php echo $i ?>@example.com"
+    Member: member_<?php echo $i."\n" ?>
+  member_password_<?php echo $i ?>:
     name: "password"
     value: "<?php echo md5('password') ?>"
-    Member: member_1
+    Member: member_<?php echo $i."\n" ?>
+<?php endfor ?>
+
+AdminUser:
+  first_admin:
+    username: "admin"
+    password: "password"
+
+ResourceType:
+  resource_room:
+    name: "会議室"
+    description: "会議室"
+
+ScheduleResource:
+  meetingroom_big_a:
+    name: "大会議室A"
+    resource_limit: 1
+    description: "大会議室A"
+    AdminUser: first_admin
+    ResourceType: resource_room
+  meetingroom_big_b:
+    name: "大会議室B"
+    resource_limit: 1
+    description: "大会議室B"
+    AdminUser: first_admin
+    ResourceType: resource_room
+  meetingroom_mini_a:
+    name: "小会議室A"
+    resource_limit: 5
+    description: "小会議室A"
+    AdminUser: first_admin
+    ResourceType: resource_room
