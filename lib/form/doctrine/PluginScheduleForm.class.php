@@ -137,28 +137,28 @@ abstract class PluginScheduleForm extends BaseScheduleForm
 
   public function validateResourceLock(sfValidatorBase $validator, $values)
   {
-    static $resources = array();
+    $this->resources = array();
     $start_date = sprintf('%s %s', $values['start_date'], $values['start_time'] ? $values['start_time'] : '00:00:00');
     $end_date = sprintf('%s %s', $values['end_date'], $values['end_time'] ? $values['end_time'] : '23:59:59');
     foreach (array_keys($this->embeddedForms) as $key)
     {
       if ($schedule_resource_id = $values[$key]['schedule_resource_id'])
       {
-        if (isset($resources[$schedule_resource_id]))
+        if (isset($this->resources[$schedule_resource_id]))
         {
-          $resources[$schedule_resource_id]++;
+          $this->resources[$schedule_resource_id]++;
         }
         else
         {
-          $resources[$schedule_resource_id] = 1;
+          $this->resources[$schedule_resource_id] = 1;
         }
         if (isset($values[$key]['schedule_resource_id_delete']) && $values[$key]['schedule_resource_id_delete'])
         {
-          $resources[$schedule_resource_id] = $resources[$schedule_resource_id] - 2;
+          $this->resources[$schedule_resource_id] = $this->resources[$schedule_resource_id] - 2;
         }
       }
     }
-    foreach ($resources as $k => $v)
+    foreach ($this->resources as $k => $v)
     {
       $count = Doctrine::getTable('ScheduleResourceLock')->getLockedResourceCount($k, $start_date, $end_date, $this->getObject()->id);
       $scheduleResource = Doctrine::getTable('ScheduleResource')->find($k);
