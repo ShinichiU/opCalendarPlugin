@@ -39,35 +39,6 @@ ScheduleMember:
     member_id_schedule_id_INDEX:
       fields: [member_id, schedule_id]
 
-ScheduleGroup:
-  columns:
-    id: { type: integer(4), primary: true, autoincrement: true }
-    name: { type: string(64), default: "", notnull: true }
-    prefix: { type: string(64), default: "", notnull: true }
-    member_id: { type: integer(4), notnull: true }
-  relations:
-    Member:
-      foreignAlias: ScheduleGroups
-      onDelete: cascade
-  indexes:
-    member_id:
-      fields: [member_id]
-
-ScheduleGroupMember:
-  columns:
-    id: { type: integer(4), primary: true, autoincrement: true }
-    schedule_group_id: { type: integer(4), notnull: true }
-    member_id: { type: integer(4), notnull: true }
-  relations:
-    Member:
-      onDelete: cascade
-    ScheduleGroup:
-      foreignAlias: ScheduleGroupMembers
-      onDelete: cascade
-  indexes:
-    schedule_group_id_member_id:
-      fields: [schedule_group_id, member_id]
-
 ResourceType:
   columns:
     id: { type: integer(4), primary: true, autoincrement: true }
