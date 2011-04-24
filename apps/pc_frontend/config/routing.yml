@@ -97,6 +97,10 @@ schedule_delete:
     id: \d+
     sf_method: [post]
 
+calendar_api_callback:
+  url: /calendarApi/callback
+  param: { module: calendarApi, action: callback }
+
 schedule_nodefaults:
   url: /schedule/*
   param: { module: default, action: error }
