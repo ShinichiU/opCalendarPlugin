@@ -100,3 +100,15 @@ schedule_delete:
 schedule_nodefaults:
   url: /schedule/*
   param: { module: default, action: error }
+
+calendar_api:
+  url: /calendarApi
+  param: { module: calendarApi, action: index }
+
+calendar_api_callback:
+  url: /calendarApi/callback
+  param: { module: calendarApi, action: callback }
+
+calendar_api_nodefaults:
+  url: /calendarApi/*
+  param: { module: default, action: error }

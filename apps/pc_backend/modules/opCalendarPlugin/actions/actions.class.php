@@ -23,6 +23,7 @@ class opCalendarPluginActions extends sfActions
   const RESOURCE_TYPE_CREATE = 'resource_type_create';
   const RESOURCE_TYPE_UPDATE = 'resource_type_update';
   const RESOURCE_TYPE_DELETE = 'resource_type_delete';
+  const GOOGLE_DATA_API_UPDATE = 'google_data_api_update';
 
   private $messages = array(
     self::SCHEDULE_RESOURCE_CREATE => array(
@@ -48,6 +49,10 @@ class opCalendarPluginActions extends sfActions
     self::RESOURCE_TYPE_DELETE => array(
       'error' => 'リソースタイプの削除に失敗しました',
       'notice' => 'リソースタイプを削除しました',
+    ),
+    self::GOOGLE_DATA_API_UPDATE => array(
+      'error' => 'Google DATA API CONSUMER の設定に失敗しました',
+      'notice' => 'Google DATA API CONSUMER を設定しました',
     ),
   );
 
@@ -89,6 +94,8 @@ class opCalendarPluginActions extends sfActions
     {
       $this->resourceTypeForms[] = new ResourceTypeForm($resourceType);
     }
+
+    $this->googleApiForm = new opGoogleDataApiConsumerKeyForm();
   }
 
  /**
@@ -169,6 +176,16 @@ class opCalendarPluginActions extends sfActions
   public function executeResourceTypeDelete(sfWebRequest $request)
   {
     $this->processDelete($this->resourceType, $request, self::RESOURCE_TYPE_DELETE);
+  }
+
+ /**
+  * Executes googleDataAPIUpdate action
+  *
+  * @param sfWebRequest $request A request object
+  */
+  public function executeGoogleDataAPIUpdate(sfWebRequest $request)
+  {
+    $this->processForm(new opGoogleDataApiConsumerKeyForm(), $request, self::GOOGLE_DATA_API_UPDATE);
   }
 
   private function processForm(BaseForm $form, sfWebRequest $request, $type = null)

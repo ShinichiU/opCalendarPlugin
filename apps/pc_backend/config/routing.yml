@@ -98,6 +98,12 @@ opCalendarPlugin_resource_type_delete:
     id: \d+
     sf_method: [delete]
 
+opCalendarPlugin_google_data_api_update:
+  url: /opCalendarPlugin/googleDataAPIUpdate
+  param: { module: opCalendarPlugin, action: googleDataAPIUpdate }
+  requirements:
+    sf_method: [post]
+
 opCalendarPlugin_nodefaults:
   url: /opCalendarPlugin/*
   param: { module: default, action: error }
