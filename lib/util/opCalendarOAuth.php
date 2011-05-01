@@ -7,15 +7,20 @@ class opGoogleCalendarOAuth
   const REQUEST_TOKEN_ENDPOINT = 'https://www.google.com/accounts/OAuthGetRequestToken';
   const AUTHORIZE_ENDPOINT = 'https://www.google.com/accounts/OAuthAuthorizeToken';
   const OAUTH_ACCESS_TOKEN_ENDPOINT = 'https://www.google.com/accounts/OAuthGetAccessToken';
-  const SCOPE = 'http://www.google.com/calendar/feeds/';
+  const SCOPE = 'https://www.google.com/calendar/feeds/';
 
-  protected static $instance = null;
+  protected static
+    $instance = null,
+    $last_status_code = null;
+
+  protected
+    $default_consumer = null;
 
   public static function getInstance()
   {
     if (null === self::$instance)
     {
-      self::$instance = new __CLASS__;
+      self::$instance = new self();
     }
 
     return self::$instance;
@@ -24,31 +29,28 @@ class opGoogleCalendarOAuth
   public function __construct()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('opUtil');
+    $this->default_consumer = new OAuthConsumer(
+      opConfig::get('op_calendar_google_data_api_key', 'anonymous'),
+      opConfig::get('op_calendar_google_data_api_secret', 'anonymous')
+    );
   }
 
   public function getRequestToken()
   {
-    $consumer = new OAuthConsumer(
-      opConfig::get('op_calendar_google_data_api_key'),
-      opConfig::get('op_calendar_google_data_api_secret')
-    );
-
     $req = OAuthRequest::from_consumer_and_token(
-      $consumer,
+      $this->default_consumer,
       NULL,
       'GET',
       self::REQUEST_TOKEN_ENDPOINT,
-      // TODO: あとで戻す
-      //array('oauth_callback' => app_url_for('pc_frontend', '@calendar_api_callback', true), 'site' => 'http://nuts-choco.com')
       array(
-        'oauth_callback' => 'http://nuts-choco.com/calendarApi/callback',
+        'oauth_callback' => app_url_for('pc_frontend', '@calendar_api_callback', true),
         'scope' => self::SCOPE,
       )
     );
 
-    $req->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $this->consumer, NULL);
+    $req->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $this->default_consumer, NULL);
 
-    return $this->curl($req->to_url(), 'GET');
+    return $this->parse_str_curl($req->to_url(), 'GET');
   }
 
   public function getAuthUrl($oauth_token)
@@ -56,95 +58,145 @@ class opGoogleCalendarOAuth
     return sprintf('%s?oauth_token=%s', self::AUTHORIZE_ENDPOINT, $oauth_token);
   }
 
-  public function getAccessTocken($oauth_verifier, $oauth_token, $ouath_token_secret)
+  public function getAccessToken($oauth_verifier, $oauth_token, $ouath_token_secret)
   {
     $params = array('oauth_verifier' => $oauth_verifier);
-    $consumer = new OAuthConsumer('anonymous', 'anonymous');
     $final_consumer = new OAuthConsumer($oauth_token, $ouath_token_secret);
-    $acc_req = OAuthRequest::from_consumer_and_token($consumer, $final_consumer, 'GET', self::OAUTH_ACCESS_TOKEN_ENDPOINT, $params);
-    $acc_req->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $consumer, $final_consumer);
+    $acc_req = OAuthRequest::from_consumer_and_token(
+      $this->default_consumer,
+      $final_consumer,
+      'GET',
+      self::OAUTH_ACCESS_TOKEN_ENDPOINT,
+      $params
+    );
+    $acc_req->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $this->default_consumer, $final_consumer);
 
-    $result = $this->curl($acc_req->to_url(), 'GET');
-var_dump($result);
-
-    $token = Doctrine_Core::getTable('MemberConfig')->retrieveByNameAndMemberId('google_calendar_oauth_token', $id);
-    $secret = Doctrine_Core::getTable('MemberConfig')->retrieveByNameAndMemberId('google_calendar_oauth_token_secret', $id);
-
-    return array('token' => $token, 'secret' => $secret);
+    return $this->parse_str_curl($acc_req->to_url());
   }
 
-  public function getAccessTockenDb($id = null)
+  public function saveAccessToken(Member $member, $oauth_token, $ouath_token_secret)
   {
-    if (null === $id)
+    Doctrine_Core::getTable('MemberConfig')
+      ->setValue($member->id, 'google_calendar_oauth_token', $oauth_token);
+    Doctrine_Core::getTable('MemberConfig')
+      ->setValue($member->id, 'google_calendar_oauth_token_secret', $ouath_token_secret);
+
+  }
+
+  public function getAccessTokenDb(Member $member = null)
+  {
+    if (null === $member)
     {
-      $id = sfContext::getInstance()->getUser()->getMemberId();
+      $member = sfContext::getInstance()->getUser()->getMember();
     }
-    if (!$id)
+    if (!$member || !$member->id)
     {
       return null;
     }
 
-    $token = Doctrine_Core::getTable('MemberConfig')->retrieveByNameAndMemberId('google_calendar_oauth_token', $id);
-    $secret = Doctrine_Core::getTable('MemberConfig')->retrieveByNameAndMemberId('google_calendar_oauth_token_secret', $id);
+    $token = Doctrine_Core::getTable('MemberConfig')
+      ->retrieveByNameAndMemberId('google_calendar_oauth_token', $member->id);
+    $secret = Doctrine_Core::getTable('MemberConfig')
+      ->retrieveByNameAndMemberId('google_calendar_oauth_token_secret', $member->id);
 
-    return array('oauth_token' => $token, 'oauth_token_secret' => $secret);
-  }
-
-  public function isNeedRedirection()
-  {
-    $token = $this->getAccessTokenDb();
-
-    if (empty($token)) return true;
-
-//    /* Create a TwitterOauth object with consumer/user tokens. */
-//    $connection = new TwitterOAuth(
-//      $this->consumer_key,
-//      $this->consumer_secret,
-//      $token['key_string'],
-//      $token['secret']
-//    );  
-//
-//    /* 認証テストを行う */
-//    $res = $connection->get('account/verify_credentials');
-//
-    return isset($res->error);
-  }
-
-  public function curl($url, $method = 'GET', $headers = null, $postvals = null)
-  {
-    $ch = curl_init($url);
-
-    if ($method == 'GET')
+    if (!$token || !$secret)
     {
-      curl_setopt($ch, CURLOPT_URL, $url);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    }
-    else
-    {
-      curl_setopt_array($ch, array(
-        CURLOPT_HEADER => true,
-        CURLINFO_HEADER_OUT => true,
-        CURLOPT_VERBOSE => true,
-        CURLOPT_HTTPHEADER => $headers,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POSTFIELDS => $postvals,
-        CURLOPT_CUSTOMREQUEST => $method,
-        CURLOPT_TIMEOUT => 3
-      ));
+      return null;
     }
 
-    $response = curl_exec($ch);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    if (200 == $http_code)
+    return array('oauth_token' => $token->getValue(), 'oauth_token_secret' => $secret->getValue());
+  }
+
+  public function isNeedRedirection(Member $member = null)
+  {
+    $token = $this->getAccessTokenDb($member);
+
+    if (null === $token || !$token['oauth_token'] || !$token['oauth_token_secret'])
+    {
+      return true;
+    }
+
+    return !$this->isActiveAccessTocken($token['oauth_token'], $token['oauth_token_secret']);
+  }
+
+  private function isActiveAccessTocken($oauth_token, $oauth_token_secret)
+  {
+    $url = self::SCOPE.'default/allcalendars/full';
+    $access_consumer = new OAuthConsumer($oauth_token, $oauth_token_secret);
+    $acc_req = OAuthRequest::from_consumer_and_token(
+      $this->default_consumer,
+      $access_consumer,
+      'GET',
+      $url
+    );
+    $acc_req->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $this->default_consumer, $access_consumer);
+    $this->curl($url, 'GET', array($acc_req->to_header()));
+
+    return 200 == self::$last_status_code;
+  }
+
+  private function parse_str_curl($url, $method = 'GET', $headers = array(), $postvals = null, $cookie = null)
+  {
+    $response = $this->curl($url, $method, $headers, $postvals);
+
+    if ($response)
     {
       parse_str($response, $results);
 
       return $results;
     }
+
+    return false;
+  }
+
+  private function curl($url, $method = 'GET', $headers = array(), $postvals = null, $cookie = null)
+  {
+    static $count = 0;
+
+    $ch = 'GET' === $method ? curl_init() : curl_init($url);
+
+    if ($headers)
+    {
+      $headers = is_array($headers) ? $headers : array($headers);
+      curl_setopt($ch, CURLOPT_HEADER, true);
+      curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers + array('Content-Type: application/atom+xml'));
+    }
+
+    if ($method == 'GET')
+    {
+      curl_setopt($ch, CURLOPT_URL, $url);
+    }
     else
     {
-      return false;
+      curl_setopt($ch, CURLOPT_VERBOSE, true);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $postvals);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+      curl_setopt($ch, CURLOPT_TIMEOUT, 5);
     }
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+    if ($cookie)
+    {
+      curl_setopt($ch, CURLOPT_COOKIE, $cookie);
+    }
+
+    $response = curl_exec($ch);
+    self::$last_status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if (301 == self::$last_status_code || 302 == self::$last_status_code)
+    {
+      if ($count > 5)
+      {
+        return false;
+      }
+      preg_match('/Set-Cookie:(.*?)\n/', $response, $matches);
+      $cookie = trim(array_pop($matches));
+      $count++;
+      $this->curl($url, $method , $headers, $postvals, $cookie);
+    }
+
+    return 200 == self::$last_status_code ? $response : false;
   }
 }
