@@ -14,7 +14,7 @@ class opGoogleCalendarOAuth
     $last_status_code = null;
 
   protected
-    $default_consumer = null;
+    $consumer = null;
 
   public static function getInstance()
   {
@@ -29,7 +29,7 @@ class opGoogleCalendarOAuth
   public function __construct()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('opUtil');
-    $this->default_consumer = new OAuthConsumer(
+    $this->consumer = new OAuthConsumer(
       opConfig::get('op_calendar_google_data_api_key', 'anonymous'),
       opConfig::get('op_calendar_google_data_api_secret', 'anonymous')
     );
@@ -37,20 +37,17 @@ class opGoogleCalendarOAuth
 
   public function getRequestToken()
   {
-    $req = OAuthRequest::from_consumer_and_token(
-      $this->default_consumer,
-      NULL,
-      'GET',
+    $api = new opCalendarApi($this->consumer, null, opCalendarApiHandler::GET,
       self::REQUEST_TOKEN_ENDPOINT,
       array(
         'oauth_callback' => app_url_for('pc_frontend', '@calendar_api_callback', true),
         'scope' => self::SCOPE,
       )
     );
+    $api->setIsUseHeader(false);
+    $handler = new opCalendarApiHandler($api, new opCalendarApiResultsStr());
 
-    $req->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $this->default_consumer, NULL);
-
-    return $this->parse_str_curl($req->to_url(), 'GET');
+    return $handler->execute();
   }
 
   public function getAuthUrl($oauth_token)
@@ -60,18 +57,14 @@ class opGoogleCalendarOAuth
 
   public function getAccessToken($oauth_verifier, $oauth_token, $ouath_token_secret)
   {
-    $params = array('oauth_verifier' => $oauth_verifier);
-    $final_consumer = new OAuthConsumer($oauth_token, $ouath_token_secret);
-    $acc_req = OAuthRequest::from_consumer_and_token(
-      $this->default_consumer,
-      $final_consumer,
-      'GET',
+    $api = new opCalendarApi($this->consumer, new OAuthConsumer($oauth_token, $ouath_token_secret), opCalendarApiHandler::GET,
       self::OAUTH_ACCESS_TOKEN_ENDPOINT,
-      $params
+      array('oauth_verifier' => $oauth_verifier)
     );
-    $acc_req->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $this->default_consumer, $final_consumer);
+    $api->setIsUseHeader(false);
+    $handler = new opCalendarApiHandler($api, new opCalendarApiResultsStr());
 
-    return $this->parse_str_curl($acc_req->to_url());
+    return $handler->execute();
   }
 
   public function saveAccessToken(Member $member, $oauth_token, $ouath_token_secret)
@@ -121,82 +114,14 @@ class opGoogleCalendarOAuth
 
   private function isActiveAccessTocken($oauth_token, $oauth_token_secret)
   {
-    $url = self::SCOPE.'default/allcalendars/full';
-    $access_consumer = new OAuthConsumer($oauth_token, $oauth_token_secret);
-    $acc_req = OAuthRequest::from_consumer_and_token(
-      $this->default_consumer,
-      $access_consumer,
-      'GET',
-      $url
+    $api = new opCalendarApi(
+      $this->consumer,
+      new OAuthConsumer($oauth_token, $oauth_token_secret),
+      opCalendarApiHandler::GET,
+      self::SCOPE.'default/allcalendars/full'
     );
-    $acc_req->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $this->default_consumer, $access_consumer);
-    $this->curl($url, 'GET', array($acc_req->to_header()));
+    $handler = new opCalendarApiHandler($api, new opCalendarApiResultsXml());
 
-    return 200 == self::$last_status_code;
-  }
-
-  private function parse_str_curl($url, $method = 'GET', $headers = array(), $postvals = null, $cookie = null)
-  {
-    $response = $this->curl($url, $method, $headers, $postvals);
-
-    if ($response)
-    {
-      parse_str($response, $results);
-
-      return $results;
-    }
-
-    return false;
-  }
-
-  private function curl($url, $method = 'GET', $headers = array(), $postvals = null, $cookie = null)
-  {
-    static $count = 0;
-
-    $ch = 'GET' === $method ? curl_init() : curl_init($url);
-
-    if ($headers)
-    {
-      $headers = is_array($headers) ? $headers : array($headers);
-      curl_setopt($ch, CURLOPT_HEADER, true);
-      curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers + array('Content-Type: application/atom+xml'));
-    }
-
-    if ($method == 'GET')
-    {
-      curl_setopt($ch, CURLOPT_URL, $url);
-    }
-    else
-    {
-      curl_setopt($ch, CURLOPT_VERBOSE, true);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $postvals);
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-      curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-    }
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
-    if ($cookie)
-    {
-      curl_setopt($ch, CURLOPT_COOKIE, $cookie);
-    }
-
-    $response = curl_exec($ch);
-    self::$last_status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if (301 == self::$last_status_code || 302 == self::$last_status_code)
-    {
-      if ($count > 5)
-      {
-        return false;
-      }
-      preg_match('/Set-Cookie:(.*?)\n/', $response, $matches);
-      $cookie = trim(array_pop($matches));
-      $count++;
-      $this->curl($url, $method , $headers, $postvals, $cookie);
-    }
-
-    return 200 == self::$last_status_code ? $response : false;
+    return $handler->execute()->is200StatusCode();
   }
 }
