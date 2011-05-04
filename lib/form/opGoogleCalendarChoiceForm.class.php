@@ -93,6 +93,11 @@ class opGoogleCalendarChoiceForm extends BaseForm
       )
     );
 
+    if (!$result)
+    {
+      return false;
+    }
+
     return opCalendarPluginToolkit::insertSchedules($result->toArray(), $values['public_flag'], isset($values['is_save_email'][0]));
   }
 

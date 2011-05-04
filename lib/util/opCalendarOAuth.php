@@ -131,7 +131,7 @@ class opGoogleCalendarOAuth
 
     if (null === $token || !$token['oauth_token'] || !$token['oauth_token_secret'])
     {
-      return true;
+      return false;
     }
 
     $api = new opCalendarApi(
