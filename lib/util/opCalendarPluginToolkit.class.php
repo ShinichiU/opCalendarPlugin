@@ -17,8 +17,17 @@
  */
 class opCalendarPluginToolkit
 {
-  static $cached_emails = array();
-
+  /**
+   * insertSchedules()
+   *
+   * APIから取得した配列をScheduleに挿入するメソッド
+   *
+   * @param  Array   $list           スケジュールの配列
+   * @param  Integer $public_flag    スケジュールの公開範囲
+   * @param  Boolean $is_save_email  APIから取得した本人のメールアドレスを保存するか否か
+   * @param  mixed   $member         Member インスタンス (Optional)
+   * @return Boolean 該当する member_id、ヒットしない場合は false
+   */
   static public function insertSchedules($list, $public_flag, $is_save_email, $member = null)
   {
     static $first = true;
@@ -80,6 +89,21 @@ class opCalendarPluginToolkit
     return $okCount === $count;
   }
 
+  /**
+   * $cached_emails
+   *
+   * seekEmailAndGetMemberId() メソッドで同じメールアドレスの検索クエリを呼び出す回数を減らすためのものです
+   */
+  static $cached_emails = array();
+
+  /**
+   * seekEmailAndGetMemberId()
+   *
+   * member_config にメールアドレスが登録されているかを検索するメソッド
+   *
+   * @param  String $email 検索するメールアドレス
+   * @return mixed 該当する member_id、ヒットしない場合は false
+   */
   static public function seekEmailAndGetMemberId($email)
   {
     if (isset(self::$cached_emails[$email]))
@@ -89,19 +113,32 @@ class opCalendarPluginToolkit
     $patterns = array('pc_address', 'mobile_address', 'opCalendarPlugin_email');
     $memberConfigTable = Doctrine_Core::getTable('MemberConfig');
     $conn = $memberConfigTable->getConnection();
-    $v = array();
+
+    $sql = 'SELECT member_id FROM '.$memberConfigTable->getTableName();
+    $params = array();
+    $first = true;
     foreach ($patterns as $pattern)
     {
-      $v[] = '"'.$memberConfigTable->generateNameValueHash($pattern, $email).'"';
+      $sql .= $first ? ' WHERE name_value_hash = ?' : ' OR name_value_hash = ?';
+      $params[] = $memberConfigTable->generateNameValueHash($pattern, $email);
+      $first = false;
     }
 
-    self::$cached_emails[$email] = $conn
-      ->fetchOne('SELECT member_id FROM '.$memberConfigTable->getTableName().' WHERE name_value_hash IN ('.implode(',', $v).')');
+    self::$cached_emails[$email] = $conn->fetchOne($sql, $params);
 
     return self::$cached_emails[$email];
   }
 
-  static public function insertInto($table, $params = array(), $conn = null, $isTimestampable = false)
+  /**
+   * seekEmailAndGetMemberId()
+   *
+   * SQL を使って配列からインサート文を生成し、データを挿入するメソッド
+   *
+   * @param  String $table データ挿入先テーブル名
+   * @param  Array  $params key をカラム名、value に値の組み合わせの1レコード分のデータ ※ (SQL Injection 防止のために key には動的な値を挿入できないようにしてください)
+   * @return Integer 挿入したレコードのプライマリーキーが返ってきます
+   */
+  static public function insertInto($table, Array $params = array(), $conn = null, $isTimestampable = false)
   {
     if ($isTimestampable)
     {
