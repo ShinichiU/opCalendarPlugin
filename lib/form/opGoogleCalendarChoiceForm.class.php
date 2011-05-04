@@ -9,6 +9,8 @@
  */
 class opGoogleCalendarChoiceForm extends BaseForm
 {
+  protected $isNeedIsSaveEmail = true;
+
   public function configure()
   {
     $list = $this->getOption('list');
@@ -16,6 +18,7 @@ class opGoogleCalendarChoiceForm extends BaseForm
     foreach ($list as $k => $v)
     {
       $formList[$k] = $v['title'];
+      $authorEmail = $v['author']['email'];
     }
     $months = array();
     for ($i = 1; $i <= 12; $i++)
@@ -59,6 +62,17 @@ class opGoogleCalendarChoiceForm extends BaseForm
     $this->widgetSchema->setLabel('months', '読み込む月');
     $this->widgetSchema->setLabel('is_save_email', 'Google Calendar のemailの保存');
     $this->widgetSchema->setNameFormat('google_calendars[%s]');
+
+    if (opCalendarPluginToolkit::seekEmailAndGetMemberId($authorEmail))
+    {
+      unset($this['is_save_email']);
+      $this->isNeedIsSaveEmail = false;
+    }
+  }
+
+  public function isNeedIsSaveEmail()
+  {
+    return $this->isNeedIsSaveEmail;
   }
 
   public function save()

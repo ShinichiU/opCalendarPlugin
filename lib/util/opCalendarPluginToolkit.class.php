@@ -33,9 +33,9 @@ class opCalendarPluginToolkit
 
     foreach ($list as $v)
     {
+      $authorEmail = $v['need_convert']['creator_email'];
       if ($is_save_email && $first)
       {
-        $authorEmail = $v['need_convert']['creator_email'];
         if (!$id = self::seekEmailAndGetMemberId($authorEmail))
         {
           Doctrine_Core::getTable('MemberConfig')
@@ -49,7 +49,11 @@ class opCalendarPluginToolkit
       $falseMember = 0;
       foreach ($v['need_convert']['ScheduleMember'] as $in_member)
       {
-        if ($in_id = self::seekEmailAndGetMemberId($in_member['email']))
+        if ($in_member['email'] == $authorEmail)
+        {
+          $v['ScheduleMember'][] = $member->id;
+        }
+        elseif ($in_id = self::seekEmailAndGetMemberId($in_member['email']))
         {
           $v['ScheduleMember'][] = $in_id;
         }
@@ -65,6 +69,7 @@ class opCalendarPluginToolkit
       }
 
       unset($v['need_convert']);
+      $v['public_flag'] = $public_flag;
 
       if (Doctrine_Core::getTable('Schedule')->updateApiFromArray($v))
       {

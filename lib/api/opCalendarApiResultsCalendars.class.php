@@ -12,6 +12,7 @@ class opCalendarApiResultsCalendars extends opCalendarApiResultsXml
       }
       $this->list[(string)$value->id]['title'] = (string)$value->title;
       $this->list[(string)$value->id]['contents'] = $contents;
+      $this->list[(string)$value->id]['author']['email'] = (string)$this->xmlObject->entry->author->email;
     }
 
     return $this->list;
