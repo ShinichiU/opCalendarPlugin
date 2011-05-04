@@ -130,12 +130,17 @@ class opCalendarPluginToolkit
   }
 
   /**
-   * seekEmailAndGetMemberId()
+   * insertInto()
    *
    * SQL を使って配列からインサート文を生成し、データを挿入するメソッド
    *
-   * @param  String $table データ挿入先テーブル名
-   * @param  Array  $params key をカラム名、value に値の組み合わせの1レコード分のデータ ※ (SQL Injection 防止のために key には動的な値を挿入できないようにしてください)
+   * ※  第二引数の配列には SQL Injection 防止のため
+   * key には動的な値を挿入できないようにしてください
+   *
+   * @param  String  $table データ挿入先テーブル名
+   * @param  Array   $params key をカラム名、value に値の組み合わせの1レコード分のデータ
+   * @param  Object  $conn コネクションオブジェクト
+   * @param  Boolean $isTimestampable timestampable アクティブビヘイビアのデータを挿入します
    * @return Integer 挿入したレコードのプライマリーキーが返ってきます
    */
   static public function insertInto($table, Array $params = array(), $conn = null, $isTimestampable = false)
@@ -162,5 +167,54 @@ class opCalendarPluginToolkit
     return 'INSERT INTO '.$table
          . ' ('.implode(', ', $fields).')'
          . ' VALUES ('.implode(', ', array_fill(0, count($fields), '?')).')';
+  }
+
+  /**
+   * update()
+   *
+   * SQL を使って配列からアップデート文を生成し、データを更新するメソッド
+   *
+   * ※  第二引数、第三引数の配列には SQL Injection 防止のため
+   * key には動的な値を挿入できないようにしてください
+   *
+   * @param  String $table データ挿入先テーブル名
+   * @param  Array  $params key をカラム名、value に値の組み合わせの1レコード分のデータ
+   * @param  Array  $wheres key をカラム名、value に検索対象の値
+   * @param  Object  $conn コネクションオブジェクト
+   * @param  Boolean $isTimestampable timestampable アクティブビヘイビアのデータを挿入します
+   * @return Bool 更新に成功したかどうか
+   */
+  static public function update($table, Array $params = array(), $wheres = array(), $conn = null, $isTimestampable = false)
+  {
+    if ($isTimestampable)
+    {
+      $date = date('Y-m-d H:i:s');
+      $params['updated_at'] = $date;
+    }
+
+    $sql = self::getUpdateQuery($table, array_keys($params), array_keys($wheres));
+    if (null === $conn)
+    {
+      $conn = Doctrine_Manager::getInstance()->getCurrentConnection();
+    }
+
+    return $conn->execute($sql, array_merge(array_values($params), array_values($wheres)));
+  }
+
+  public static function getUpdateQuery($table, $fields = array(), $whereFields = array())
+  {
+    $sets = array();
+    foreach ($fields as $field)
+    {
+      $sets[] = sprintf('%s = ?', $field);
+    }
+    $wheres = array();
+    foreach ($whereFields as $whereField)
+    {
+      $wheres[] = sprintf('%s = ?', $whereField);
+    }
+    return 'UPDATE '.$table
+         . ' SET '.implode(', ', $sets)
+         . ' WHERE '.implode(' AND ', $wheres);
   }
 }

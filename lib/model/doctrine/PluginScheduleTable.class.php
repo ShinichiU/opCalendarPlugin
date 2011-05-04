@@ -58,38 +58,42 @@ class PluginScheduleTable extends Doctrine_Table
       $params = array($list['api_flag'], $list['api_id_unique']);
       if ($schedule = $conn->fetchRow($sql, $params))
       {
+        $id = $schedule['id'];
         if ($list['api_etag'] === $schedule['api_etag'])
         {
-          return $schedule['id'];
+          return $id;
         }
 
         $sql = 'DELETE '.$scheduleMemberTable->getTableName()
              . ' FROM '.$scheduleMemberTable->getTableName()
              . ' WHERE schedule_id = ?';
-        $conn->execute($sql, array((int)$schedule['id']));
-
-        $sql = 'DELETE '.$this->getTableName()
-             . ' FROM '.$this->getTableName()
-             . ' WHERE id = ?';
-        $conn->execute($sql, array((int)$schedule['id']));
+        $conn->execute($sql, array((int)$id));
       }
 
-      $scheduleMembers = $list['ScheduleMember'];
+      $scheduleMembers = array_unique($list['ScheduleMember']);
       unset($list['ScheduleMember']);
 
-      if ($id = opCalendarPluginToolkit::insertInto($this->getTableName(), $list, $conn))
+      if ($id)
       {
-        $members = array();
-        foreach ($scheduleMembers as $member_id)
+        if (!opCalendarPluginToolkit::update($this->getTableName(), $list, array('id' => (int)$id), $conn))
         {
-          $members['member_id'] = $member_id;
-          $members['schedule_id'] = $id;
-          opCalendarPluginToolkit::insertInto($scheduleMemberTable->getTableName(), $members, $conn);
+          throw new Exception('schedule commit error.');
         }
       }
       else
       {
-        throw new Exception('schedule commit error.');
+        if (!$id = opCalendarPluginToolkit::insertInto($this->getTableName(), $list, $conn))
+        {
+          throw new Exception('schedule commit error.');
+        }
+      }
+
+      $members = array();
+      foreach ($scheduleMembers as $member_id)
+      {
+        $members['member_id'] = $member_id;
+        $members['schedule_id'] = $id;
+        opCalendarPluginToolkit::insertInto($scheduleMemberTable->getTableName(), $members, $conn);
       }
 
       $conn->commit();
