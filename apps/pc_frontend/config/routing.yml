@@ -109,6 +109,10 @@ calendar_api_callback:
   url: /calendarApi/callback
   param: { module: calendarApi, action: callback }
 
+calendar_api_import:
+  url: /calendarApi/import
+  param: { module: calendarApi, action: import }
+
 calendar_api_nodefaults:
   url: /calendarApi/*
   param: { module: default, action: error }

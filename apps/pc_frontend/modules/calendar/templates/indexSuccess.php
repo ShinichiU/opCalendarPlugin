@@ -3,7 +3,13 @@
 
 <div class="block topBox">
 <?php if ($isSelf): ?>
-<p class="moreInfo"><?php echo image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '')) ?> <?php echo link_to('予定を追加する', '@schedule_new') ?></p>
+<p class="moreInfo"><?php echo image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '')) ?> <?php echo link_to('予定を追加する', '@schedule_new') ?>
+<?php if (opGoogleCalendarOAuth::getInstance()->isNeedRedirection()): ?>
+&nbsp;<?php echo link_to('Google カレンダーの認可設定を有効にする', '@calendar_api') ?>
+<?php else: ?>
+&nbsp;<?php echo link_to('Google カレンダーの予定を追加する', '@calendar_api_import') ?>
+<?php endif ?>
+</p>
 <?php endif; ?>
 <p class="pager"><?php echo link_to('&lt;&lt; 前の月', sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_prev'], $ym['month_prev']), array('class' => 'prev')) ?>
  | <?php echo link_to('今月', '@calendar_member_obj?id='.$member->id, array('class' => 'curr')) ?>

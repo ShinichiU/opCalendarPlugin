@@ -13,6 +13,9 @@ Schedule:
     end_date: { type: date, notnull: true }
     end_time: { type: time }
     public_flag: { type: integer(1), notnull: true, default: 1 }
+    api_flag: { type: integer(1), notnull: false }
+    api_id_unique: { type: string(32), notnull: false }
+    api_etag: { type: string(32), notnull: false }
   relations:
     Member:
       foreignAlias: Schedules
@@ -22,6 +25,8 @@ Schedule:
       fields: [member_id]
     start_date_end_date_INDEX:
       fields: [start_date, end_date]
+    api_flag_api_id_unique_INDEX:
+      fields: [api_flag, api_id_unique]
 
 ScheduleMember:
   columns:

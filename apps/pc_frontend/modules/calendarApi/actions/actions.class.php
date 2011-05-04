@@ -48,6 +48,40 @@ class calendarApiActions extends sfActions
     $this->opGoogleCalendarOAuth->saveAccessToken($user->getMember(), $access_token['oauth_token'], $access_token['oauth_token_secret']);
     $user->setFlash('notice', 'Google Calendar API が利用出来るようになりました。');
     $user->getAttributeHolder()->remove('opGoogleCalendarOAuthTokens');
-    $this->redirect('@homepage');
+    $this->redirect('@calendar_api_import');
+  }
+
+ /**
+  * Executes index action
+  *
+  * @param sfWebRequest $request A request object
+  */
+  public function executeImport(sfWebRequest $request)
+  {
+    $this->forwardIf($this->opGoogleCalendarOAuth->isNeedRedirection(), 'calendarApi', 'index');
+
+    if (!$results = $this->opGoogleCalendarOAuth->getContents('default/owncalendars/full'))
+    {
+      return sfView::NONE;
+    }
+
+    $list = $results->toArray();
+    $this->form = new opGoogleCalendarChoiceForm(null, array(
+      'list' => $list,
+      'opGoogleCalendarOAuth' => $this->opGoogleCalendarOAuth
+    ));
+
+    if ($request->isMethod(sfWebRequest::POST))
+    {
+      $this->form->bind($request->getParameter($this->form->getName()));
+      if ($this->form->isValid())
+      {
+        $r = $this->form->save();
+
+        $params = $request->getParameter($this->form->getName());
+        $this->getUser()->setFlash('notice', $r ? 'カレンダーの読み込みに成功しました' : 'カレンダーの読み込みに一部失敗しました');
+        $this->redirect(sprintf('@calendar_year_month?year=%04d&month=%02d', date('Y'), $params['months']));
+      }
+    }
   }
 }

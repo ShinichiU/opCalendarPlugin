@@ -6,6 +6,9 @@ class PluginScheduleTable extends Doctrine_Table
   const PUBLIC_FLAG_SNS              = 1;
   const PUBLIC_FLAG_SCHEDULE_MEMBER  = 2;
 
+  // api flag
+  const GOOGLE_CALENDAR              = 1;
+
   protected static $publicFlags = array(
     self::PUBLIC_FLAG_SNS              => 'All Members',
     self::PUBLIC_FLAG_SCHEDULE_MEMBER  => 'Participants only scheduled public',
@@ -41,5 +44,63 @@ class PluginScheduleTable extends Doctrine_Table
     }
 
     return $q->execute();
+  }
+
+  public function updateApiFromArray($list)
+  {
+    $scheduleMemberTable = Doctrine_Core::getTable('ScheduleMember');
+    $conn = $this->getConnection();
+    $conn->beginTransaction();
+    try
+    {
+      $sql = 'SELECT id, api_etag FROM '.$this->getTableName()
+           . ' WHERE api_flag = ? AND api_id_unique = ?';
+      $params = array($list['api_flag'], $list['api_id_unique']);
+      if ($schedule = $conn->fetchRow($sql, $params))
+      {
+        if ($list['api_etag'] === $schedule['api_etag'])
+        {
+          return $schedule['id'];
+        }
+
+        $sql = 'DELETE '.$scheduleMemberTable->getTableName()
+             . ' FROM '.$scheduleMemberTable->getTableName()
+             . ' WHERE schedule_id = ?';
+        $conn->execute($sql, array((int)$schedule['id']));
+
+        $sql = 'DELETE '.$this->getTableName()
+             . ' FROM '.$this->getTableName()
+             . ' WHERE id = ?';
+        $conn->execute($sql, array((int)$schedule['id']));
+      }
+
+      $scheduleMembers = $list['ScheduleMember'];
+      unset($list['ScheduleMember']);
+
+      if ($id = opCalendarPluginToolkit::insertInto($this->getTableName(), $list, $conn))
+      {
+        $members = array();
+        foreach ($scheduleMembers as $member_id)
+        {
+          $members['member_id'] = $member_id;
+          $members['schedule_id'] = $id;
+          opCalendarPluginToolkit::insertInto($scheduleMemberTable->getTableName(), $members, $conn);
+        }
+      }
+      else
+      {
+        throw new Exception('schedule commit error.');
+      }
+
+      $conn->commit();
+    }
+    catch (Exception $e)
+    {
+      $conn->rollback();
+
+      throw $e;
+    }
+
+    return $id;
   }
 }

@@ -120,8 +120,31 @@ class opGoogleCalendarOAuth
       opCalendarApiHandler::GET,
       self::SCOPE.'default/allcalendars/full'
     );
-    $handler = new opCalendarApiHandler($api, new opCalendarApiResultsXml());
+    $handler = new opCalendarApiHandler($api, new opCalendarApiResultsNoParse());
 
     return $handler->execute()->is200StatusCode();
+  }
+
+  public function getContents($uri, $resultsClassName = 'opCalendarApiResultsCalendars', $method = opCalendarApiHandler::GET, $params = array())
+  {
+    $token = $this->getAccessTokenDb();
+
+    if (null === $token || !$token['oauth_token'] || !$token['oauth_token_secret'])
+    {
+      return true;
+    }
+
+    $api = new opCalendarApi(
+      $this->consumer,
+      new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']),
+      opCalendarApiHandler::GET,
+      self::SCOPE.$uri,
+      $params
+    );
+
+    $handler = new opCalendarApiHandler($api, new $resultsClassName());
+    $results = $handler->execute();
+
+    return $results->is200StatusCode() ? $results : false;
   }
 }
