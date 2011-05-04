@@ -44,7 +44,7 @@ class opGoogleCalendarOAuth
         'scope' => self::SCOPE,
       )
     );
-    $api->setIsUseHeader(false);
+    $api->setIsUseAuthorizedHeader(false);
     $handler = new opCalendarApiHandler($api, new opCalendarApiResultsStr());
 
     return $handler->execute();
@@ -61,7 +61,7 @@ class opGoogleCalendarOAuth
       self::OAUTH_ACCESS_TOKEN_ENDPOINT,
       array('oauth_verifier' => $oauth_verifier)
     );
-    $api->setIsUseHeader(false);
+    $api->setIsUseAuthorizedHeader(false);
     $handler = new opCalendarApiHandler($api, new opCalendarApiResultsStr());
 
     return $handler->execute();

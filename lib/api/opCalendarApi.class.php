@@ -4,7 +4,7 @@ class opCalendarApi implements opCalendarApiInterface
   private
     $OAuthRequest = null,
     $method = opCalendarApiHandler::GET,
-    $isUseHeader = true,
+    $isUseAuthorizedHeader = true,
     $parameters = array();
 
   public function __construct($consumer, $token, $http_method, $http_url, $parameters = array())
@@ -20,7 +20,7 @@ class opCalendarApi implements opCalendarApiInterface
   public function getUrl($force = false)
   {
     $url = $this->OAuthRequest->get_normalized_http_url();
-    if (!$this->isUseHeader)
+    if (!$this->isUseAuthorizedHeader)
     {
       return $this->OAuthRequest->to_url();
     }
@@ -41,7 +41,7 @@ class opCalendarApi implements opCalendarApiInterface
 
   public function getHeaders()
   {
-    return $this->isUseHeader ? array($this->OAuthRequest->to_header(), 'Content-Type: application/atom+xml', 'GData-Version: 2') : null;
+    return $this->isUseAuthorizedHeader ? array($this->OAuthRequest->to_header(), 'Content-Type: application/atom+xml', 'GData-Version: 2') : null;
   }
 
   public function getCookies()
@@ -100,8 +100,8 @@ class opCalendarApi implements opCalendarApiInterface
     sfContext::getInstance()->getUser()->setAttribute($this->getApiCookieSessionName(), $cookie);
   }
 
-  public function setIsUseHeader($bool = true)
+  public function setIsUseAuthorizedHeader($bool = true)
   {
-    $this->isUseHeader = (bool)$bool;
+    $this->isUseAuthorizedHeader = (bool)$bool;
   }
 }
