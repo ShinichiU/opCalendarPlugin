@@ -40,10 +40,6 @@ class opCalendarApiHandler
     return $this->apiResults;
   }
 
-  public function getResults()
-  {
-  }
-
   public function setTimeOut($time = 5)
   {
     $this->timeout = (int)$time;
@@ -56,7 +52,7 @@ class opCalendarApiHandler
 
   private function accessApi($url, $method, $headers, $cookies, $postvals, $useHttpHeader = false)
   {
-    static $count = 0;
+    static $count = 1;
 
     $ch = self::GET === $method ? curl_init() : curl_init($url);
 
@@ -65,7 +61,7 @@ class opCalendarApiHandler
       curl_setopt($ch, CURLOPT_HTTPHEADER, is_array($headers) ? $headers : array($headers));
     }
 
-    if ($method === self::GET)
+    if (self::GET === $method)
     {
       curl_setopt($ch, CURLOPT_URL, $url);
     }
@@ -90,24 +86,27 @@ class opCalendarApiHandler
 
     if (301 == $status_code || 302 == $status_code)
     {
-      if (!$useHttpHader)
+      if ($count > $this->retry)
       {
-        $this->accessApi($url, $method , $headers, $postvals, $cookies, true);
+        $this->apiResults->setHttpStatusCode($status_code);
+
+        return false;
+      }
+
+      if (!$useHttpHeader)
+      {
+        $this->accessApi($url, $method, $headers, $postvals, $cookies, true);
       }
       else
       {
-        if ($count > 5)
-        {
-          return false;
-        }
-        if (preg_match('/Set-Cookie:(.*?);/', $result, $matches))
+        if (preg_match('/Set-Cookie:(.*?);/i', $result, $matches))
         {
           $cookies = trim(array_pop($matches));
-          sfContext::getInstance()->getUser()->setAttribute('G-Cookie', $cookies);
+          $this->api->setCookies($cookies);
         }
         $count++;
 
-        $this->accessApi($url, $method , $headers, $postvals, $cookies);
+        $this->accessApi($url, $method, $headers, $postvals, $cookies, false);
       }
 
       return;

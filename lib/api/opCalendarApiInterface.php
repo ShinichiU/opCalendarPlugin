@@ -2,7 +2,7 @@
 
 interface opCalendarApiInterface
 {
-  public function getUrl();
+  public function getUrl($force = false);
 
   public function getMethod();
 
@@ -10,5 +10,7 @@ interface opCalendarApiInterface
 
   public function getCookies();
 
-  public function getPostvals();
+  public function getPostvals($force = false);
+
+  public function setCookies($cookie);
 }
