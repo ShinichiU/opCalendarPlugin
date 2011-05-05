@@ -12,6 +12,7 @@ class opGoogleDataApiConsumerKeyForm extends BaseForm
   protected $keys = array(
     'op_calendar_google_data_api_key' => 'Google Data API consumer key',
     'op_calendar_google_data_api_secret' => 'Google Data API consumer secret',
+    'op_calendar_google_data_api_is_active' => 'Google Data API を使用しますか?',
   );
 
   public function getKeys()
@@ -23,9 +24,27 @@ class opGoogleDataApiConsumerKeyForm extends BaseForm
   {
     foreach ($this->keys as $k => $v)
     {
-      $this->setWidget($k, new sfWidgetFormInput());
-      $this->setValidator($k, new opValidatorString(array('required' => false, 'trim' => true)));
-      $this->setDefault($k, opConfig::get($k));
+      if ('op_calendar_google_data_api_is_active' === $k)
+      {
+        $check = array(1 => 'yes');
+        $this->setWidget($k, new sfWidgetFormChoice(array(
+          'choices'  => $check,
+          'multiple' => true,
+          'expanded' => true,
+        )));
+        $this->setValidator($k, new sfValidatorChoice(array(
+          'choices' => array_keys($check),
+          'multiple' => true,
+          'required' => false,
+        )));
+        $this->setDefault($k, opConfig::get($k) ? 1 : 0);
+      }
+      else
+      {
+        $this->setWidget($k, new sfWidgetFormInput());
+        $this->setValidator($k, new opValidatorString(array('required' => false, 'trim' => true)));
+        $this->setDefault($k, opConfig::get($k));
+      }
       $this->widgetSchema->setLabel($k, $v);
     }
     $this->widgetSchema->setNameFormat('google_data_api[%s]');
@@ -35,6 +54,10 @@ class opGoogleDataApiConsumerKeyForm extends BaseForm
   {
     foreach ($this->getValues() as $k => $v)
     {
+      if ('op_calendar_google_data_api_is_active' === $k)
+      {
+        $v = (bool)$v;
+      }
       Doctrine_Core::getTable('SnsConfig')->set($k, $v);
     }
   }

@@ -11,6 +11,7 @@ class calendarApiActions extends sfActions
 {
   public function preExecute()
   {
+    $this->forward404Unless(opConfig::get('op_calendar_google_data_api_is_active', false));
     $this->opGoogleCalendarOAuth = opGoogleCalendarOAuth::getInstance();
   }
 

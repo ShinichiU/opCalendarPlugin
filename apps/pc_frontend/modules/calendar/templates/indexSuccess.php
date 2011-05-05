@@ -4,10 +4,12 @@
 <div class="block topBox">
 <?php if ($isSelf): ?>
 <p class="moreInfo"><?php echo image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '')) ?> <?php echo link_to('予定を追加する', '@schedule_new') ?>
+<?php if (opConfig::get('op_calendar_google_data_api_is_active', false)): ?>
 <?php if (opGoogleCalendarOAuth::getInstance()->isNeedRedirection()): ?>
 &nbsp;<?php echo link_to('Google カレンダーの認可設定を有効にする', '@calendar_api') ?>
 <?php else: ?>
 &nbsp;<?php echo link_to('Google カレンダーの予定を追加する', '@calendar_api_import') ?>
+<?php endif ?>
 <?php endif ?>
 </p>
 <?php endif; ?>
