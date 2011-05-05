@@ -1,16 +1,20 @@
 <div class="dparts monthlyCalendarTable"><div class="parts">
 <div class="partsHeading"><h3><?php echo $isSelf ? '' : sprintf('%sさんの', $member->name) ?><?php echo sprintf('%04d年%02d月', $ym['year_disp'], $ym['month_disp']) ?>のカレンダー</h3></div>
 
+<?php if ($isSelf && opConfig::get('op_calendar_google_data_api_is_active', false)): ?>
 <div class="block topBox">
-<?php if ($isSelf): ?>
-<p class="moreInfo"><?php echo image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '')) ?> <?php echo link_to('予定を追加する', '@schedule_new') ?>
-<?php if (opConfig::get('op_calendar_google_data_api_is_active', false)): ?>
+<p class="note_schedule">
 <?php if (opGoogleCalendarOAuth::getInstance()->isNeedRedirection()): ?>
 &nbsp;<?php echo link_to('Google カレンダーの認可設定を有効にする', '@calendar_api') ?>
 <?php else: ?>
 &nbsp;<?php echo link_to('Google カレンダーの予定を追加する', '@calendar_api_import') ?>
 <?php endif ?>
+</p>
+</div>
 <?php endif ?>
+<div class="block topBox">
+<?php if ($isSelf): ?>
+<p class="moreInfo"><?php echo image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '')) ?> <?php echo link_to('予定を追加する', '@schedule_new') ?>
 </p>
 <?php endif; ?>
 <p class="pager"><?php echo link_to('&lt;&lt; 前の月', sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_prev'], $ym['month_prev']), array('class' => 'prev')) ?>
