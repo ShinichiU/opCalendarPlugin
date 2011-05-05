@@ -51,8 +51,6 @@ class PluginScheduleTable extends Doctrine_Table
     $scheduleMemberTable = Doctrine_Core::getTable('ScheduleMember');
     $conn = $this->getConnection();
     $conn->beginTransaction();
-    $tx = $conn->transaction;
-    $tx->setIsolation('SERIALIZABLE');
 
     try
     {
@@ -64,6 +62,7 @@ class PluginScheduleTable extends Doctrine_Table
         $id = $schedule['id'];
         if ($list['api_etag'] === $schedule['api_etag'])
         {
+          $conn->rollback();
           return $id;
         }
 
