@@ -51,6 +51,9 @@ class PluginScheduleTable extends Doctrine_Table
     $scheduleMemberTable = Doctrine_Core::getTable('ScheduleMember');
     $conn = $this->getConnection();
     $conn->beginTransaction();
+    $tx = $conn->transaction;
+    $tx->setIsolation('SERIALIZABLE');
+
     try
     {
       $sql = 'SELECT id, api_etag FROM '.$this->getTableName()
@@ -73,16 +76,16 @@ class PluginScheduleTable extends Doctrine_Table
       $scheduleMembers = array_unique($list['ScheduleMember']);
       unset($list['ScheduleMember']);
 
-      if ($id)
+      if (!isset($id))
       {
-        if (!opCalendarPluginToolkit::update($this->getTableName(), $list, array('id' => (int)$id), $conn))
+        if (!$id = opCalendarPluginToolkit::insertInto($this->getTableName(), $list, $conn))
         {
           throw new Exception('schedule commit error.');
         }
       }
       else
       {
-        if (!$id = opCalendarPluginToolkit::insertInto($this->getTableName(), $list, $conn))
+        if (!opCalendarPluginToolkit::update($this->getTableName(), $list, array('id' => (int)$id), $conn))
         {
           throw new Exception('schedule commit error.');
         }
