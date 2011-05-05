@@ -20,10 +20,10 @@
   <active>yes</active>
  </lead>
  <date>2011-05-05</date>
- <time>12:25:19</time>
+ <time>21:21:08</time>
  <version>
-  <release>0.9.3</release>
-  <api>0.9.3</api>
+  <release>0.9.3.1</release>
+  <api>0.9.3.1</api>
  </version>
  <stability>
   <release>beta</release>
@@ -31,7 +31,7 @@
  </stability>
  <license>Apache</license>
  <notes>
-#2017 add Google Calendar API enhancement.
+fixed bug. #2054
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -70,9 +70,9 @@
    <file baseinstalldir="/" md5sum="fa9c2083a7b57ccfc303b1d44de69462" name="config/member_config.yml" role="data" />
    <file baseinstalldir="/" md5sum="5752bb66b9d3d8cb35f1b5324d560a01" name="config/opCalendarPluginConfiguration.class.php" role="data" />
    <file baseinstalldir="/" md5sum="fe5e7d7e6d8ab0b77785d99faf2269f0" name="config/profile_gadget.yml" role="data" />
-   <file baseinstalldir="/" md5sum="cae6afa45cb4578eba9464c4b5bc64b5" name="config/doctrine/schema.yml" role="data" />
+   <file baseinstalldir="/" md5sum="562552321bdd8d627663481d11227641" name="config/doctrine/schema.yml" role="data" />
    <file baseinstalldir="/" md5sum="2b03bcd34adf9677103cbae007639c97" name="data/TODO" role="data" />
-   <file baseinstalldir="/" md5sum="9fc76540a41d167c4830a00eb77dfa72" name="data/fixtures/000_revision.yml" role="data" />
+   <file baseinstalldir="/" md5sum="68b0615a8c23545561dc131a03f2eab1" name="data/fixtures/000_revision.yml" role="data" />
    <file baseinstalldir="/" md5sum="9ef7cb67ef1ea8957c6925f37878bd7d" name="data/fixtures/001_import_backend_navi_menu.yml" role="data" />
    <file baseinstalldir="/" md5sum="5808b0c328a9c964f6237f2b92187133" name="data/fixtures/002_gadget.yml" role="data" />
    <file baseinstalldir="/" md5sum="fd00cd144ccc788d91b780618f085291" name="data/migrations/v0.9.1/002_add_year_column.php" role="data" />
@@ -83,6 +83,7 @@
    <file baseinstalldir="/" md5sum="90daf881e9c18eae88e7d62f8d2b565f" name="data/migrations/v0.9.2/006_add_schedule_resource_table.php" role="data" />
    <file baseinstalldir="/" md5sum="b0b5085c7fdc04e25896c805d6bc95ed" name="data/migrations/v0.9.2/007_add_schedule_resource_lock_table.php" role="data" />
    <file baseinstalldir="/" md5sum="5a7dbfd9cedd261fc7e9e97f03ab7eb6" name="data/migrations/v0.9.3/008_add_api_columns.php" role="data" />
+   <file baseinstalldir="/" md5sum="6649f7e5edf9f734d6589f57ab1104a2" name="data/migrations/v0.9.3.1/009_alter_api_id_unique_columns.php" role="data" />
    <file baseinstalldir="/" md5sum="8ea9e603b909e123466e5d51fddb8cfd" name="data/migrations/v1/001_dummy.php" role="data" />
    <file baseinstalldir="/" md5sum="7716e749b673da8c791da4269cdce932" name="data/migrations/v1/fixtures/001_gadget_and_navi.yml" role="data" />
    <file baseinstalldir="/" md5sum="c51b79dfaa879b8f54c0e84ede9add2c" name="lib/api/opCalendarApi.class.php" role="data" />
@@ -223,6 +224,21 @@ fixed 2 bugs, and add 1 enhancement.
    <license>Apache</license>
    <notes>
 #2017 add Google Calendar API enhancement.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.3.1</release>
+    <api>0.9.3.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2011-05-05</date>
+   <license>Apache</license>
+   <notes>
+fixed bug. #2054
    </notes>
   </release>
  </changelog>
