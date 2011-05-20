@@ -41,13 +41,13 @@ class calendarApiActions extends sfActions
     $request_token = $user->getAttribute('opGoogleCalendarOAuthTokens');
     if (!$request_token)
     {
-      $user->setFlash('error', '処理に失敗しました。もう一度やり直してください');
+      $user->setFlash('error', 'Error occured. Please retry.');
       $this->redirect('@homepage');
     }
     $access_token = $this->opGoogleCalendarOAuth
       ->getAccessToken($request->getParameter('oauth_verifier'), $request_token['oauth_token'], $request_token['oauth_token_secret']);
     $this->opGoogleCalendarOAuth->saveAccessToken($user->getMember(), $access_token['oauth_token'], $access_token['oauth_token_secret']);
-    $user->setFlash('notice', 'Google Calendar API が利用出来るようになりました。');
+    $user->setFlash('notice', 'Google Calendar API is now available.');
     $user->getAttributeHolder()->remove('opGoogleCalendarOAuthTokens');
     $this->redirect('@calendar_api_import');
   }
@@ -80,7 +80,7 @@ class calendarApiActions extends sfActions
         $r = $this->form->save();
 
         $params = $request->getParameter($this->form->getName());
-        $this->getUser()->setFlash('notice', $r ? 'カレンダーの読み込みに成功しました' : 'カレンダーの読み込みに一部失敗しました');
+        $this->getUser()->setFlash('notice', $r ? 'Success to fetch the Calendar.' : 'Fail to fetch some part of the Calendar.');
         $this->redirect(sprintf('@calendar_year_month?year=%04d&month=%02d', date('Y'), $params['months']));
       }
     }

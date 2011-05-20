@@ -38,6 +38,7 @@ class calendarComponents extends sfComponents
       'en' => array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'),
       'ja_JP' => array('月', '火', '水', '木', '金', '土', '日'),
     );
+
     $calendar = array();
     $i = 0;
     while ($Day = $Week->fetch())

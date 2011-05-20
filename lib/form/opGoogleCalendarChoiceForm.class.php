@@ -23,7 +23,7 @@ class opGoogleCalendarChoiceForm extends BaseForm
     $months = array();
     for ($i = 1; $i <= 12; $i++)
     {
-      $months[$i] = sprintf('%d月', $i);
+      $months[$i] = sprintf('%02d', $i);
     }
     $this->setWidget('choice', new sfWidgetFormChoice(array(
       'choices'  => $formList,
@@ -36,7 +36,7 @@ class opGoogleCalendarChoiceForm extends BaseForm
     $this->setWidget('months', new sfWidgetFormSelect(array(
       'choices'  => $months,
     )));
-    $save_email_check = array(1 => 'Googleカレンダーで使っているemailをSNSに保存する');
+    $save_email_check = array(1 => 'Save the email on Google Calendar to SNS');
     $this->setWidget('is_save_email', new sfWidgetFormChoice(array(
       'choices'  => $save_email_check,
       'multiple' => true,
@@ -59,8 +59,8 @@ class opGoogleCalendarChoiceForm extends BaseForm
       'choices' => array_keys($months),
     ));
     $this->widgetSchema->setLabel('choice', 'Google Calendars');
-    $this->widgetSchema->setLabel('months', '読み込む月');
-    $this->widgetSchema->setLabel('is_save_email', 'Google Calendar のemailの保存');
+    $this->widgetSchema->setLabel('months', 'Month to be fetched');
+    $this->widgetSchema->setLabel('is_save_email', 'Save email of Google Calendar');
     $this->widgetSchema->setNameFormat('google_calendars[%s]');
 
     if (opCalendarPluginToolkit::seekEmailAndGetMemberId($authorEmail))

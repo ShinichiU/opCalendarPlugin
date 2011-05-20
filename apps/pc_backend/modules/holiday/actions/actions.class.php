@@ -50,11 +50,11 @@ class holidayActions extends sfActions
 
     if ($this->processForm($params, $form))
     {
-      $this->getUser()->setFlash('notice', '祝日を追加しました');
+      $this->getUser()->setFlash('notice', 'Holiday has added');
     }
     else
     {
-      $this->getUser()->setFlash('error', '入力した値に問題があります');
+      $this->getUser()->setFlash('error', 'The input has some problem');
     }
 
     $this->redirect('@holiday');
@@ -73,11 +73,11 @@ class holidayActions extends sfActions
 
     if ($this->processForm($params, $form))
     {
-      $this->getUser()->setFlash('notice', '祝日を修正しました');
+      $this->getUser()->setFlash('notice', 'Holiday has fixed');
     }
     else
     {
-      $this->getUser()->setFlash('error', '入力した値に問題があります');
+      $this->getUser()->setFlash('error', 'The input has some problem');
     }
 
     $this->redirect('@holiday');
@@ -92,7 +92,7 @@ class holidayActions extends sfActions
   {
     $request->checkCSRFProtection();
     $this->holiday->delete();
-    $this->getUser()->setFlash('notice', '祝日を削除しました');
+    $this->getUser()->setFlash('notice', 'Holiday has deleted');
 
     $this->redirect('@holiday');
   }
