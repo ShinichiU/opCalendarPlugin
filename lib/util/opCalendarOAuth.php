@@ -137,7 +137,7 @@ class opGoogleCalendarOAuth
     $api = new opCalendarApi(
       $this->consumer,
       new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']),
-      opCalendarApiHandler::GET,
+      $method,
       self::SCOPE.$uri,
       $params
     );
