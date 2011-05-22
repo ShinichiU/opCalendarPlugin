@@ -95,7 +95,7 @@ class opCalendarApiHandler
 
       if (!$useHttpHeader)
       {
-        $this->accessApi($url, $method, $headers, $postvals, $cookies, true);
+        $this->accessApi($url, $method, $headers, $cookies, $postvals, true);
       }
       else
       {
@@ -106,7 +106,7 @@ class opCalendarApiHandler
         }
         $count++;
 
-        $this->accessApi($url, $method, $headers, $postvals, $cookies, false);
+        $this->accessApi($url, $method, $headers, $cookies, $postvals, false);
       }
 
       return;
