@@ -6,6 +6,250 @@
         <source>Participants only scheduled public</source>
         <target>スケジュール参加者のみに公開</target>
       </trans-unit>
+      <trans-unit id="">
+        <source>Sun</source>
+        <target>日</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Mon</source>
+        <target>月</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Tue</source>
+        <target>火</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Wed</source>
+        <target>水</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Thu</source>
+        <target>木</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Fri</source>
+        <target>金</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Sat</source>
+        <target>土</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>[0]%ym%|[1]%ym% of %f%</source>
+        <target>[0]%ym%のカレンダー|[1]%f%さんの%ym%のカレンダー</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Monthly Calendar</source>
+        <target>月別カレンダー</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Weekly Calendar</source>
+        <target>週間カレンダー</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Schedule</source>
+        <target>予定</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Next month</source>
+        <target>次の月</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>This month</source>
+        <target>今月</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Prev month</source>
+        <target>前の月</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Next week</source>
+        <target>来週</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>This week</source>
+        <target>今週</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Prev week</source>
+        <target>先週</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Title</source>
+        <target>タイトル</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Start</source>
+        <target>開始日時</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>End</source>
+        <target>終了日時</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Public flag</source>
+        <target>公開範囲</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Detail</source>
+        <target>詳細</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Add</source>
+        <target>追加</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Delete</source>
+        <target>削除</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Edit</source>
+        <target>編集</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Cancel </source>
+        <target>キャンセル</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Add schedule</source>
+        <target>予定を追加する</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Edit schedule</source>
+        <target>予定を編集する</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Delete schedule</source>
+        <target>予定を削除する</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>The schedule has added</source>
+        <target>予定を追加しました</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>The schedule has updated</source>
+        <target>予定を更新しました</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>The schedule has deleted</source>
+        <target>予定を削除しました</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>%Year%</source>
+        <target>予定を削除しました</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Enable to Google Calendar's permission settings</source>
+        <target>Google カレンダーの認可設定を有効にする</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Add schedule to Google Calendar</source>
+        <target>Google カレンダーの予定を追加する</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>You can add schedule to click %img%.</source>
+        <target>%img%をクリックすると予定を追加することができます。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>%img1% stands for %f%'s birthday, %img2% stands for event and %img3% stands for joined event.</source>
+        <target>%img1%は%f%の誕生日、%img2%はイベント、%img3%は参加イベントを意味します。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>%1% is required field.</source>
+        <target>%1%は必須項目です。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Public flag</source>
+        <target>公開範囲</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Schedule author</source>
+        <target>参加メンバー</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Schedule member</source>
+        <target>参加メンバー</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Schedule resource lock%1%</source>
+        <target>スケジュールリソース%1%</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>The input has some problem</source>
+        <target>入力した値に問題があります</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Are you sure to delete this schedule?</source>
+        <target>この予定を削除してよろしいですか？</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Schedules fetched from Google are saved and updated in this SNS.</source>
+        <target>Googleから取得したスケジュールをSNSにも保存、更新します。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>If the public flag was set to [All Members], those schedules are public to SNS members.</source>
+        <target>[全員に公開]に設定した場合は、Googleカレンダーの公開範囲に関わらず、SNSのメンバー全員に公開されます。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>If the public flag was set to [Participants only scheduled public], those schedules can see the members that have the mail address related to Google Calendar and invited to schedules on Google Calendar. Thus, the all SNS member cannot those schedules.</source>
+        <target>[スケジュール参加者のみに公開]に設定した場合、Googleカレンダーの招待先のメールアドレスがSNSに登録されていない場合、関連付けがされませんのですべてのスケジュール参加者に表示されるものではありません。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Then, the schedules you create are the only target of convert.</source>
+        <target>自分が作成したスケジュールのみスケジュールコンバート対象となります。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>If [Save email on Google Calendar] is marked, the schedules on Google calendar can relate even if the email on SNS is defferent to the email on Google Calendar.</source>
+        <target>[Google Calendar のemailの保存]をすることで、Googleカレンダーで使っているemailとSNSで使っているemailが違う場合でも他のメンバーの作成したスケジュールの参加者として紐付けが可能になります。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>[Save email on Google Calendar] is to be unmark if the email on Google Calendar didn't want to save in SNS.</source>
+        <target>SNS側にGoogleカレンダーのemailを保存したくない場合は[Google Calendar のemailの保存]のチェックボックスをオフにしてください。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Select to fetch Google Calendar</source>
+        <target>読み込むGoogleカレンダーを選択</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Save the email on Google Calendar to SNS</source>
+        <target>Googleカレンダーで使っているemailをSNSに保存する</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Month to be fetched</source>
+        <target>読み込む月</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Save email of Google Calendar</source>
+        <target>Google Calendarのemailの保存</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Schedule Configuration</source>
+        <target>スケジュール設定</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>First day of the week</source>
+        <target>週開始日</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Default public flag for your new schedules. Past schedules are not changed.</source>
+        <target>新規スケジュールの公開範囲の初期値です。過去のスケジュールには反映されません。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Error occured. Please retry.</source>
+        <target>処理に失敗しました。もう一度やり直してください。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Google Calendar API is now available.</source>
+        <target>Google Calendar API が利用出来るようになりました。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Success to fetch the Calendar.</source>
+        <target>カレンダーの読み込みに成功しました。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Fail to fetch some part of the Calendar.</source>
+        <target>カレンダーの読み込みに一部失敗しました。</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<xliff version="1.0">
+  <file orginal="global" source-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="">
+        <source>Holiday settings</source>
+        <target>祝日設定</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Holiday has added</source>
+        <target>祝日を追加しました</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>The input has some problem</source>
+        <target>入力した値に問題があります</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Holiday has fixed</source>
+        <target>祝日を修正しました</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Holiday has deleted</source>
+        <target>祝日を削除しました</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Please set holiday name and the day.</source>
+        <target>祝日名称と祝日を設定してください。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>It would make holiday repeat every year if the year was empty.</source>
+        <target>年を未入力にした場合、毎年表示される祝日となります。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Holiday name</source>
+        <target>祝日名称</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Holiday</source>
+        <target>祝日</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Operation</source>
+        <target>操作</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Update</source>
+        <target>更新</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Delete</source>
+        <target>削除</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Year</source>
+        <target>年</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Add item</source>
+        <target>項目追加</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

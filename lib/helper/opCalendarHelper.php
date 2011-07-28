@@ -32,3 +32,52 @@ function get_auther_name($schedule_resource, $link_profile_page = false)
 
   return '';
 }
+
+function op_calendar_format_date($date, $format = 'd', $culture = null, $charset = null)
+{
+  if (!$culture)
+  {
+    $culture = sfContext::getInstance()->getUser()->getCulture();
+  }
+
+  switch ($format)
+  {
+  case 'XTime':
+    switch ($culture)
+    {
+    case 'ja_JP':
+      $tmpformat = 'HH時mm分';
+      break;
+    default:
+      $tmpformat = 'HH:mm';
+      break;
+    }
+    break;
+  case 'XDate':
+    switch ($culture)
+    {
+    case 'ja_JP':
+      $tmpformat = 'yyyy年MM月dd日';
+      break;
+    default:
+      $tmpformat = 'd';
+      break;
+    }
+    break;
+  }
+
+  $result = op_format_date($date, $tmpformat, $calture, $charset);
+  if (!$result && $format === 'XTime')
+  {
+    switch ($culture)
+    {
+    case 'ja_JP':
+      $result = '--時--分';
+      break;
+    default:
+      $result = '--:--';
+      break;
+    }
+  }
+  return $result;
+}

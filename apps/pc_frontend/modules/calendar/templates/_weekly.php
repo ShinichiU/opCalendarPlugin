@@ -1,20 +1,20 @@
 <?php use_stylesheet('/opCalendarPlugin/css/main') ?>
 <div class="dparts weeklyCalendarTable" id="homeCalendarList_<?php echo $gadget->id ?>"><div class="parts">
-<div class="partsHeading"><h3>週間カレンダー</h3></div>
+<div class="partsHeading"><h3><?php echo __('Weekly Calendar') ?></h3></div>
 
 <?php if ($isSelf): ?>
 <div class="block formBox">
 <?php echo $form->renderFormTag(url_for('@schedule_create_mini')), "\n" ?>
 <?php echo $form->renderHiddenFields(), "\n" ?>
-<label for="weekly_schedule_title">予定</label>
+<label for="weekly_schedule_title"><?php echo __('Schedule') ?></label>
 <?php echo $form['title']->render(array('class' => 'input_text')), "\n" ?>
 <?php echo $form['start_date']->render(), "\n" ?>
 <input type="hidden" value="<?php echo $w ?>" name="calendar_weekparam" />
-<input type="submit" value="　追　加　" class="input_submit" />
+<input type="submit" value="<?php echo __('Add') ?>" class="input_submit" />
 <span class="pager">
- <?php echo link_to('&lt;&lt;', '@homepage?calendar_weekparam='.$pw, array('class' => 'prev', 'title' => '前の週')), "\n" ?>
- <?php echo link_to('■', '@homepage', array('class' => 'curr', 'title' => '今週'), "\n") ?>
- <?php echo link_to('&gt;&gt;', '@homepage?calendar_weekparam='.$nw , array('class' => 'next', 'title' => '次の週')), "\n" ?>
+ <?php echo link_to('&lt;&lt;', '@homepage?calendar_weekparam='.$pw, array('class' => 'prev', 'title' => __('Prev week'))), "\n" ?>
+ <?php echo link_to('■', '@homepage', array('class' => 'curr', 'title' => __('This week')), "\n") ?>
+ <?php echo link_to('&gt;&gt;', '@homepage?calendar_weekparam='.$nw , array('class' => 'next', 'title' => __('Next week'))), "\n" ?>
 </span>
 </form>
 </div>
@@ -70,7 +70,7 @@ else
 
 <div class="block moreInfo">
 <ul class="moreInfo">
-<li><?php echo link_to('月別カレンダー', 'calendar_member_obj', $member) ?></li>
+<li><?php echo link_to(__('Monthly Calendar'), 'calendar_member_obj', $member) ?></li>
 </ul>
 </div>
 </div></div>

@@ -67,7 +67,7 @@ class scheduleActions extends sfActions
     $this->schedule = $this->getRoute()->getObject();
     $this->forward404Unless($this->schedule->isEditable($this->getUser()->getMemberId()));
     $this->schedule->delete();
-    $this->getUser()->setFlash('notice', '予定を削除しました。');
+    $this->getUser()->setFlash('notice', 'The schedule has deleted');
     $this->redirect('@calendar');
   }
 
@@ -89,11 +89,11 @@ class scheduleActions extends sfActions
     if ($form->isValid())
     {
       $form->save();
-      $this->getUser()->setFlash('notice', '予定を追加しました');
+      $this->getUser()->setFlash('notice', 'The schedule has added');
     }
     else
     {
-      $this->getUser()->setFlash('error', '入力した値に問題があります');
+      $this->getUser()->setFlash('error', 'The input has some problem');
     }
 
     $this->redirect('@homepage'.$paramstring);
@@ -109,7 +109,7 @@ class scheduleActions extends sfActions
     if ($form->isValid())
     {
       $schedule = $form->save();
-      $this->getUser()->setFlash('notice', $form->isNew() ? '予定を追加しました' : '予定を更新しました');
+      $this->getUser()->setFlash('notice', $form->isNew() ? 'The schedule has added' : 'The schedule has updated');
       $results = explode('-', $schedule->start_date);
       $this->redirect(sprintf('@calendar_year_month?year=%d&month=%d', $results[0], $results[1]));
     }
