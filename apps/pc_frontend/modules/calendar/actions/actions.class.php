@@ -68,14 +68,7 @@ class calendarActions extends sfActions
         $col = 0;
       }
 
-      $dayofweek = array(
-        'en' => array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'),
-        'ja_JP' => array('月', '火', '水', '木', '金', '土', '日'),
-      );
-      $item = array(
-        'dayofweek_en' => $dayofweek['en'][$col],
-        'dayofweek_ja' => $dayofweek['ja_JP'][$col],
-      );
+      $item = array();
 
       if ($Day->isEmpty())
       {
