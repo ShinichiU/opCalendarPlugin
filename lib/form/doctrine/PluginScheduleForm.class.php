@@ -17,24 +17,34 @@ abstract class PluginScheduleForm extends BaseScheduleForm
     parent::setup();
 
     $this->generateDateTime();
-    $members = opCalendarPluginExtension::getAllowedFriendMember(sfContext::getInstance()->getUser()->getMember());
+    $user = sfContext::getInstance()->getUser();
+    $members = opCalendarPluginExtension::getAllowedFriendMember($user->getMember());
 
     $this->setWidget('title', new sfWidgetFormInput());
 
-    $dateObj = new sfWidgetFormI18nDate(array(
-      'format' => '%year%年%month%月%day%日',
-      'culture' => 'ja_JP',
+    $cul = $user->getCulture();
+    $dateItems = array(
+      'culture' => $cul,
       'month_format' => 'number',
       'years' => $this->dateTime['years'],
-    ));
+    );
+    if ('ja_JP' === $cul)
+    {
+      $dateItems['format'] = '%year%年%month%月%day%日';
+    }
+    $dateObj = new sfWidgetFormI18nDate($dateItems);
     $this->setWidget('start_date', $dateObj);
     $this->setWidget('end_date', $dateObj);
 
-    $timeObj = new sfWidgetFormTime(array(
-      'with_seconds' => true,
-      'format' => '%hour%時%minute%分',
+    $timeItems = array(
+      'with_seconds' => false,
       'minutes' => $this->dateTime['minutes'],
-    ));
+    );
+    if ('ja_JP' === $cul)
+    {
+      $timeItems['format'] = '%hour%時%minute%分';
+    }
+    $timeObj = new sfWidgetFormTime($timeItems);
     $this->setWidget('start_time', $timeObj);
     $this->setWidget('end_time', $timeObj);
     $this->setWidget('public_flag', new sfWidgetFormChoice(array(
@@ -57,15 +67,15 @@ abstract class PluginScheduleForm extends BaseScheduleForm
     ));
     $this->mergePostValidator(new sfValidatorCallback(
       array('callback' => array($this, 'validateEndDate')),
-      array('invalid' => '終了日時は開始日時より前に設定できません')
+      array('invalid' => 'You can not set the end date before start date')
     ));
     $this->mergePostValidator(new sfValidatorCallback(
       array('callback' => array($this, 'validateResourceLock')),
-      array('invalid' => 'スケジュールリソースに空きがありません')
+      array('invalid' => 'There is not the resource that you can use')
     ));
     $this->mergePostValidator(new sfValidatorCallback(
       array('callback' => array($this, 'validateClosedSchedule')),
-      array('invalid' => '非公開のスケジュールでスケジュールリソースは使えません')
+      array('invalid' => 'A closed schedule cannot set a resource')
     ));
 
     $this->useFields(array('title', 'start_date', 'start_time', 'end_date', 'end_time', 'body', 'public_flag', 'schedule_member'));

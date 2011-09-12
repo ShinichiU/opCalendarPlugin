@@ -250,6 +250,18 @@
         <source>Fail to fetch some part of the Calendar.</source>
         <target>カレンダーの読み込みに一部失敗しました。</target>
       </trans-unit>
+      <trans-unit id="">
+        <source>You can not set the end date before start date</source>
+        <target>終了日時は開始日時より前に設定できません</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>There is not the resource that you can use</source>
+        <target>スケジュールリソースに空きがありません</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>A closed schedule cannot set a resource</source>
+        <target>非公開のスケジュールでスケジュールリソースは使えません</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
