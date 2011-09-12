@@ -74,7 +74,7 @@ class opCalendarApiHandler
     curl_setopt($ch, CURLOPT_VERBOSE, true);
     curl_setopt($ch, CURLOPT_HEADER, (bool)$useHttpHeader);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
     if ($cookies)
     {
       curl_setopt($ch, CURLOPT_COOKIE, $cookies);
