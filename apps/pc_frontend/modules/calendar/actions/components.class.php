@@ -30,6 +30,9 @@ class calendarComponents extends sfComponents
 
   private function getCalendar($w = 0)
   {
+    $old_error_level = error_reporting();
+    error_reporting($old_error_level & ~(E_STRICT | E_DEPRECATED));
+
     include_once 'Calendar/Week.php';
     $time = strtotime($w . ' week');
 
@@ -62,6 +65,8 @@ class calendarComponents extends sfComponents
 
       $calendar[$i++] = $item;
     }
+    error_reporting($old_error_level);
+
     return $calendar;
   }
 }

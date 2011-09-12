@@ -43,6 +43,9 @@ class calendarActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+    $old_error_level = error_reporting();
+    error_reporting($old_error_level & ~(E_STRICT | E_DEPRECATED));
+
     include_once 'Calendar/Month/Weekdays.php';
     $this->year = (int)$request->getParameter('year', date('Y'));
     $this->month = (int)$request->getParameter('month', date('n'));
@@ -108,6 +111,6 @@ class calendarActions extends sfActions
       'year_next'  => date('Y', $Month->nextMonth(true)),
       'month_next' => date('n', $Month->nextMonth(true)),
     );
-
+    error_reporting($old_error_level);
   }
 }
