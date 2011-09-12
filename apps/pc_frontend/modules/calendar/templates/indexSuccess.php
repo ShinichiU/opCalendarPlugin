@@ -1,7 +1,7 @@
 <div class="dparts monthlyCalendarTable"><div class="parts">
-<div class="partsHeading"><h3><?php echo format_number_choice('[0]%ym%|[1]%ym% of %f%', array('%ym%' => op_format_date(mktime(0, 0, 0, $ym['month_disp'], 1, $ym['year_disp']), 'XCalendarMonth'), '%f%' => $member->name), $isSelf ? 0 : 1) ?></h3></div>
+<div class="partsHeading"><h3><?php $is_community ? printf('[%s] ', $community->name) : '' ?><?php echo format_number_choice('[0]%ym%|[1]%ym% of %f%', array('%ym%' => op_format_date(mktime(0, 0, 0, $ym['month_disp'], 1, $ym['year_disp']), 'XCalendarMonth'), '%f%' => $member->name), $is_community ? 1 : $isSelf ? 0 : 1) ?></h3></div>
 
-<?php if ($isSelf && opConfig::get('op_calendar_google_data_api_is_active', false)): ?>
+<?php if (!$is_community && $isSelf && opConfig::get('op_calendar_google_data_api_is_active', false)): ?>
 <div class="block topBox">
 <p class="note_schedule">
 <?php if (opGoogleCalendarOAuth::getInstance()->isNeedRedirection()): ?>
@@ -13,32 +13,32 @@
 </div>
 <?php endif ?>
 <div class="block topBox">
-<?php if ($isSelf): ?>
+<?php if (!$is_community && $isSelf): ?>
 <p class="moreInfo"><?php echo image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => '')) ?> <?php echo link_to(__('Add schedule'), '@schedule_new') ?>
 </p>
 <?php endif; ?>
-<p class="pager"><?php echo link_to('&lt;&lt; '.__('Prev month'), sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_prev'], $ym['month_prev']), array('class' => 'prev')) ?>
- | <?php echo link_to(__('This month'), '@calendar_member_obj?id='.$member->id, array('class' => 'curr')) ?>
- | <?php echo link_to(__('Next month').' &gt;&gt;', sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_next'], $ym['month_next']), array('class' => 'next')) ?></p>
+<?php slot('calendar_pager') ?>
+<?php
+$obj_route = $is_community ? '@calendar_community_obj' : '@calendar_member_obj';
+$obj_route_year_month = $is_community ? '@calendar_year_month_community_obj' : '@calendar_year_month_member_obj';
+$link_to_id = $is_community ? $community->id : $member->id;
+?>
+<p class="pager"><?php echo link_to('&lt;&lt; '.__('Prev month'), sprintf('%s?id=%d&year=%d&month=%d', $obj_route_year_month, $link_to_id, $ym['year_prev'], $ym['month_prev']), array('class' => 'prev')) ?>
+ | <?php echo link_to(__('This month'), sprintf('%s?id=%d', $obj_route, $link_to_id), array('class' => 'curr')) ?>
+ | <?php echo link_to(__('Next month').' &gt;&gt;', sprintf('%s?id=%d&year=%d&month=%d', $obj_route_year_month, $link_to_id, $ym['year_next'], $ym['month_next']), array('class' => 'next')) ?></p>
+<?php end_slot() ?>
+<?php include_slot('calendar_pager') ?>
 </div>
 
 <table class="calendar">
-<colgroup class="mon"></colgroup>
-<colgroup class="tue"></colgroup>
-<colgroup class="wed"></colgroup>
-<colgroup class="thu"></colgroup>
-<colgroup class="fri"></colgroup>
-<colgroup class="sat"></colgroup>
-<colgroup class="sun"></colgroup>
+<?php for ($i = 0; $i < 7; $i++): ?>
+<colgroup class="<?php echo $dayofweek['class'][$i] ?>"></colgroup>
+<?php endfor ?>
 <thead>
 <tr>
-<th class="mon"><?php echo __('Mon') ?></th>
-<th class="tue"><?php echo __('Tue') ?></th>
-<th class="wed"><?php echo __('Wed') ?></th>
-<th class="thu"><?php echo __('Thu') ?></th>
-<th class="fri"><?php echo __('Fri') ?></th>
-<th class="sat"><?php echo __('Sat') ?></th>
-<th class="sun"><?php echo __('Sun') ?></th>
+<?php for ($i = 0; $i < 7; $i++): ?>
+<th class="<?php echo $dayofweek['class'][$i] ?>"><?php echo __($dayofweek['item'][$i]) ?></th>
+<?php endfor ?>
 </tr>
 </thead>
 <tbody>
@@ -58,8 +58,8 @@ $cls_today = $item['today'] ? ' today' : '';
 $cls_holiday = count($item['holidays']) ? ' holiday' : '';
 ?>
 <?php echo sprintf('<td class="%s%s%s">', $item['dayofweek_class_name'], $cls_today, $cls_holiday), "\n" ?>
-<p class="day"><span class="date"><?php echo __($item['dayofweek_item_name']) ?></span></p>
-<?php if ($isSelf && $add_schedule): ?>
+<p class="day"><span class="date"><?php echo __($item['day']) ?></span></p>
+<?php if (!$is_community && $isSelf && $add_schedule): ?>
 <p class="new_schedule"><?php echo link_to(image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => __('Add schedule'))), '@schedule_new_for_this_date?year='.$ym['year_disp'].'&month='.$ym['month_disp'].'&day='.$item['day']) ?></p>
 <?php endif ?>
 <?php foreach ($item['holidays'] as $holiday): ?>
@@ -98,12 +98,10 @@ else
 </table>
 
 <div class="block bottomBox">
-<p class="pager"><?php echo link_to('&lt;&lt; '.__('Prev month'), sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_prev'], $ym['month_prev']), array('class' => 'prev')) ?>
- | <?php echo link_to(__('This month'), '@calendar_member_obj?id='.$member->id, array('class' => 'curr')) ?>
- | <?php echo link_to(__('Next month').' &gt;&gt;', sprintf('@calendar_year_month_member_obj?id=%d&year=%d&month=%d', $member->id, $ym['year_next'], $ym['month_next']), array('class' => 'next')) ?></p>
+<?php include_slot('calendar_pager') ?>
 </div>
 
-<?php if ($isSelf): ?>
+<?php if ($is_community || $isSelf): ?>
 <div class="partsInfo">
 <?php if ($add_schedule): ?>
 <p class="note_schedule">※<?php echo __('You can add schedule to click %img%.', array('%img%' => image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => __('Add schedule'))))) ?></p>

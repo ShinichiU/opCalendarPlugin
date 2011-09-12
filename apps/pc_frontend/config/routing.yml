@@ -27,6 +27,24 @@ calendar_year_month_member_obj:
     year: "[12][0-9]{3}"
     month: "(0?[1-9])|(1[0-2])"
 
+calendar_community_obj:
+  url: /community/:id/calendar
+  class: sfDoctrineRoute
+  options: { model: Community, type: object }
+  param: { module: calendar, action: community }
+  requirements:
+    id: \d+
+
+calendar_year_month_community_obj:
+  url: /community/:id/calendar/:year/:month
+  class: sfDoctrineRoute
+  options: { model: Community, type: object }
+  param: { module: calendar, action: community }
+  requirements:
+    id: \d+
+    year: "[12][0-9]{3}"
+    month: "(0?[1-9])|(1[0-2])"
+
 calendar_nodefault:
   url: /calendar/*
   param: { module: default, action: error }

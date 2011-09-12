@@ -107,22 +107,39 @@ class opCalendarPluginExtension
     return self::getMyCommunityEvent($startday, $endday);
   }
 
-  private static function getMyCommunityEvent($startday = null, $endday = null, $targetDay = null, $is_setKeydate = true)
+  public static function getMyCommunityEventByTargetDayInCommunity(Community $community, $year, $month, $day)
+  {
+    return self::getMyCommunityEvent(null, null, sprintf('%04d-%02d-%02d', (int)$year, (int)$month, (int)$day), false, $community);
+  }
+
+  public static function getMyCommunityEventByStartDayToEndDayInCommunity(Community $community, $startday, $endday)
+  {
+    return self::getMyCommunityEvent($startday, $endday, null, true, $community);
+  }
+
+  private static function getMyCommunityEvent($startday = null, $endday = null, $targetDay = null, $is_setKeydate = true, Community $community = null)
   {
     $memberId = self::getMyId();
 
     if (is_null(self::$communityMemberIds))
     {
-      $communityMembers = Doctrine::getTable('CommunityMember')->createQuery()
-        ->select('community_id')
-        ->where('member_id = ?', (int)$memberId)
-        ->andWhere('is_pre = ?', false)
-        ->execute(array(), Doctrine::HYDRATE_NONE);
-
       self::$communityMemberIds = array();
-      foreach ($communityMembers as $communityMember)
+      if (null === $community)
       {
-        self::$communityMemberIds[] = $communityMember[0];
+        $communityMembers = Doctrine::getTable('CommunityMember')->createQuery()
+          ->select('community_id')
+          ->where('member_id = ?', (int)$memberId)
+          ->andWhere('is_pre = ?', false)
+          ->execute(array(), Doctrine::HYDRATE_NONE);
+
+        foreach ($communityMembers as $communityMember)
+        {
+          self::$communityMemberIds[] = $communityMember[0];
+        }
+      }
+      else
+      {
+        self::$communityMemberIds[] = $community->id;
       }
     }
     if (!count(self::$communityMemberIds))

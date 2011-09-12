@@ -6,7 +6,16 @@
 
 /*==============================================================================
  * weeklyCalendarTable
+ * .weeklyCalendarTable => member home calendar
+ * .community_calendar => community home calendar
  *----------------------------------------------------------------------------*/
+td.community_calendar {
+  padding: 5px 0;
+}
+.community_calendar div.block {
+  margin: 2px;
+  padding: 0;
+}
 .weeklyCalendarTable div.formBox {
   margin: 8px 0 6px;
   padding: 0 4px;
@@ -14,55 +23,75 @@
 .weeklyCalendarTable div.formBox input#weekly_schedule_title {
   width: 100px;
 }
+.community_calendar div.block span.pager,
 .weeklyCalendarTable div.formBox span.pager {
   margin-left: 1em;
   white-space: nowrap;
   letter-spacing: 2px;
 }
+.community_calendar div.moreInfo,
 .weeklyCalendarTable div.moreInfo {
   padding: 5px;
   border-width: 0 1px 1px 1px;
   border-style: solid;
   border-color: #ccc;
 }
+.community_calendar div.moreInfo {
+  padding: 0;
+  border-width: 0;
+}
+.community_calendar div.moreInfo ul,
 .weeklyCalendarTable div.moreInfo ul {
   width: 10em;
   margin: 0 2px 0 auto;
 }
+.community_calendar table td,
+.community_calendar table td *,
 .weeklyCalendarTable table td,
 .weeklyCalendarTable table td * {
   letter-spacing: 0;
 }
+.community_calendar table td,
 .weeklyCalendarTable table td {
   padding: 0;
   vertical-align: top;
 }
+.community_calendar table td.today,
 .weeklyCalendarTable table td.today {
   background: #ffc;
 }
+.community_calendar table td.today p.day,
 .weeklyCalendarTable table td.today p.day {
   font-weight: bold;
 }
+.community_calendar table td p,
 .weeklyCalendarTable table td p {
   padding: 2px;
   border-bottom: 1px solid #f9f9f9;
   line-height: 1.2;
 }
+.community_calendar table td p.day,
 .weeklyCalendarTable table td p.day {
   padding: 3px 4px;
 }
+.community_calendar table td p.day span,
 .weeklyCalendarTable table td p.day span {
   display: block;
   white-space: nowrap;
 }
+.community_calendar table td p span.icon,
 .weeklyCalendarTable table td p span.icon {
   white-space: nowrap;
 }
+.community_calendar table td p.event,
+.community_calendar table td p.schedule,
 .weeklyCalendarTable table td p.birthday,
 .weeklyCalendarTable table td p.event,
 .weeklyCalendarTable table td p.schedule {
   padding: 0;
 }
+.community_calendar table td p.event a,
+.community_calendar table td p.schedulea a,
 .weeklyCalendarTable table td p.birthday a,
 .weeklyCalendarTable table td p.event a,
 .weeklyCalendarTable table td p.schedule a {
@@ -70,6 +99,8 @@
   padding: 2px;
   text-decoration: none;
 }
+.community_calendar table td p.event a:hover,
+.community_calendar table td p.schedulea a:hover,
 .weeklyCalendarTable table td p.birthday a:hover,
 .weeklyCalendarTable table td p.event a:hover,
 .weeklyCalendarTable table td p.schedule a:hover {

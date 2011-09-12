@@ -25,6 +25,29 @@ class PluginScheduleTable extends Doctrine_Table
     return $publicFlags;
   }
 
+  // only open to all sns member schedule.
+  public function getScheduleByThisDayAndMemberInCommunity(Community $community, $year, $month, $day)
+  {
+    $day = sprintf('%04d-%02d-%02d', (int)$year, (int)$month, (int)$day);
+    $memberIds = array();
+    foreach ($community->getMembers() as $member)
+    {
+      $memberIds[] = $member->id;
+    }
+    if (!$memberIds)
+    {
+      return array();
+    }
+
+    return $this->createQuery()
+      ->select('id, title')
+      ->where('start_date <= ?', $day)
+      ->andWhere('end_date >= ?', $day)
+      ->andWhere('public_flag = ?', PluginScheduleTable::PUBLIC_FLAG_SNS)
+      ->andWhere('member_id IN ('.implode(', ', $memberIds).')')
+      ->execute();
+  }
+
   public function getScheduleByThisDayAndMember($year, $month, $day, Member $member)
   {
     $day = sprintf('%04d-%02d-%02d', (int)$year, (int)$month, (int)$day);

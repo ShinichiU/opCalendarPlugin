@@ -1,0 +1,14 @@
+general:
+  calendar_show_flag:
+    Name:       "calendar_show_flag"
+    Caption:    "Calendar Show Flag"
+    FormType:   "radio"
+    ValueType:  "string"
+    IsUnique:   false
+    IsRequired: true
+    Default:    "none"
+    Choices:
+      all:                      "All Community Member's opened Schedule and Community Event"
+      only_member_schedule:     "Only Member's opend Schedule"
+      only_community_event:     "Only Community Event"
+      none:                     "Invalidate a calendar"

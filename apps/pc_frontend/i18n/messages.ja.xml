@@ -262,6 +262,22 @@
         <source>A closed schedule cannot set a resource</source>
         <target>非公開のスケジュールでスケジュールリソースは使えません</target>
       </trans-unit>
+      <trans-unit id="">
+        <source>All Community Member's opened Schedule and Community Event</source>
+        <target>全メンバーのスケジュールとコミュニティイベントをカレンダーに表示</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Only Member's opend Schedule</source>
+        <target>メンバーのスケジュールのみをカレンダーに表示</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Only Community Event</source>
+        <target>コミュニティイベントのみカレンダーに表示</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Invalidate a calendar</source>
+        <target>カレンダーは使わない</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -28,7 +28,38 @@ class calendarComponents extends sfComponents
     $this->form = new MiniScheduleForm(array(), array('calendar' => $this->calendar));
   }
 
-  private function getCalendar($w = 0)
+  public function executeCommunityCalendar(sfWebRequest $request)
+  {
+    if (!$request->hasParameter('id'))
+    {
+      return sfView::NONE;
+    }
+    $this->community = Doctrine_Core::getTable('Community')->find($id = (int)$request->getParameter('id'));
+
+    // default none === calendar_show_flag
+    if (!($this->calendar_show_flag = $this->community->getConfig('calendar_show_flag')) || 'none' === $this->calendar_show_flag)
+    {
+      return sfView::NONE;
+    }
+
+    $this->w = (int)$request->getParameter('calendar_weekparam', 0);
+    $this->pw = $this->w - 1;
+    $this->nw = $this->w + 1;
+    $this->calendar = $this->getCommunityCalendar($this->community, $this->w);
+    //$this->form = new MiniScheduleForm(array(), array('calendar' => $this->calendar));
+  }
+
+  private function getCommunityCalendar(Community $community, $w = 0)
+  {
+    return $this->getCalendar($w, $community);
+  }
+
+  private function getMemberCalendar($w = 0)
+  {
+    return $this->getCalendar($w);
+  }
+
+  private function getCalendar($w = 0, $community = null)
   {
     $old_error_level = error_reporting();
     error_reporting($old_error_level & ~(E_STRICT | E_DEPRECATED));
@@ -57,11 +88,33 @@ class calendarComponents extends sfComponents
         'today' => 0 === $w && (int)date('d') === $d,
         'dayofweek_class_name' => $dayofweek['class'][$i],
         'dayofweek_item_name' => $dayofweek['item'][$i],
-        'births' => $this->isSelf ? opCalendarPluginExtension::getScheduleBirthMemberByTargetDay($m, $d) : array(),
-        'events' => $this->isSelf ? opCalendarPluginExtension::getMyCommunityEventByTargetDay($y, $m, $d) : array(),
-        'schedules' => Doctrine::getTable('Schedule')->getScheduleByThisDayAndMember($y, $m, $d, $this->member),
         'holidays' => Doctrine::getTable('Holiday')->getByYearAndMonthAndDay($y, $m, $d),
       );
+
+      if (null === $community)
+      {
+        // member home or profile home calendar.
+        $item['births'] = $this->isSelf ? opCalendarPluginExtension::getScheduleBirthMemberByTargetDay($m, $d) : array();
+        $item['events'] = $this->isSelf ? opCalendarPluginExtension::getMyCommunityEventByTargetDay($y, $m, $d) : array();
+        $item['schedules'] = Doctrine::getTable('Schedule')->getScheduleByThisDayAndMember($y, $m, $d, $this->member);
+      }
+      else
+      {
+        // community home calendar.
+        $item['events'] = array();
+        $item['schedules'] = array();
+
+        if ('all' === $this->calendar_show_flag || 'only_community_event' === $this->calendar_show_flag)
+        {
+          // only open to all sns member schedule.
+          $item['events'] = opCalendarPluginExtension::getMyCommunityEventByTargetDayInCommunity($community, $y, $m, $d);
+        }
+        if ('all' === $this->calendar_show_flag || 'only_member_schedule' === $this->calendar_show_flag)
+        {
+          // only open to all sns member schedule.
+          $item['schedules'] = Doctrine::getTable('Schedule')->getScheduleByThisDayAndMemberInCommunity($community, $y, $m, $d, $this->member);
+        }
+      }
 
       $calendar[$i++] = $item;
     }

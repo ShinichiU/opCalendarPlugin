@@ -1,0 +1,7 @@
+homeSuccess:
+  customize:
+    communityCalendar:
+      template: [calendar, communityCalendar]
+      parts: [communityHome]
+      target: [firstRow]
+      is_component: true
