@@ -32,11 +32,12 @@ class calendarComponents extends sfComponents
   {
     include_once 'Calendar/Week.php';
     $time = strtotime($w . ' week');
+
     $Week = new Calendar_Week(date('Y', $time), date('m', $time), date('d', $time), 1);
     $Week->build();
     $dayofweek = array(
-      'en' => array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'),
-      'ja_JP' => array('月', '火', '水', '木', '金', '土', '日'),
+      'class' => array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'),
+      'item' => array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'),
     );
 
     $calendar = array();
@@ -51,8 +52,8 @@ class calendarComponents extends sfComponents
         'month'=> $m,
         'day' => $d,
         'today' => 0 === $w && (int)date('d') === $d,
-        'dayofweek_en' => $dayofweek['en'][$i],
-        'dayofweek_ja' => $dayofweek['ja_JP'][$i],
+        'dayofweek_class_name' => $dayofweek['class'][$i],
+        'dayofweek_item_name' => $dayofweek['item'][$i],
         'births' => $this->isSelf ? opCalendarPluginExtension::getScheduleBirthMemberByTargetDay($m, $d) : array(),
         'events' => $this->isSelf ? opCalendarPluginExtension::getMyCommunityEventByTargetDay($y, $m, $d) : array(),
         'schedules' => Doctrine::getTable('Schedule')->getScheduleByThisDayAndMember($y, $m, $d, $this->member),

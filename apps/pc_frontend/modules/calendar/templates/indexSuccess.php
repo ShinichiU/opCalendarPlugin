@@ -50,15 +50,15 @@
 <?php
 if (!isset($item['day']))
 {
-  echo sprintf('<td class="%s empty"></td>', $item['dayofweek_en']), "\n";
+  echo sprintf('<td class="%s empty"></td>', $item['dayofweek_class_name']), "\n";
   continue;
 }
 
 $cls_today = $item['today'] ? ' today' : '';
 $cls_holiday = count($item['holidays']) ? ' holiday' : '';
 ?>
-<?php echo sprintf('<td class="%s%s%s">', $item['dayofweek_en'], $cls_today, $cls_holiday), "\n" ?>
-<p class="day"><span class="date"><?php echo $item['day'] ?></span></p>
+<?php echo sprintf('<td class="%s%s%s">', $item['dayofweek_class_name'], $cls_today, $cls_holiday), "\n" ?>
+<p class="day"><span class="date"><?php echo __($item['dayofweek_item_name']) ?></span></p>
 <?php if ($isSelf && $add_schedule): ?>
 <p class="new_schedule"><?php echo link_to(image_tag('/opCalendarPlugin/images/icon_schedule.gif', array('alt' => __('Add schedule'))), '@schedule_new_for_this_date?year='.$ym['year_disp'].'&month='.$ym['month_disp'].'&day='.$item['day']) ?></p>
 <?php endif ?>

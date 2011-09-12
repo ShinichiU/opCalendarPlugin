@@ -29,13 +29,13 @@ $cls_today = $item['today'] ? ' today' : '';
 $cls_holiday = count($item['holidays']) ? ' holiday' : '';
 
 $str_month = '';
-if (1 == $item['day'] || 'mon' === $item['dayofweek_en'])
+if (1 == $item['day'] || 'mon' === $item['dayofweek_class_name'])
 {
    $str_month = sprintf('%d/', $item['month']);
 }
 ?>
-<?php echo sprintf('<td class="%s%s%s">', $item['dayofweek_en'], $cls_today, $cls_holiday), "\n" ?>
-<?php echo sprintf('<p class="day"><span class="date">%s%d</span> <span class="day">(%s)</span></p>', $str_month, $item['day'], $item['dayofweek_ja']), "\n" ?>
+<?php echo sprintf('<td class="%s%s%s">', $item['dayofweek_class_name'], $cls_today, $cls_holiday), "\n" ?>
+<?php echo sprintf('<p class="day"><span class="date">%s%d</span> <span class="day">(%s)</span></p>', $str_month, $item['day'], __($item['dayofweek_item_name'])), "\n" ?>
 <?php foreach ($item['holidays'] as $holiday): ?>
 <p class="holiday"><?php echo $holiday ?></p>
 <?php endforeach ?>

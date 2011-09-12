@@ -68,7 +68,14 @@ class calendarActions extends sfActions
         $col = 0;
       }
 
-      $item = array();
+      $dayofweek = array(
+        'class' => array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'),
+        'item' => array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'),
+      );
+      $item = array(
+        'dayofweek_class_name' => $dayofweek['class'][$col],
+        'dayofweek_item_name' => $dayofweek['item'][$col],
+      );
 
       if ($Day->isEmpty())
       {

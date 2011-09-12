@@ -25,10 +25,11 @@ class MiniScheduleForm extends BaseForm
 
   private function generateWeeks()
   {
+    $i18n = sfContext::getInstance()->getI18N();
     foreach ($this->getOption('calendar', array()) as $item)
     {
       $nowTime = sprintf('%04d-%02d-%02d', (int)$item['year'], (int)$item['month'], (int)$item['day']);
-      $this->params[$nowTime] = sprintf('%d/%d(%s)', (int)$item['month'], (int)$item['day'], $item['dayofweek_ja']);
+      $this->params[$nowTime] = sprintf('%d/%d(%s)', (int)$item['month'], (int)$item['day'], $i18n->__($item['dayofweek_item_name']));
       if ($item['today'])
       {
         $this->setDefault('start_date', $nowTime);
