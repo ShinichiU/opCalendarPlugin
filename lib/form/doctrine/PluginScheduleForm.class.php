@@ -75,6 +75,11 @@ abstract class PluginScheduleForm extends BaseScheduleForm
       $scheduleResourceLocks = $this->getObject()->ScheduleResourceLocks;
     }
 
+    $count = Doctrine_Core::getTable('ScheduleResource')->createQuery()->count();
+    if (!$count)
+    {
+      sfConfig::set('app_schedule_resource_list_max', 0);
+    }
     $max = (int)sfConfig::get('app_schedule_resource_list_max', 5);
     for ($i = 1; $i <= $max; $i++)
     {
