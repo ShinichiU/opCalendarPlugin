@@ -66,7 +66,7 @@ function op_calendar_format_date($date, $format = 'd', $culture = null, $charset
     break;
   }
 
-  $result = op_format_date($date, $tmpformat, $calture, $charset);
+  $result = op_format_date($date, $tmpformat, $culture, $charset);
   if (!$result && $format === 'XTime')
   {
     switch ($culture)
