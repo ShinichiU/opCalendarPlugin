@@ -278,6 +278,14 @@
         <source>Invalidate a calendar</source>
         <target>カレンダーは使わない</target>
       </trans-unit>
+      <trans-unit id="">
+        <source>Google Calendar Auto Update</source>
+        <target>Google Calendar 自動更新</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Do Auto Update</source>
+        <target>カレンダーの自動更新を行う</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

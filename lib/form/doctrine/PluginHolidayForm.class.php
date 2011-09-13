@@ -51,7 +51,7 @@ abstract class PluginHolidayForm extends BaseHolidayForm
   public function validateMonthDay(sfValidatorBase $validator, $values)
   {
     $limitedMonths = array(
-      2 => $values['year'] ? $this->isLeap((int)$values['year']) ? 29 : 28 : 29,
+      2 => $values['year'] ? opCalendarPluginToolkit::isLeap((int)$values['year']) ? 29 : 28 : 29,
       4 => 30,
       6 => 30,
       9 => 30,
@@ -63,25 +63,5 @@ abstract class PluginHolidayForm extends BaseHolidayForm
     }
 
     return $values;
-  }
-
-  private function isLeap($year)
-  {
-    if (0 == $year % 4)
-    {
-      if (0 == $year % 100)
-      {
-        if (0 == $year % 400)
-        {
-          return true;
-        }
-
-        return false;
-      }
-
-      return true;
-    }
-
-    return false;
   }
 }

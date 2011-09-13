@@ -18,6 +18,71 @@
 class opCalendarPluginToolkit
 {
   /**
+   * updateGoogleCalendarCronFlags()
+   *
+   * Cronでの自動更新設定を反映するメソッド
+   *
+   * @param  String  $src            Google Api を更新する カレンダーのキーとなるソース
+   * @param  Integer $cron_flag      cron 使用有無
+   * @param  Integer $public_flag    スケジュールの公開範囲
+   * @param  mixed   $member         Member インスタンス (Optional)
+   */
+  static public function updateGoogleCalendarCronFlags($src, $cron_flag, $public_flag, Member $member = null)
+  {
+    if (null === $member)
+    {
+      $member = sfContext::getInstance()->getMember();
+    }
+
+    $member->setConfig('google_cron_update', $cron_flag);
+    if (!$cron_flag)
+    {
+      return false;
+    }
+
+    $crondata = $member->getConfig('google_cron_update_params');
+    $update_params = array();
+    if ($crondata)
+    {
+      $update_params = unserialize($crondata);
+    }
+    $update_params['src'][] = $src;
+    $update_params['src'] = array_unique($update_params['src']);
+    $update_params['public_flag'] = $public_flag;
+    $member->setConfig('google_cron_update_params', serialize($update_params));
+  }
+
+  /**
+   * getAllGoogleCalendarCronConfig()
+   *
+   * Cronでの自動更新設定を取得するメソッド
+   *
+   */
+  static public function getAllGoogleCalendarCronConfig()
+  {
+    $scheduleMemberTable = Doctrine_Core::getTable('MemberConfig');
+    $conn = $scheduleMemberTable->getConnection();
+
+    $mctable = $scheduleMemberTable->getTableName();
+    $sql = 'SELECT mc.member_id as member_id, mc2.value as serial,'
+         . ' mc3.value as token, mc4.value as secret'
+         . ' FROM '.$mctable.' as mc'
+         . ' JOIN '.$mctable.' as mc2 ON mc.member_id = mc2.member_id'
+         . ' JOIN '.$mctable.' as mc3 ON mc.member_id = mc3.member_id'
+         . ' JOIN '.$mctable.' as mc4 ON mc.member_id = mc4.member_id'
+         . ' WHERE mc.name = ? AND mc.value = ?'
+         . ' AND mc2.name = ? AND mc3.name = ? AND mc4.name = ?';
+
+    return $conn->fetchAll($sql, array(
+      'google_cron_update',
+      1,
+      'google_cron_update_params',
+      'google_calendar_oauth_token',
+      'google_calendar_oauth_token_secret',
+    ));
+  }
+
+  /**
    * insertSchedules()
    *
    * APIから取得した配列をScheduleに挿入するメソッド
@@ -216,5 +281,42 @@ class opCalendarPluginToolkit
     return 'UPDATE '.$table
          . ' SET '.implode(', ', $sets)
          . ' WHERE '.implode(' AND ', $wheres);
+  }
+
+  public static function getLastDay($month)
+  {
+    $limitedMonths = array(
+      2 => self::isLeap((int)date('Y')) ? 28 : 29,
+      4 => 30,
+      6 => 30,
+      9 => 30,
+      11 => 30,
+    );
+    if (isset($limitedMonths[$month]))
+    {
+      return $limitedMonths[$month];
+    }
+
+    return 31;
+  }
+
+  public static function isLeap($year)
+  {
+    if (0 == $year % 4)
+    {
+      if (0 == $year % 100)
+      {
+        if (0 == $year % 400)
+        {
+          return true;
+        }
+
+        return false;
+      }
+
+      return true;
+    }
+
+    return false;
   }
 }

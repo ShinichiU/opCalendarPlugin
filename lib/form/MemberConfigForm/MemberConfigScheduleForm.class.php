@@ -18,19 +18,9 @@
 class MemberConfigScheduleForm extends MemberConfigForm
 {
   const PUBLIC_FLAG = 'schedule_public_flag';
-  const FIRST_DAY_OF_THE_WEEK = 'first_day_of_the_week';
 
   protected
-    $category = 'schedule',
-    $firstDayOfTheWeeks = array(
-      0 => 'Mon',
-      1 => 'Tue',
-      2 => 'Wed',
-      3 => 'Thu',
-      4 => 'Fri',
-      5 => 'Sat',
-      6 => 'Sun',
-  );
+    $category = 'schedule';
 
   public function configure()
   {
@@ -40,18 +30,10 @@ class MemberConfigScheduleForm extends MemberConfigForm
       'default'  => $this->getConfig(self::PUBLIC_FLAG, ScheduleTable::PUBLIC_FLAG_SNS),
       'label'    => 'Public flag',
     ));
-    $this->widgetSchema[self::FIRST_DAY_OF_THE_WEEK] = new sfWidgetFormChoice(array(
-      'choices'  => $this->firstDayOfTheWeeks,
-      'default'  => $this->getConfig(self::FIRST_DAY_OF_THE_WEEK, 0),
-      'label'    => 'First day of the week',
-    ));
     $this->widgetSchema->setHelp(self::PUBLIC_FLAG, 'Default public flag for your new schedules. Past schedules are not changed.');
 
     $this->validatorSchema[self::PUBLIC_FLAG] = new sfValidatorChoice(array(
       'choices' => array_keys(Doctrine::getTable('Schedule')->getPublicFlags()),
-    ));
-    $this->validatorSchema[self::FIRST_DAY_OF_THE_WEEK] = new sfValidatorChoice(array(
-      'choices' => array_keys($this->firstDayOfTheWeeks),
     ));
   }
 

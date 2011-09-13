@@ -13,10 +13,13 @@ class opCalendarApiHandler
     $api = null,
     $apiResults = null;
 
+  private static $count = 0;
+
   public function __construct(opCalendarApiInterface $api, opCalendarApiResultsInterface $apiResults)
   {
     $this->api = $api;
     $this->apiResults = $apiResults;
+    self::$count = 0;
   }
 
   public function execute()
@@ -52,26 +55,20 @@ class opCalendarApiHandler
 
   private function accessApi($url, $method, $headers, $cookies, $postvals, $useHttpHeader = false)
   {
-    static $count = 1;
-
-    $ch = self::GET === $method ? curl_init() : curl_init($url);
+    $ch = curl_init($url);
 
     if ($headers)
     {
       curl_setopt($ch, CURLOPT_HTTPHEADER, is_array($headers) ? $headers : array($headers));
     }
 
-    if (self::GET === $method)
-    {
-      curl_setopt($ch, CURLOPT_URL, $url);
-    }
-    else
+    if (self::GET !== $method)
     {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $postvals);
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
     }
 
-    curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_VERBOSE, false);
     curl_setopt($ch, CURLOPT_HEADER, (bool)$useHttpHeader);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
@@ -86,7 +83,7 @@ class opCalendarApiHandler
 
     if (301 == $status_code || 302 == $status_code)
     {
-      if ($count > $this->retry)
+      if (self::$count > $this->retry)
       {
         $this->apiResults->setHttpStatusCode($status_code);
 
@@ -104,7 +101,7 @@ class opCalendarApiHandler
           $cookies = trim(array_pop($matches));
           $this->api->setCookies($cookies);
         }
-        $count++;
+        self::$count++;
 
         $this->accessApi($url, $method, $headers, $cookies, $postvals, false);
       }

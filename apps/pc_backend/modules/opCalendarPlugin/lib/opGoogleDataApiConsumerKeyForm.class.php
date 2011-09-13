@@ -13,6 +13,7 @@ class opGoogleDataApiConsumerKeyForm extends BaseForm
     'op_calendar_google_data_api_key' => 'Google Data API consumer key',
     'op_calendar_google_data_api_secret' => 'Google Data API consumer secret',
     'op_calendar_google_data_api_is_active' => 'Google Data API を使用しますか?',
+    'op_calendar_google_data_api_auto_update' => 'Google Data API 自動更新機能使用しますか?(cronの設置が必要)',
   );
 
   public function getKeys()
@@ -24,7 +25,7 @@ class opGoogleDataApiConsumerKeyForm extends BaseForm
   {
     foreach ($this->keys as $k => $v)
     {
-      if ('op_calendar_google_data_api_is_active' === $k)
+      if ('op_calendar_google_data_api_is_active' === $k || 'op_calendar_google_data_api_auto_update' === $k)
       {
         $check = array(1 => 'yes');
         $this->setWidget($k, new sfWidgetFormChoice(array(
@@ -54,7 +55,7 @@ class opGoogleDataApiConsumerKeyForm extends BaseForm
   {
     foreach ($this->getValues() as $k => $v)
     {
-      if ('op_calendar_google_data_api_is_active' === $k)
+      if ('op_calendar_google_data_api_is_active' === $k || 'op_calendar_google_data_api_auto_update' === $k)
       {
         $v = (bool)$v;
       }
