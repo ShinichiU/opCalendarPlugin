@@ -19,11 +19,17 @@
   <email />
   <active>yes</active>
  </lead>
- <date>2011-05-05</date>
- <time>21:21:08</time>
+ <developer>
+  <name>とーきち</name>
+  <user>tokichi</user>
+  <email />
+  <active>yes</active>
+ </developer>
+ <date>2011-09-14</date>
+ <time>13:46:42</time>
  <version>
-  <release>0.9.3.1</release>
-  <api>0.9.3.1</api>
+  <release>0.9.4</release>
+  <api>0.9.4</api>
  </version>
  <stability>
   <release>beta</release>
@@ -31,41 +37,47 @@
  </stability>
  <license>Apache</license>
  <notes>
-fixed bug. #2054
+fixes 5 bugs and add 3 enhancement. http://redmine.openpne.jp/projects/plg-calendar/versions/170
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <file baseinstalldir="/" md5sum="2ed8afdf0a6f75aea7450f9e1220fc9e" name="apps/pc_backend/config/routing.yml" role="data" />
-   <file baseinstalldir="/" md5sum="0e27af78acaebcd32827e17dd88bd6c2" name="apps/pc_backend/modules/holiday/actions/actions.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="e5f6422f24f57ec1f7cf82a21dba4169" name="apps/pc_backend/modules/holiday/templates/listSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="50c1e570b0670c99c34fce1c700afc70" name="apps/pc_backend/i18n/messages.ja.xml" role="data" />
+   <file baseinstalldir="/" md5sum="ed382002014ff7cece7855830aa81c1a" name="apps/pc_backend/modules/holiday/actions/actions.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="70deea9108d8e60d23c01e860dcea803" name="apps/pc_backend/modules/holiday/templates/listSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="d3d63c002164513e167b05800bad4ca1" name="apps/pc_backend/modules/opCalendarPlugin/actions/actions.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="6e9fea53228a2f03ea6e769f8524949d" name="apps/pc_backend/modules/opCalendarPlugin/lib/opGoogleDataApiConsumerKeyForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="557258e478059e29cfd21558183653db" name="apps/pc_backend/modules/opCalendarPlugin/lib/opGoogleDataApiConsumerKeyForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="b986830505b59151d43604b10138baf7" name="apps/pc_backend/modules/opCalendarPlugin/templates/indexSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="816a4f244e88ac702b2b9c0df3a8f7d6" name="apps/pc_backend/modules/opCalendarPlugin/templates/resourceDeleteConfirmSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="51f224642829b4302ef1cb82f3c0a3f3" name="apps/pc_backend/modules/opCalendarPlugin/templates/resourceTypeDeleteConfirmSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="f51cab4f012844fca6c54c5f766eee17" name="apps/pc_frontend/config/routing.yml" role="data" />
-   <file baseinstalldir="/" md5sum="6f51cd988827f0b02a3ee9c04ea261cc" name="apps/pc_frontend/i18n/messages.ja.xml" role="data" />
-   <file baseinstalldir="/" md5sum="865018c78ef5d9e217687ec2cd7dba10" name="apps/pc_frontend/modules/calendar/actions/actions.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="dfaff9049c5083ae4a04c20df8ff68ce" name="apps/pc_frontend/modules/calendar/actions/components.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="2dfc52aa8eeaab2f904c51b438a20731" name="apps/pc_frontend/config/routing.yml" role="data" />
+   <file baseinstalldir="/" md5sum="ddbae92970b81b5db872732bd642d858" name="apps/pc_frontend/i18n/form_community.ja.xml" role="data" />
+   <file baseinstalldir="/" md5sum="be7771a5680bc3062a5c0ded7ceef290" name="apps/pc_frontend/i18n/messages.ja.xml" role="data" />
+   <file baseinstalldir="/" md5sum="d99db0f1a8ceb2de1d9f33ea103fa4af" name="apps/pc_frontend/modules/calendar/actions/actions.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="464b82bf3934a0f0f720bc082d8e8d6e" name="apps/pc_frontend/modules/calendar/actions/components.class.php" role="data" />
    <file baseinstalldir="/" md5sum="23a85a877ba78a09b520b19d03c3650c" name="apps/pc_frontend/modules/calendar/config/security.yml" role="data" />
    <file baseinstalldir="/" md5sum="07b9b31053b38baa66aff7e597d6003c" name="apps/pc_frontend/modules/calendar/config/view.yml" role="data" />
-   <file baseinstalldir="/" md5sum="d3b4bde995cf9bfd00d31995f688dd25" name="apps/pc_frontend/modules/calendar/templates/indexSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="a26bb5524461886cfc6aadc9bf8fa5ee" name="apps/pc_frontend/modules/calendar/templates/_weekly.php" role="data" />
-   <file baseinstalldir="/" md5sum="423fbc5a3e9e5082b34d733fdadb46a1" name="apps/pc_frontend/modules/calendarApi/actions/actions.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="b045b1d509003129f688ac51e409f35f" name="apps/pc_frontend/modules/calendar/templates/indexSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="943866956be74bf4499a5dc022637775" name="apps/pc_frontend/modules/calendar/templates/_communityCalendar.php" role="data" />
+   <file baseinstalldir="/" md5sum="82867893164c922fc576b16f4988e14c" name="apps/pc_frontend/modules/calendar/templates/_weekly.php" role="data" />
+   <file baseinstalldir="/" md5sum="5c6dab0816fad2f400e424515a17e002" name="apps/pc_frontend/modules/calendarApi/actions/actions.class.php" role="data" />
    <file baseinstalldir="/" md5sum="23a85a877ba78a09b520b19d03c3650c" name="apps/pc_frontend/modules/calendarApi/config/security.yml" role="data" />
    <file baseinstalldir="/" md5sum="07b9b31053b38baa66aff7e597d6003c" name="apps/pc_frontend/modules/calendarApi/config/view.yml" role="data" />
-   <file baseinstalldir="/" md5sum="529f26abdc2f2c7b45d2324681eda999" name="apps/pc_frontend/modules/calendarApi/templates/importSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="16a12f55bf2c792a71a6e61a7620cccf" name="apps/pc_frontend/modules/calendarApi/templates/importSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="apps/pc_frontend/modules/calendarApi/templates/indexSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="63eee4766ebca954f501934815facd66" name="apps/pc_frontend/modules/schedule/actions/actions.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="16a70e080b0b3ef39810c5afe6b80993" name="apps/pc_frontend/modules/community/config/view.yml" role="data" />
+   <file baseinstalldir="/" md5sum="7e2b986dee423039c606aae30db1b4b8" name="apps/pc_frontend/modules/schedule/actions/actions.class.php" role="data" />
    <file baseinstalldir="/" md5sum="23a85a877ba78a09b520b19d03c3650c" name="apps/pc_frontend/modules/schedule/config/security.yml" role="data" />
    <file baseinstalldir="/" md5sum="b8144c693ae98184a3f2ee112ce51c2b" name="apps/pc_frontend/modules/schedule/config/view.yml" role="data" />
-   <file baseinstalldir="/" md5sum="32464a8abb5fed9d5b2f6d1552e1640d" name="apps/pc_frontend/modules/schedule/templates/deleteConfirmSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="0884cf3fb04b4ba51807190c4e99f54d" name="apps/pc_frontend/modules/schedule/templates/editSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="6016e2d5048bc6b44b43738c9a465c9c" name="apps/pc_frontend/modules/schedule/templates/newSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="a8f4eace67fe2905ce0d49470530afa6" name="apps/pc_frontend/modules/schedule/templates/showSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="bfbe3157e12966dad329f913bb60dedc" name="apps/pc_frontend/modules/schedule/templates/_detailScheduleTable.php" role="data" />
-   <file baseinstalldir="/" md5sum="b53cf71410e4afa86569934480a15e02" name="apps/pc_frontend/modules/schedule/templates/_formSchedule.php" role="data" />
-   <file baseinstalldir="/" md5sum="0adff20f1ceaace6bdc1462b3b57af4a" name="apps/pc_frontend/modules/schedule/templates/_inputScheduleTable.php" role="data" />
+   <file baseinstalldir="/" md5sum="e5deeed0e58dec446cd6866c0276db6c" name="apps/pc_frontend/modules/schedule/templates/deleteConfirmSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="9bcf67d4be5e657210a2a06f7dbe878d" name="apps/pc_frontend/modules/schedule/templates/editSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="32e04c8dd7a629142e43db5ff795cd41" name="apps/pc_frontend/modules/schedule/templates/newSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="e077ae8d1f766d4ced4132b4039bb876" name="apps/pc_frontend/modules/schedule/templates/showSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="d36bef8069177c0896636753f56573c3" name="apps/pc_frontend/modules/schedule/templates/_detailScheduleTable.php" role="data" />
+   <file baseinstalldir="/" md5sum="a585be2c829b5fcaca32ba755f0188b3" name="apps/pc_frontend/modules/schedule/templates/_formSchedule.php" role="data" />
+   <file baseinstalldir="/" md5sum="3f84c7f49285e0160af0f0970735d9ae" name="apps/pc_frontend/modules/schedule/templates/_inputScheduleTable.php" role="data" />
+   <file baseinstalldir="/" md5sum="e6b5dc7f0fef95ebd4b9d76da023b9b3" name="bin/update-google-api.cron" role="data" />
+   <file baseinstalldir="/" md5sum="230ee7611146a1b1790d001e29a08102" name="config/community_config.yml" role="data" />
    <file baseinstalldir="/" md5sum="d84869340ae5f83c754f9959e8beb44f" name="config/gadget.yml" role="data" />
    <file baseinstalldir="/" md5sum="fa9c2083a7b57ccfc303b1d44de69462" name="config/member_config.yml" role="data" />
    <file baseinstalldir="/" md5sum="5752bb66b9d3d8cb35f1b5324d560a01" name="config/opCalendarPluginConfiguration.class.php" role="data" />
@@ -87,7 +99,7 @@ fixed bug. #2054
    <file baseinstalldir="/" md5sum="8ea9e603b909e123466e5d51fddb8cfd" name="data/migrations/v1/001_dummy.php" role="data" />
    <file baseinstalldir="/" md5sum="7716e749b673da8c791da4269cdce932" name="data/migrations/v1/fixtures/001_gadget_and_navi.yml" role="data" />
    <file baseinstalldir="/" md5sum="c51b79dfaa879b8f54c0e84ede9add2c" name="lib/api/opCalendarApi.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="40587ec9b28b4869abb52a68e14882e8" name="lib/api/opCalendarApiHandler.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="e00821a076c92b3f4437e6913341f911" name="lib/api/opCalendarApiHandler.class.php" role="data" />
    <file baseinstalldir="/" md5sum="6e751a814ad712141147190d5a20e21a" name="lib/api/opCalendarApiInterface.php" role="data" />
    <file baseinstalldir="/" md5sum="e0f8bbc98ac4e793ea83e795a99fe76a" name="lib/api/opCalendarApiResults.class.php" role="data" />
    <file baseinstalldir="/" md5sum="399ed107bacda9ea81ed3b1533cb519c" name="lib/api/opCalendarApiResultsCalendars.class.php" role="data" />
@@ -104,17 +116,17 @@ fixed bug. #2054
    <file baseinstalldir="/" md5sum="e53422293c9ee4b4f0cf672132de0c9c" name="lib/filter/doctrine/PluginScheduleMemberFormFilter.class.php" role="data" />
    <file baseinstalldir="/" md5sum="d0c3789ce187e6753c42c511b10fd9f4" name="lib/filter/doctrine/PluginScheduleResourceFormFilter.class.php" role="data" />
    <file baseinstalldir="/" md5sum="ba8ea886a15b5f63492b33e472fe642d" name="lib/filter/doctrine/PluginScheduleResourceLockFormFilter.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="9ef0cc62a526ddd5835dc3c55f8d0dba" name="lib/form/MiniScheduleForm.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="ee036e64849fa94449e41b21bb550881" name="lib/form/opGoogleCalendarChoiceForm.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="cb94fe4d15505c3b6ede8d6623baa49d" name="lib/form/doctrine/PluginHolidayForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="7ac333549baf534f446d94aa2ca1a925" name="lib/form/MiniScheduleForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="b0f92c27572aab03d627873b0023c484" name="lib/form/opGoogleCalendarChoiceForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="e8a6accba1d3eb96c5592cc64bafef76" name="lib/form/doctrine/PluginHolidayForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="21f34fb1631e89bfe467b2d13d56751d" name="lib/form/doctrine/PluginResourceTypeForm.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="80767f2c5b983e643e64ce827a8f3dba" name="lib/form/doctrine/PluginScheduleForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="5c08cd9914cd6c78535b9b43eaa7cbbf" name="lib/form/doctrine/PluginScheduleForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="d0f30b24e1488f95e8a5c8e487b007f1" name="lib/form/doctrine/PluginScheduleMemberForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="9cc22f7464944fdc945d35f0e2e873fa" name="lib/form/doctrine/PluginScheduleResourceForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="6610ef4d339dadb9b1848310dfe89621" name="lib/form/doctrine/PluginScheduleResourceLockForm.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="90e65619f3c1bcdfeb8e8ec3feab4b07" name="lib/form/MemberConfigForm/MemberConfigScheduleForm.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="60f3140e9c8ca343d24d52440bb56b4a" name="lib/helper/opCalendarHelper.php" role="data" />
-   <file baseinstalldir="/" md5sum="f857742a29855924b83689b91b3e668c" name="lib/model/opCalendarPluginExtension.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="6cd734f18ecacf38e9e3ebd3c8806559" name="lib/form/MemberConfigForm/MemberConfigScheduleForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="d4863db0a2aaafd155405d185a7b4825" name="lib/helper/opCalendarHelper.php" role="data" />
+   <file baseinstalldir="/" md5sum="34828a0ca653fbffec2332bb42a8c60a" name="lib/model/opCalendarPluginExtension.class.php" role="data" />
    <file baseinstalldir="/" md5sum="43c0503e4c9d261e215da41220596228" name="lib/model/doctrine/PluginHoliday.class.php" role="data" />
    <file baseinstalldir="/" md5sum="4a93d74ccda20372b7de39140c4cf4c7" name="lib/model/doctrine/PluginHolidayTable.class.php" role="data" />
    <file baseinstalldir="/" md5sum="85ce57b6b645c1a5fa27a2294e0f4a5c" name="lib/model/doctrine/PluginResourceType.class.php" role="data" />
@@ -126,9 +138,10 @@ fixed bug. #2054
    <file baseinstalldir="/" md5sum="4c6850a93c47a3b9d637e2fcc7ae1477" name="lib/model/doctrine/PluginScheduleResourceLock.class.php" role="data" />
    <file baseinstalldir="/" md5sum="2f5f6f82fd7c9e350894ea623685be92" name="lib/model/doctrine/PluginScheduleResourceLockTable.class.php" role="data" />
    <file baseinstalldir="/" md5sum="a8c4f19c7622594766079611ecb96bae" name="lib/model/doctrine/PluginScheduleResourceTable.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="d7ebdb384cbb1595b49a042917217e73" name="lib/model/doctrine/PluginScheduleTable.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="122929fccf80ad7429861060f6c9db61" name="lib/util/opCalendarOAuth.php" role="data" />
-   <file baseinstalldir="/" md5sum="1fe11717cd830a5ceded340e5a0029d4" name="lib/util/opCalendarPluginToolkit.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="0238d1b9f39b75bb6fbf6011f10f974d" name="lib/model/doctrine/PluginScheduleTable.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="82f4554bff76f63061d407a0fa7e5ab9" name="lib/task/opCalendarUpdategoogleapiTask.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="c009eb58b7e02d3e9ae1394fe1f1ada7" name="lib/util/opCalendarOAuth.php" role="data" />
+   <file baseinstalldir="/" md5sum="bd43627b9ab917562ae367e548bc465f" name="lib/util/opCalendarPluginToolkit.class.php" role="data" />
    <file baseinstalldir="/" md5sum="95667233a38f90c062306fe1a79f8050" name="lib/widget/opWidgetFormSelectEditable.class.php" role="data" />
    <file baseinstalldir="/" md5sum="742bc1fe7f313d37ad4abb247b3006ab" name="test/bootstrap/database.php" role="data" />
    <file baseinstalldir="/" md5sum="df048397a26ab2f8951a05f4ec2edb0f" name="test/bootstrap/functional.php" role="data" />
@@ -138,7 +151,7 @@ fixed bug. #2054
    <file baseinstalldir="/" md5sum="1faa199e87c1ce270e86edee706b37fd" name="test/functional/pc_frontend/skeletonActionsTest.php" role="data" />
    <file baseinstalldir="/" md5sum="17efe14ff560194905c32a7db4f55113" name="test/unit/form/PluginScheduleResourceLockFormTest.php" role="data" />
    <file baseinstalldir="/" md5sum="52440ab0abcc01c98551283f1e9942e1" name="test/unit/model/SkeletonTest.php" role="data" />
-   <file baseinstalldir="/" md5sum="581002ebef72ad6ddf05f36dfb447e3a" name="web/css/main.css" role="data" />
+   <file baseinstalldir="/" md5sum="9496635268a0b4f8d2e441a4b5856463" name="web/css/main.css" role="data" />
    <file baseinstalldir="/" md5sum="12375c0e5e68f2bf6be9474d9463393d" name="web/images/icon_birthday.gif" role="data" />
    <file baseinstalldir="/" md5sum="69c87344d1479f6842f936184fca0e14" name="web/images/icon_event_B.gif" role="data" />
    <file baseinstalldir="/" md5sum="ec7fd03de7c5f9a05dd53ddb536b5c87" name="web/images/icon_event_R.gif" role="data" />
@@ -239,6 +252,21 @@ fixed 2 bugs, and add 1 enhancement.
    <license>Apache</license>
    <notes>
 fixed bug. #2054
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.4</release>
+    <api>0.9.4</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2011-09-14</date>
+   <license>Apache</license>
+   <notes>
+fixes 5 bugs and add 3 enhancement. http://redmine.openpne.jp/projects/plg-calendar/versions/170
    </notes>
   </release>
  </changelog>
