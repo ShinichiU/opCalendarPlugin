@@ -1,1 +1,9 @@
-document.getElementsByClassName('schedule_resource_lock');
+jQuery.noConflict();
+var j$ = jQuery;
+
+function loadPage(url, id)
+{
+  j$(id).load(url + ' ' + id);
+
+  return false;
+}

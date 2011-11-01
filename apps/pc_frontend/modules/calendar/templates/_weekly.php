@@ -1,3 +1,5 @@
+<?php use_javascript('/opCalendarPlugin/js/jquery-1.6.4.min.js', sfWebResponse::LAST) ?>
+<?php use_javascript('/opCalendarPlugin/js/opCalendarPlugin', sfWebResponse::LAST) ?>
 <?php use_stylesheet('/opCalendarPlugin/css/main') ?>
 <div class="dparts weeklyCalendarTable" id="homeCalendarList_<?php echo $gadget->id ?>"><div class="parts">
 <div class="partsHeading"><h3><?php echo __('Weekly Calendar') ?></h3></div>
@@ -11,11 +13,13 @@
 <?php echo $form['start_date']->render(), "\n" ?>
 <input type="hidden" value="<?php echo $w ?>" name="calendar_weekparam" />
 <input type="submit" value="<?php echo __('Add') ?>" class="input_submit" />
-<span class="pager">
- <?php echo link_to('&lt;&lt;', '@homepage?calendar_weekparam='.$pw, array('class' => 'prev', 'title' => __('Prev week'))), "\n" ?>
- <?php echo link_to('■', '@homepage', array('class' => 'curr', 'title' => __('This week')), "\n") ?>
- <?php echo link_to('&gt;&gt;', '@homepage?calendar_weekparam='.$nw , array('class' => 'next', 'title' => __('Next week'))), "\n" ?>
-</span>
+<?php $html_id = sprintf('#homeCalendarList_%d', $gadget->id) ?>
+<?php $url = url_for(sprintf('@homepage?calendar_weekparam=%d', $pw)) ?>
+ <?php echo content_tag('a', '&lt;&lt;', array('href' => 'javascript:void(0)', 'onclick' => 'loadPage(\''.$url.'\', \''.$html_id.'\')', 'class' => 'prev', 'title' => __('Prev week'))) ?>
+<?php $url = url_for('@homepage') ?>
+ <?php echo content_tag('a', '■', array('href' => 'javascript:void(0)', 'onclick' => 'loadPage(\''.$url.'\', \''.$html_id.'\')', 'class' => 'prev', 'title' => __('This week'))) ?>
+<?php $url = url_for(sprintf('@homepage?calendar_weekparam=%d', $nw)) ?>
+ <?php echo content_tag('a', '&gt;&gt;', array('href' => 'javascript:void(0)', 'onclick' => 'loadPage(\''.$url.'\', \''.$html_id.'\')', 'class' => 'prev', 'title' => __('Prev week'))) ?>
 </form>
 </div>
 <?php endif; ?>
