@@ -224,3 +224,8 @@ td.community_calendar {
 #formSchedule .inputScheduleTable select {
   margin: 0 2px 0 4px;
 }
+
+.loading {
+  background: url(../images/loadinfo.gif) no-repeat;
+  background-position: 50% 50%;
+}

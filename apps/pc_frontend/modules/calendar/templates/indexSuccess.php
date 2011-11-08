@@ -1,3 +1,6 @@
+<?php use_helper('opCalendar') ?>
+<?php use_javascript('/opCalendarPlugin/js/jquery-1.6.4.min.js', sfWebResponse::LAST) ?>
+<?php use_javascript('/opCalendarPlugin/js/opCalendarPlugin', sfWebResponse::LAST) ?>
 <div class="dparts monthlyCalendarTable"><div class="parts">
 <div class="partsHeading"><h3><?php $is_community ? printf('[%s] ', $community->name) : '' ?><?php echo format_number_choice('[0]%ym%|[1]%ym% of %f%', array('%ym%' => op_format_date(mktime(0, 0, 0, $ym['month_disp'], 1, $ym['year_disp']), 'XCalendarMonth'), '%f%' => $member->name), $is_community ? 1 : $isSelf ? 0 : 1) ?></h3></div>
 
@@ -23,9 +26,14 @@ $obj_route = $is_community ? '@calendar_community_obj' : '@calendar_member_obj';
 $obj_route_year_month = $is_community ? '@calendar_year_month_community_obj' : '@calendar_year_month_member_obj';
 $link_to_id = $is_community ? $community->id : $member->id;
 ?>
-<p class="pager"><?php echo link_to('&lt;&lt; '.__('Prev month'), sprintf('%s?id=%d&year=%d&month=%d', $obj_route_year_month, $link_to_id, $ym['year_prev'], $ym['month_prev']), array('class' => 'prev')) ?>
- | <?php echo link_to(__('This month'), sprintf('%s?id=%d', $obj_route, $link_to_id), array('class' => 'curr')) ?>
- | <?php echo link_to(__('Next month').' &gt;&gt;', sprintf('%s?id=%d&year=%d&month=%d', $obj_route_year_month, $link_to_id, $ym['year_next'], $ym['month_next']), array('class' => 'next')) ?></p>
+<p class="pager">
+<?php $class = '.monthlyCalendarTable' ?>
+<?php $url = url_for(sprintf('%s?id=%d&year=%d&month=%d', $obj_route_year_month, $link_to_id, $ym['year_prev'], $ym['month_prev'])) ?>
+<?php echo op_ajax_link_calendar('&lt;&lt; '.__('Prev month'), $url, $class, array('class' => 'prev')) ?>
+<?php $url = url_for(sprintf('%s?id=%d', $obj_route, $link_to_id)) ?>
+ | <?php echo op_ajax_link_calendar(__('This month'), $url, $class, array('class' => 'curr')) ?>
+<?php $url = url_for(sprintf('%s?id=%d&year=%d&month=%d', $obj_route_year_month, $link_to_id, $ym['year_next'], $ym['month_next'])) ?>
+ | <?php echo op_ajax_link_calendar(__('Next month').' &gt;&gt;', $url, $class, array('class' => 'next')) ?>
 <?php end_slot() ?>
 <?php include_slot('calendar_pager') ?>
 </div>

@@ -81,3 +81,11 @@ function op_calendar_format_date($date, $format = 'd', $culture = null, $charset
   }
   return $result;
 }
+
+function op_ajax_link_calendar($name, $url, $id, $options = array())
+{
+  $options['href'] = 'javascript:void(0)';
+  $options['onclick'] = 'loadPage(\''.$url.'\', \''.$id.'\')';
+
+  return content_tag('a', $name, $options);
+}
