@@ -14,7 +14,7 @@ class opGoogleCalendarOAuth
     $last_status_code = null;
 
   protected
-    $consumer = null;
+    $client = null;
 
   public static function getInstance()
   {
@@ -29,15 +29,15 @@ class opGoogleCalendarOAuth
   public function __construct()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('opUtil');
-    $this->consumer = new OAuthConsumer(
-      opConfig::get('op_calendar_google_data_api_key', 'anonymous'),
-      opConfig::get('op_calendar_google_data_api_secret', 'anonymous')
-    );
+
+    $this->client = new Google_Client();
+    $this->client->setClientId(opConfig::get('op_calendar_google_data_api_key', 'anonymous'));
+    $this->client->setClientSecret(opConfig::get('op_calendar_google_data_api_secret', 'anonymous'));
   }
 
   public function getRequestToken()
   {
-    $api = new opCalendarApi($this->consumer, null, opCalendarApiHandler::GET,
+    $api = new opCalendarApi($this->client, null, opCalendarApiHandler::GET,
       self::REQUEST_TOKEN_ENDPOINT,
       array(
         'oauth_callback' => app_url_for('pc_frontend', '@calendar_api_callback', true),
@@ -57,7 +57,7 @@ class opGoogleCalendarOAuth
 
   public function getAccessToken($oauth_verifier, $oauth_token, $ouath_token_secret)
   {
-    $api = new opCalendarApi($this->consumer, new OAuthConsumer($oauth_token, $ouath_token_secret), opCalendarApiHandler::GET,
+    $api = new opCalendarApi($this->client, new OAuthConsumer($oauth_token, $ouath_token_secret), opCalendarApiHandler::GET,
       self::OAUTH_ACCESS_TOKEN_ENDPOINT,
       array('oauth_verifier' => $oauth_verifier)
     );
@@ -115,7 +115,7 @@ class opGoogleCalendarOAuth
   private function isActiveAccessTocken($oauth_token, $oauth_token_secret)
   {
     $api = new opCalendarApi(
-      $this->consumer,
+      $this->client,
       new OAuthConsumer($oauth_token, $oauth_token_secret),
       opCalendarApiHandler::GET,
       self::SCOPE.'default/allcalendars/full'
@@ -135,7 +135,7 @@ class opGoogleCalendarOAuth
     }
 
     $api = new opCalendarApi(
-      $this->consumer,
+      $this->client,
       new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']),
       $method,
       self::SCOPE.$uri,
