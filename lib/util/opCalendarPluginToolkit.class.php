@@ -89,15 +89,15 @@ class opCalendarPluginToolkit
    *
    * @param  Array   $list           スケジュールの配列
    * @param  Integer $public_flag    スケジュールの公開範囲
-   * @param  Boolean $is_save_email  APIから取得した本人のメールアドレスを保存するか否か
+   * @param  Boolean $isSaveEmail  APIから取得した本人のメールアドレスを保存するか否か
    * @param  mixed   $member         Member インスタンス (Optional)
    * @return Boolean 該当する member_id、ヒットしない場合は false
    */
-  static public function insertSchedules($list, $public_flag, $is_save_email, $member = null)
+  static public function insertSchedules(Google_Service_Calendar_Events $events, $publicFlag, $isSaveEmail = true, Member $member = null)
   {
     static $first = true;
 
-    $count = count($list);
+    $count = count($events['items']);
     $okCount = 0;
 
     if (null === $member)
@@ -105,47 +105,20 @@ class opCalendarPluginToolkit
       $member = sfContext::getInstance()->getUser()->getMember();
     }
 
-    foreach ($list as $v)
+    foreach ($events['items'] as $event)
     {
-      $authorEmail = $v['need_convert']['creator_email'];
-      if ($is_save_email && $first)
+      $authorEmail = $event->email;
+      if ($isSaveEmail && $first)
       {
         if (!$id = self::seekEmailAndGetMemberId($authorEmail))
         {
-          Doctrine_Core::getTable('MemberConfig')
-            ->setValue($member->id, 'opCalendarPlugin_email', $authorEmail);
+          $member->setConfig('opCalendarPlugin_email', $authorEmail);
         }
 
         $first = false;
       }
-      $v['member_id'] = $member->id;
 
-      $falseMember = 0;
-      foreach ($v['need_convert']['ScheduleMember'] as $in_member)
-      {
-        if ($in_member['email'] == $authorEmail)
-        {
-          $v['ScheduleMember'][] = $member->id;
-        }
-        elseif ($in_id = self::seekEmailAndGetMemberId($in_member['email']))
-        {
-          $v['ScheduleMember'][] = $in_id;
-        }
-        else
-        {
-          $falseMember++;
-        }
-      }
-
-      if ($falseMember)
-      {
-        $v['api_etag'] .= sprintf('_false_%d', $falseMember);
-      }
-
-      unset($v['need_convert']);
-      $v['public_flag'] = $public_flag;
-
-      if (Doctrine_Core::getTable('Schedule')->updateApiFromArray($v))
+      if (Doctrine_Core::getTable('Schedule')->updateApiFromEvent($event, $member, $publicFlag))
       {
         $okCount++;
       }

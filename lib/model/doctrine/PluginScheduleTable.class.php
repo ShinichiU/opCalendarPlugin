@@ -69,56 +69,56 @@ class PluginScheduleTable extends Doctrine_Table
     return $q->execute();
   }
 
-  public function updateApiFromArray($list)
+  public function updateApiFromEvent(Google_Service_Calendar_Event $event, Member $member, $publicFlag)
   {
-    $scheduleMemberTable = Doctrine_Core::getTable('ScheduleMember');
     $conn = $this->getConnection();
     $conn->beginTransaction();
 
     try
     {
-      $sql = 'SELECT id, api_etag FROM '.$this->getTableName()
-           . ' WHERE api_flag = ? AND api_id_unique = ?';
-      $params = array($list['api_flag'], $list['api_id_unique']);
-      if ($schedule = $conn->fetchRow($sql, $params))
-      {
-        $id = $schedule['id'];
-        if ($list['api_etag'] === $schedule['api_etag'])
-        {
-          $conn->rollback();
-          return $id;
-        }
+      $schedule = $this->findOneByApiIdUnique($event->id);
 
-        $sql = 'DELETE '.$scheduleMemberTable->getTableName()
-             . ' FROM '.$scheduleMemberTable->getTableName()
-             . ' WHERE schedule_id = ?';
-        $conn->execute($sql, array((int)$id));
+      if (!$schedule)
+      {
+        $schedule = new Schedule;
+        $schedule->setApiIdUnique($event->id);
+        $schedule->setTitle($event->summary);
+        $schedule->setBody($event->description);
+        $schedule->setMember($member);
+        $schedule->setPublicFlag($publicFlag);
+        $schedule->setStartDate($event->start->date);
+        $schedule->setStartTime($event->start->dateTime);
+        $schedule->setEndDate($event->end->date);
+        $schedule->setEndTime($event->end->dateTime);
       }
 
-      $scheduleMembers = array_unique($list['ScheduleMember']);
-      unset($list['ScheduleMember']);
+      if ($event->etag === $schedule->api_etag)
+      {
+        $conn->rollback();
 
-      if (!isset($id))
-      {
-        if (!$id = opCalendarPluginToolkit::insertInto($this->getTableName(), $list, $conn))
-        {
-          throw new Exception('schedule commit error.');
-        }
-      }
-      else
-      {
-        if (!opCalendarPluginToolkit::update($this->getTableName(), $list, array('id' => (int)$id), $conn))
-        {
-          throw new Exception('schedule commit error.');
-        }
+        return $schedule->id;
       }
 
-      $members = array();
-      foreach ($scheduleMembers as $member_id)
+      $schedule->setApiEtag($event->etag);
+      $schedule->save();
+
+      ScheduleMemberTable::getInstance()->updateScheduleMember(array(
+        'schedule_id' => $schedule->id,
+        'member_id' => $schedule->member_id,
+      ));
+
+      foreach ($event->organizer as $organizer)
       {
-        $members['member_id'] = $member_id;
-        $members['schedule_id'] = $id;
-        opCalendarPluginToolkit::insertInto($scheduleMemberTable->getTableName(), $members, $conn);
+        $memberId = opCalendarPluginToolkit::seekEmailAndGetMemberId($event->organizer->email);
+        if (!$memberId)
+        {
+          continue;
+        }
+
+        ScheduleMemberTable::getInstance()->updateScheduleMember(array(
+          'schedule_id' => $schedule->id,
+          'member_id' => $memberId,
+        ));
       }
 
       $conn->commit();
@@ -130,6 +130,6 @@ class PluginScheduleTable extends Doctrine_Table
       throw $e;
     }
 
-    return $id;
+    return $schedule->id;
   }
 }

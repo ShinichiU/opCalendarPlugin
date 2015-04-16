@@ -60,4 +60,20 @@ class PluginScheduleMemberTable extends Doctrine_Table
   {
     return Doctrine_Core::getTable('PluginScheduleMember');
   }
+
+  public function updateScheduleMember(Array $values)
+  {
+    $q = $this->createQuery()
+      ->where('schedule_id = ?', $values['schedule_id'])
+      ->andWhere('member_id = ?', $values['member_id']);
+
+    if ($q->fetchOne(array(), Doctrine_Core::HYDRATE_NONE))
+    {
+      return true;
+    }
+
+    $this->create($values)->save();
+
+    return true;
+  }
 }
