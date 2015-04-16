@@ -129,6 +129,14 @@ Google Data API Consumer Key および Secret は<a href="https://www.google.com
 
 <table>
 <?php echo $googleApiForm->renderFormTag(url_for('opCalendarPlugin_google_data_api_update', array('method' => 'post'))) ?>
+<tr>
+<th>
+<?php echo __(opGoogleDataApiConsumerKeyForm::FILE_NAME) ?>
+</th>
+<td>
+<?php echo $googleApiForm[opGoogleDataApiConsumerKeyForm::FILE_NAME]->render() ?>
+</td>
+</tr>
 <?php foreach($googleApiForm->getKeys() as $k => $v): ?>
 <tr>
 <th>

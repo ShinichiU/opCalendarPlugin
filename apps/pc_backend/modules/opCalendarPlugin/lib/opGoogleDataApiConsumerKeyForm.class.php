@@ -14,6 +14,10 @@ class opGoogleDataApiConsumerKeyForm extends BaseForm
     'op_calendar_google_data_api_auto_update' => 'Google Data API 自動更新機能使用しますか?(cronの設置が必要)',
   );
 
+  protected $fileModel = null;
+
+  const FILE_NAME = 'op_calendar_google_data_api_json_file';
+
   public function getKeys()
   {
     return $this->keys;
@@ -21,6 +25,29 @@ class opGoogleDataApiConsumerKeyForm extends BaseForm
 
   public function configure()
   {
+    $this->fileModel = new opGoogleOAuthJson;
+    $fileKey = opGoogleOAuthJson::FILE_NAME;
+
+    $options = array(
+      'file_src'     => '',
+      'is_image'     => false,
+      'with_delete'  => true,
+      'delete_label' => 'ファイルを削除する',
+      'label'        => false,
+      'edit_mode'    => false,
+    );
+
+    if ($this->fileModel->hasFile())
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('Partial');
+      $options['template'] = get_partial('opCalendarPlugin/formEditFile', array('file' => $this->fileModel->getFile()));
+      $options['edit_mode'] = true;
+      $this->setValidator($fileKey.'_delete', new sfValidatorBoolean(array('required' => false)));
+    }
+
+    $this->setWidget($fileKey, new sfWidgetFormInputFileEditable($options));
+    $this->setValidator($fileKey, new opValidatorGoogleApiJsonFile(array('required' => false)));
+
     $check = array(1 => 'yes');
     foreach ($this->keys as $key => $value)
     {
@@ -43,11 +70,21 @@ class opGoogleDataApiConsumerKeyForm extends BaseForm
 
   public function save()
   {
+    $fileKey = opGoogleOAuthJson::FILE_NAME;
+
     foreach ($this->getValues() as $key => $value)
     {
       if (isset($this->keys[$key]))
       {
         Doctrine_Core::getTable('SnsConfig')->set($key, (bool) $value);
+      }
+      elseif ($key === $fileKey.'_delete' && (bool) $value && $file = $this->fileModel->getFile())
+      {
+        $this->fileModel->delete();
+      }
+      elseif ($key === $fileKey && $value instanceof sfValidatedFile)
+      {
+        $this->fileModel->saveFile($value);
       }
     }
   }
