@@ -6,6 +6,13 @@ class opGoogleOAuthJson
 
   private $file;
 
+  public function __toString()
+  {
+    return (string) $this->getFile(true)
+      ->getFileBin()
+      ->getBin();
+  }
+
   public function hasFile()
   {
     if (is_null($this->file))
