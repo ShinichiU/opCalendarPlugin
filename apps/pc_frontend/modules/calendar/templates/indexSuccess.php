@@ -4,10 +4,10 @@
 <?php if (!$is_community && $isSelf && opConfig::get('op_calendar_google_data_api_is_active', false)): ?>
 <div class="block topBox">
 <p class="note_schedule">
-<?php if (opGoogleCalendarOAuth::getInstance()->isNeedRedirection()): ?>
-&nbsp;<?php echo link_to(__('Enable to Google Calendar\'s permission settings'), '@calendar_api') ?>
-<?php else: ?>
+<?php if (opGoogleCalendarOAuth::getInstance()->authenticate()): ?>
 &nbsp;<?php echo link_to(__('Add schedule to Google Calendar'), '@calendar_api_import') ?>
+<?php else: ?>
+&nbsp;<?php echo link_to(__('Enable to Google Calendar\'s permission settings'), '@calendar_api') ?>
 <?php endif ?>
 </p>
 </div>

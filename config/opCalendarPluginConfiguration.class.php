@@ -11,5 +11,6 @@ class opCalendarPluginConfiguration extends sfPluginConfiguration
 {
   public function initialize()
   {
+    require_once dirname(__FILE__).'/../lib/vendor/google-api-php-client/autoload.php';
   }
 }

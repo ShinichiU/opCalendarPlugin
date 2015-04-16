@@ -4,17 +4,14 @@ require_once('OAuth.php');
 
 class opGoogleCalendarOAuth
 {
-  const REQUEST_TOKEN_ENDPOINT = 'https://www.google.com/accounts/OAuthGetRequestToken';
-  const AUTHORIZE_ENDPOINT = 'https://www.google.com/accounts/OAuthAuthorizeToken';
-  const OAUTH_ACCESS_TOKEN_ENDPOINT = 'https://www.google.com/accounts/OAuthGetAccessToken';
-  const SCOPE = 'https://www.google.com/calendar/feeds/';
+  const ACCESS_TOKEN_KEY = 'google_calendar_oauth_access_token';
 
   protected static
     $instance = null,
     $last_status_code = null;
 
   protected
-    $consumer = null;
+    $client = null;
 
   public static function getInstance()
   {
@@ -29,54 +26,29 @@ class opGoogleCalendarOAuth
   public function __construct()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('opUtil');
-    $this->consumer = new OAuthConsumer(
-      opConfig::get('op_calendar_google_data_api_key', 'anonymous'),
-      opConfig::get('op_calendar_google_data_api_secret', 'anonymous')
-    );
+
+    $this->buildClient();
   }
 
-  public function getRequestToken()
+  protected function buildClient()
   {
-    $api = new opCalendarApi($this->consumer, null, opCalendarApiHandler::GET,
-      self::REQUEST_TOKEN_ENDPOINT,
-      array(
-        'oauth_callback' => app_url_for('pc_frontend', '@calendar_api_callback', true),
-        'scope' => self::SCOPE,
-      )
-    );
-    $api->setIsUseAuthorizedHeader(false);
-    $handler = new opCalendarApiHandler($api, new opCalendarApiResultsStr());
-
-    return $handler->execute();
+    $this->client = new Google_Client();
+    $json = new opGoogleOAuthJson;
+    $this->client->setAuthConfig((string) $json);
+    $this->client->addScope(Google_Service_Calendar::CALENDAR);
   }
 
-  public function getAuthUrl($oauth_token)
+  public function getClient()
   {
-    return sprintf('%s?oauth_token=%s', self::AUTHORIZE_ENDPOINT, $oauth_token);
+    return $this->client;
   }
 
-  public function getAccessToken($oauth_verifier, $oauth_token, $ouath_token_secret)
+  public function saveAccessToken(Member $member, $token)
   {
-    $api = new opCalendarApi($this->consumer, new OAuthConsumer($oauth_token, $ouath_token_secret), opCalendarApiHandler::GET,
-      self::OAUTH_ACCESS_TOKEN_ENDPOINT,
-      array('oauth_verifier' => $oauth_verifier)
-    );
-    $api->setIsUseAuthorizedHeader(false);
-    $handler = new opCalendarApiHandler($api, new opCalendarApiResultsStr());
-
-    return $handler->execute();
+    $member->setConfig(self::ACCESS_TOKEN_KEY, $token);
   }
 
-  public function saveAccessToken(Member $member, $oauth_token, $ouath_token_secret)
-  {
-    Doctrine_Core::getTable('MemberConfig')
-      ->setValue($member->id, 'google_calendar_oauth_token', $oauth_token);
-    Doctrine_Core::getTable('MemberConfig')
-      ->setValue($member->id, 'google_calendar_oauth_token_secret', $ouath_token_secret);
-
-  }
-
-  public function getAccessTokenDb(Member $member = null)
+  public function findAccessToken(Member $member = null)
   {
     if (null === $member)
     {
@@ -87,64 +59,26 @@ class opGoogleCalendarOAuth
       return null;
     }
 
-    $token = Doctrine_Core::getTable('MemberConfig')
-      ->retrieveByNameAndMemberId('google_calendar_oauth_token', $member->id);
-    $secret = Doctrine_Core::getTable('MemberConfig')
-      ->retrieveByNameAndMemberId('google_calendar_oauth_token_secret', $member->id);
-
-    if (!$token || !$secret)
-    {
-      return null;
-    }
-
-    return array('oauth_token' => $token->getValue(), 'oauth_token_secret' => $secret->getValue());
+    return $member->getConfig(self::ACCESS_TOKEN_KEY);
   }
 
-  public function isNeedRedirection(Member $member = null)
+  public function authenticate(Member $member = null)
   {
-    $token = $this->getAccessTokenDb($member);
-
-    if (null === $token || !$token['oauth_token'] || !$token['oauth_token_secret'])
-    {
-      return true;
-    }
-
-    return !$this->isActiveAccessTocken($token['oauth_token'], $token['oauth_token_secret']);
-  }
-
-  private function isActiveAccessTocken($oauth_token, $oauth_token_secret)
-  {
-    $api = new opCalendarApi(
-      $this->consumer,
-      new OAuthConsumer($oauth_token, $oauth_token_secret),
-      opCalendarApiHandler::GET,
-      self::SCOPE.'default/allcalendars/full'
-    );
-    $handler = new opCalendarApiHandler($api, new opCalendarApiResultsNoParse());
-
-    return $handler->execute()->is200StatusCode();
-  }
-
-  public function getContents($uri, $resultsClassName = 'opCalendarApiResultsCalendars', $method = opCalendarApiHandler::GET, $params = array())
-  {
-    $token = $this->getAccessTokenDb();
-
-    if (null === $token || !$token['oauth_token'] || !$token['oauth_token_secret'])
+    if (!$token = $this->findAccessToken($member))
     {
       return false;
     }
 
-    $api = new opCalendarApi(
-      $this->consumer,
-      new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']),
-      $method,
-      self::SCOPE.$uri,
-      $params
-    );
+    $this->client->setAccessToken($token);
+    if (!$this->client->isAccessTokenExpired())
+    {
+      return true;
+    }
 
-    $handler = new opCalendarApiHandler($api, new $resultsClassName());
-    $results = $handler->execute();
+    $this->client->refreshToken($this->client->getRefreshToken());
+    $token = $this->client->getAccessToken();
+    $this->saveAccessToken($member, $token);
 
-    return $results->is200StatusCode() ? $results : false;
+    return !$this->client->isAccessTokenExpired();
   }
 }

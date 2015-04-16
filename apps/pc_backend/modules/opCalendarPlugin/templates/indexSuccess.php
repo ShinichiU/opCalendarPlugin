@@ -123,12 +123,20 @@ SNS利用者がすでにリソースを予約している可能性もあるの�
 Google Data API からカレンダー情報を取得するためのコンシューマキーとコンシューマシークレットを取得します。<br />
 空入力すると無効になります。<br />
 変更した場合は、ユーザに再度認可画面が表示されます。<br />
-Google Data API Consumer Key および Secret は<a href="https://www.google.com/accounts/ManageDomains" target="_blank">こちら</a>から取得してください。<br />
-入力項目 "Target URL path prefix" には <?php echo app_url_for('pc_frontend', '@calendar_api_callback', true) ?> を入力します。
+Google Data API に使う JSON ファイルは<a href="https://console.developers.google.com/project" target="_blank">こちら</a>から取得してください。<br />
+入力項目 "承認済みのリダイレクト URI" には <?php echo app_url_for('pc_frontend', '@calendar_api_callback', true) ?> を入力します。
 </div>
 
 <table>
 <?php echo $googleApiForm->renderFormTag(url_for('opCalendarPlugin_google_data_api_update', array('method' => 'post'))) ?>
+<tr>
+<th>
+<?php echo __(opGoogleDataApiConsumerKeyForm::FILE_NAME) ?>
+</th>
+<td>
+<?php echo $googleApiForm[opGoogleDataApiConsumerKeyForm::FILE_NAME]->render() ?>
+</td>
+</tr>
 <?php foreach($googleApiForm->getKeys() as $k => $v): ?>
 <tr>
 <th>

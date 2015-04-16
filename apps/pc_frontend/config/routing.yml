@@ -127,6 +127,10 @@ calendar_api_callback:
   url: /calendarApi/callback
   param: { module: calendarApi, action: callback }
 
+calendar_api_set_access_token:
+  url: /calendarApi/setAccessToken
+  param: { module: calendarApi, action: setAccessToken }
+
 calendar_api_import:
   url: /calendarApi/import
   param: { module: calendarApi, action: import }

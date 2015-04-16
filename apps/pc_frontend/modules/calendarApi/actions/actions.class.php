@@ -22,12 +22,12 @@ class calendarApiActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->forward404Unless($this->opGoogleCalendarOAuth->isNeedRedirection());
-    $request_token = $this->opGoogleCalendarOAuth->getRequestToken();
-    $this->getUser()->setAttribute('opGoogleCalendarOAuthTokens', $request_token);
+    $this->forward404($this->opGoogleCalendarOAuth->authenticate());
 
-    $this->redirect($this->opGoogleCalendarOAuth->getAuthUrl($request_token['oauth_token']));
+    $this->redirect($this->opGoogleCalendarOAuth->getClient()->createAuthUrl());
   }
+
+  const TOKEN_SESSEION_KEY = 'calendar_api_access_token';
 
  /**
   * Executes callback action
@@ -36,19 +36,30 @@ class calendarApiActions extends sfActions
   */
   public function executeCallback(sfWebRequest $request)
   {
-    $this->forward404Unless($this->opGoogleCalendarOAuth->isNeedRedirection());
-    $user = $this->getUser();
-    $request_token = $user->getAttribute('opGoogleCalendarOAuthTokens');
-    if (!$request_token)
-    {
-      $user->setFlash('error', 'Error occured. Please retry.');
-      $this->redirect('@homepage');
-    }
-    $access_token = $this->opGoogleCalendarOAuth
-      ->getAccessToken($request->getParameter('oauth_verifier'), $request_token['oauth_token'], $request_token['oauth_token_secret']);
-    $this->opGoogleCalendarOAuth->saveAccessToken($user->getMember(), $access_token['oauth_token'], $access_token['oauth_token_secret']);
-    $user->setFlash('notice', 'Google Calendar API is now available.');
-    $user->getAttributeHolder()->remove('opGoogleCalendarOAuthTokens');
+    $code = $request['code'];
+
+    $client = $this->opGoogleCalendarOAuth->getClient();
+    $client->authenticate($code);
+
+    $this->getUser()->setFlash(self::TOKEN_SESSEION_KEY, $client->getAccessToken());
+
+    $this->redirect('@calendar_api_set_access_token');
+  }
+
+ /**
+  * Executes setAcessToken action
+  *
+  * @param sfWebRequest $request A request object
+  */
+  public function executeSetAccessToken(sfWebRequest $request)
+  {
+    $tokens = $this->getUser()->getFlash(self::TOKEN_SESSEION_KEY);
+    $this->forward404Unless($tokens);
+
+    $member = $this->getUser()->getMember();
+    $this->opGoogleCalendarOAuth->saveAccessToken($member, $tokens);
+
+    $this->getUser()->setFlash('notice', 'Google Calendar API is now available.');
     $this->redirect('@calendar_api_import');
   }
 
@@ -59,17 +70,21 @@ class calendarApiActions extends sfActions
   */
   public function executeImport(sfWebRequest $request)
   {
-    $this->forwardIf($this->opGoogleCalendarOAuth->isNeedRedirection(), 'calendarApi', 'index');
+    $this->forwardUnless($this->opGoogleCalendarOAuth->authenticate(), 'calendarApi', 'index');
 
-    if (!$results = $this->opGoogleCalendarOAuth->getContents('default/owncalendars/full'))
+    $calendar = new Google_Service_Calendar($this->opGoogleCalendarOAuth->getClient());
+    $list = $calendar->calendarList->listCalendarList();
+
+    if (!$list)
     {
-      return sfView::NONE;
+      $this->getUser()->setFlash('error', 'カレンダーの読み込みに失敗しました');
+
+      $this->redirect('@calendar');
     }
 
-    $list = $results->toArray();
     $this->form = new opGoogleCalendarChoiceForm(null, array(
-      'list' => $list,
-      'opGoogleCalendarOAuth' => $this->opGoogleCalendarOAuth
+      'list' => $list['items'],
+      'googleCalendar' => $calendar,
     ));
 
     if ($request->isMethod(sfWebRequest::POST))

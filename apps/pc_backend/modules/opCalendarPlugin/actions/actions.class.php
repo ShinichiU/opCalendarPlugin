@@ -190,7 +190,8 @@ class opCalendarPluginActions extends sfActions
 
   private function processForm(BaseForm $form, sfWebRequest $request, $type = null)
   {
-    $form->bind($request->getParameter($form->getName()));
+    $name = $form->getName();
+    $form->bind($request->getParameter($name), $request->getFiles($name));
     if ($this->setFlashMessageByType($form->isValid(), $type))
     {
       $form->save();
