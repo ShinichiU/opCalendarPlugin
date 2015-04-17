@@ -40,7 +40,8 @@ EOF;
     if (!count($crons))
     {
       $this->logSection('end', 'No cron data');
-      exit;
+
+      return true;
     }
 
     $this->consumer = new OAuthConsumer(
