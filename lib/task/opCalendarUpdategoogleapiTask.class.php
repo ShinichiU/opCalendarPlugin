@@ -2,7 +2,7 @@
 
 class opCalendarUpdategoogleapiTask extends sfBaseTask
 {
-  protected $consumer = null;
+  protected $opCalendarOAuth;
 
   protected function configure()
   {
@@ -31,83 +31,69 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     sfContext::createInstance($this->createConfiguration($options['application'], $options['env']), $options['application']);
 
-    if (!Doctrine_Core::getTable('SnsConfig')->get('op_calendar_google_data_api_auto_update', false))
+    if (!opConfig::get('op_calendar_google_data_api_auto_update', false))
     {
-      throw new sfException("This task is not allowed. \nPlease allow from 'pc_backend.php/opCalendarPlugin' setting.");
+      throw new sfException('This task is not allowed. Please allow from "pc_backend.php/opCalendarPlugin" setting.');
     }
 
     $crons = opCalendarPluginToolkit::getAllGoogleCalendarCronConfig();
     if (!count($crons))
     {
       $this->logSection('end', 'No cron data');
-      exit;
+
+      return true;
     }
 
-    $this->consumer = new OAuthConsumer(
-      opConfig::get('op_calendar_google_data_api_key', 'anonymous'),
-      opConfig::get('op_calendar_google_data_api_secret', 'anonymous')
-    );
+    $this->opCalendarOAuth = opCalendarOAuth::getInstance();
+
     $this->logSection('prepared', 'start update');
 
     foreach ($crons as $cron)
     {
-      $member = Doctrine_Core::getTable('Member')->find($cron['member_id']);
-      if (!$member)
-      {
-        continue;
-      }
-
-      $cron_config = unserialize($cron['serial']);
-      foreach ($cron_config['src'] as $src)
-      {
-        $this->logSection('start', 'update member_id: '.$cron['member_id']."\nscope: ".$src);
-        $result = $this->getContents($src, $cron);
-
-        if (!$result)
-        {
-          continue;
-        }
-
-        if (opCalendarPluginToolkit::insertSchedules($result->toArray(), $cron_config['public_flag'], true, $member))
-        {
-          $this->logSection('end', 'updated success member_id: '.$cron['member_id']."\nscope: ".$src);
-        }
-        else
-        {
-          $this->logSection('end', 'updated failed member_id: '.$cron['member_id']."\nscope: ".$src);
-        }
-
-        if ($options['interval'])
-        {
-          $this->logSection('sleep', 'set interval: '.$options['interval'].' second');
-          sleep((int)$options['interval']);
-        }
-      }
-
+      $this->updateMemberSchedule($cron, (int)$options['interval']);
     }
   }
 
-  protected function getContents($src, $token)
+  protected function updateMemberSchedule($cron, $interval)
   {
-    // get 3 months data.
-    $api = new opCalendarApi(
-      $this->consumer,
-      new OAuthConsumer($token['token'], $token['secret']),
-      opCalendarApiHandler::GET,
-      $src,
-      array(
-        'start-min' => date('Y-m-01\T00:00:00', strtotime('-1 month')),
-        'start-max' => sprintf(
-          date('Y-m-%02\d\T23:59:59', strtotime('+1 month')),
-          opCalendarPluginToolkit::getLastDay(date('m', strtotime('+1 month')))
-        ),
-        'alt' => 'jsonc',
-      )
-    );
+    $memberId = $cron['member_id'];
+    $member = Doctrine_Core::getTable('Member')->find($memberId);
+    if (!$member || !$this->opCalendarOAuth->authenticate($member))
+    {
+      return false;
+    }
 
-    $handler = new opCalendarApiHandler($api, new opCalendarApiResultsJsonEvents());
-    $results = $handler->execute();
+    $cronConfig = unserialize($cron['serial']);
+    foreach ($cronConfig['src'] as $id)
+    {
+      $this->logSection('prepare', sprintf('update member_id: %d, id: %s', $memberId, $id));
+      if (!$events = $this->getContents($id))
+      {
+        $this->logSection('result', 'skipped');
 
-    return $results->is200StatusCode() ? $results : false;
+        continue;
+      }
+
+      $isSuccess = opCalendarPluginToolkit::insertSchedules($events, $cronConfig['public_flag'], true, $member);
+      $this->logSection('result', $isSuccess ? 'success' : 'failed');
+
+      if ($interval)
+      {
+        $this->logSection('sleep', 'interval: '.$interval.' second');
+
+        sleep($interval);
+      }
+    }
+  }
+
+  protected function getContents($id)
+  {
+    $calendar = new Google_Service_Calendar($this->opCalendarOAuth->getClient());
+    $lastDay = opCalendarPluginToolkit::getLastDay(date('m', strtotime('+1 month')));
+
+    return $calendar->events->listEvents($id, array(
+      'timeMin' => date('c', strtotime(sprintf('%s-01 00:00:00', date('Y-m', strtotime('-1 month'))))),
+      'timeMax' => date('c', strtotime(sprintf('%s-%02d 23:59:59', date('Y-m', strtotime('+1 month')), $lastDay))),
+    ));
   }
 }
