@@ -9,7 +9,6 @@ class opCalendarUpdategoogleapiTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'pc_frontend'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
-      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       new sfCommandOption('interval', null, sfCommandOption::PARAMETER_REQUIRED, 'api interval time (second)', 0),
     ));
 
@@ -26,10 +25,7 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    // initialize the database connection
-    $databaseManager = new sfDatabaseManager($this->configuration);
-    $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-    sfContext::createInstance($this->createConfiguration($options['application'], $options['env']), $options['application']);
+    new sfDatabaseManager($this->configuration);
 
     if (!opConfig::get('op_calendar_google_data_api_auto_update', false))
     {
