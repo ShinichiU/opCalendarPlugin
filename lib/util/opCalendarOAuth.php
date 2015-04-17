@@ -44,8 +44,13 @@ class opCalendarOAuth
     return $this->client;
   }
 
-  public function saveAccessToken(Member $member, $token)
+  public function saveAccessToken(Member $member = null, $token)
   {
+    if (null === $member)
+    {
+      $member = sfContext::getInstance()->getUser()->getMember();
+    }
+
     $member->setConfig(self::ACCESS_TOKEN_KEY, $token);
   }
 
