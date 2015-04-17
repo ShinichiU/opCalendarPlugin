@@ -15,7 +15,7 @@ class opGoogleCalendarChoiceForm extends BaseForm
     $choices = array();
     foreach ($list as $value)
     {
-      $choices[$value->id] = $value->summary;
+      $choices[$value->id] = sprintf('%s (%s)', $value->summary, $value->id);
     }
     $months = array();
     for ($i = 1; $i <= 12; $i++)
