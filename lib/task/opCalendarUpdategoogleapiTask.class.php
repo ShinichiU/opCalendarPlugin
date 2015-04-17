@@ -31,7 +31,7 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     sfContext::createInstance($this->createConfiguration($options['application'], $options['env']), $options['application']);
 
-    if (!Doctrine_Core::getTable('SnsConfig')->get('op_calendar_google_data_api_auto_update', false))
+    if (!opConfig::get('op_calendar_google_data_api_auto_update', false))
     {
       throw new sfException("This task is not allowed. \nPlease allow from 'pc_backend.php/opCalendarPlugin' setting.");
     }
