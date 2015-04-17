@@ -4,7 +4,7 @@ class opCalendarOAuth
 {
   const ACCESS_TOKEN_KEY = 'google_calendar_oauth_access_token';
 
-  protected static
+  private static
     $instance = null;
 
   protected
@@ -20,7 +20,7 @@ class opCalendarOAuth
     return self::$instance;
   }
 
-  public function __construct()
+  private function __construct()
   {
     $this->buildClient();
   }
