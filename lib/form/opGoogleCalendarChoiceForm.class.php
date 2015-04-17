@@ -72,7 +72,7 @@ class opGoogleCalendarChoiceForm extends BaseForm
   {
     $values = $this->getValues();
     $id = $values['choice'];
-    $googleCronUpdate = (bool) $values['google_cron_update'];
+    $googleCronUpdate = isset($values['google_cron_update']) && (bool) $values['google_cron_update'];
     $publicFlag = $values['public_flag'];
 
     $calendar = $this->getOption('googleCalendar');
