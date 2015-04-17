@@ -119,6 +119,11 @@ class opCalendarPluginExtension
 
   private static function getMyCommunityEvent($startday = null, $endday = null, $targetDay = null, $is_setKeydate = true, Community $community = null)
   {
+    if (!class_exists('CommunityEvent'))
+    {
+      return array();
+    }
+
     $memberId = self::getMyId();
 
     if (is_null(self::$communityMemberIds))
