@@ -22,7 +22,7 @@ class calendarApiActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->forward404($this->opGoogleCalendarOAuth->authenticate());
+    $this->forward404If($this->opGoogleCalendarOAuth->authenticate());
 
     $this->redirect($this->opGoogleCalendarOAuth->getClient()->createAuthUrl());
   }
