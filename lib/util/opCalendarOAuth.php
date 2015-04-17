@@ -32,6 +32,7 @@ class opCalendarOAuth
     $this->client->setAuthConfig((string) $json);
     $this->client->addScope(Google_Service_Calendar::CALENDAR);
     $this->client->setAccessType('offline');
+    $this->client->setApprovalPrompt('force');
   }
 
   public function getClient()
