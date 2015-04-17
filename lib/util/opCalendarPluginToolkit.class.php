@@ -167,10 +167,11 @@ EOT;
     return self::$cached_emails[$email];
   }
 
-  public static function getLastDay($month)
+  public static function getLastDay($month, $year = null)
   {
+    $year = $year ? $year : date('Y');
     $limitedMonths = array(
-      2 => self::isLeap((int)date('Y')) ? 28 : 29,
+      2 => self::isLeap((int)$year) ? 28 : 29,
       4 => 30,
       6 => 30,
       9 => 30,
