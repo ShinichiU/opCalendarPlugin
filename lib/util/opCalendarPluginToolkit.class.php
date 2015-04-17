@@ -60,25 +60,25 @@ class opCalendarPluginToolkit
    */
   static public function getAllGoogleCalendarCronConfig()
   {
-    $scheduleMemberTable = Doctrine_Core::getTable('MemberConfig');
-    $conn = $scheduleMemberTable->getConnection();
+    $conn = ScheduleMemberTable::getInstance()->getConnection();
 
-    $mctable = $scheduleMemberTable->getTableName();
-    $sql = 'SELECT mc.member_id as member_id, mc2.value as serial,'
-         . ' mc3.value as token, mc4.value as secret'
-         . ' FROM '.$mctable.' as mc'
-         . ' JOIN '.$mctable.' as mc2 ON mc.member_id = mc2.member_id'
-         . ' JOIN '.$mctable.' as mc3 ON mc.member_id = mc3.member_id'
-         . ' JOIN '.$mctable.' as mc4 ON mc.member_id = mc4.member_id'
-         . ' WHERE mc.name = ? AND mc.value = ?'
-         . ' AND mc2.name = ? AND mc3.name = ? AND mc4.name = ?';
+    $sql = <<<EOT
+SELECT
+ mc.member_id AS member_id,
+ mc2.value AS serial
+ FROM member_config AS mc
+ LEFT JOIN member_config AS mc2
+ ON mc.member_id = mc2.member_id
+ AND mc.name_value_hash = ?
+ AND mc.name = ?
+ AND mc2.name = ?
+;
+EOT;
 
     return $conn->fetchAll($sql, array(
+      md5('google_cron_update,1'),
       'google_cron_update',
-      1,
       'google_cron_update_params',
-      'google_calendar_oauth_token',
-      'google_calendar_oauth_token_secret',
     ));
   }
 
