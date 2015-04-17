@@ -107,9 +107,9 @@ class PluginScheduleTable extends Doctrine_Table
         'member_id' => $schedule->member_id,
       ));
 
-      foreach ($event->organizer as $organizer)
+      foreach ($event->attendees as $attendee)
       {
-        $memberId = opCalendarPluginToolkit::seekEmailAndGetMemberId($event->organizer->email);
+        $memberId = opCalendarPluginToolkit::seekEmailAndGetMemberId($attendee->email);
         if (!$memberId)
         {
           continue;
