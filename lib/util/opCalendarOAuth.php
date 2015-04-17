@@ -2,7 +2,7 @@
 
 require_once('OAuth.php');
 
-class opGoogleCalendarOAuth
+class opCalendarOAuth
 {
   const ACCESS_TOKEN_KEY = 'google_calendar_oauth_access_token';
 
@@ -36,6 +36,7 @@ class opGoogleCalendarOAuth
     $json = new opGoogleOAuthJson;
     $this->client->setAuthConfig((string) $json);
     $this->client->addScope(Google_Service_Calendar::CALENDAR);
+    $this->client->setAccessType('offline');
   }
 
   public function getClient()

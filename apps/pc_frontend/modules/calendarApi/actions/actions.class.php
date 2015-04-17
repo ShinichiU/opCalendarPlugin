@@ -12,7 +12,7 @@ class calendarApiActions extends sfActions
   public function preExecute()
   {
     $this->forward404Unless(opConfig::get('op_calendar_google_data_api_is_active', false));
-    $this->opGoogleCalendarOAuth = opGoogleCalendarOAuth::getInstance();
+    $this->opCalendarOAuth = opCalendarOAuth::getInstance();
   }
 
  /**
@@ -22,9 +22,9 @@ class calendarApiActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->forward404($this->opGoogleCalendarOAuth->authenticate());
+    $this->forward404If($this->opCalendarOAuth->authenticate());
 
-    $this->redirect($this->opGoogleCalendarOAuth->getClient()->createAuthUrl());
+    $this->redirect($this->opCalendarOAuth->getClient()->createAuthUrl());
   }
 
   const TOKEN_SESSEION_KEY = 'calendar_api_access_token';
@@ -38,7 +38,7 @@ class calendarApiActions extends sfActions
   {
     $code = $request['code'];
 
-    $client = $this->opGoogleCalendarOAuth->getClient();
+    $client = $this->opCalendarOAuth->getClient();
     $client->authenticate($code);
 
     $this->getUser()->setFlash(self::TOKEN_SESSEION_KEY, $client->getAccessToken());
@@ -53,11 +53,11 @@ class calendarApiActions extends sfActions
   */
   public function executeSetAccessToken(sfWebRequest $request)
   {
-    $tokens = $this->getUser()->getFlash(self::TOKEN_SESSEION_KEY);
-    $this->forward404Unless($tokens);
+    $token = $this->getUser()->getFlash(self::TOKEN_SESSEION_KEY);
+    $this->forward404Unless($token);
 
     $member = $this->getUser()->getMember();
-    $this->opGoogleCalendarOAuth->saveAccessToken($member, $tokens);
+    $this->opCalendarOAuth->saveAccessToken($member, $token);
 
     $this->getUser()->setFlash('notice', 'Google Calendar API is now available.');
     $this->redirect('@calendar_api_import');
@@ -70,9 +70,9 @@ class calendarApiActions extends sfActions
   */
   public function executeImport(sfWebRequest $request)
   {
-    $this->forwardUnless($this->opGoogleCalendarOAuth->authenticate(), 'calendarApi', 'index');
+    $this->forwardUnless($this->opCalendarOAuth->authenticate(), 'calendarApi', 'index');
 
-    $calendar = new Google_Service_Calendar($this->opGoogleCalendarOAuth->getClient());
+    $calendar = new Google_Service_Calendar($this->opCalendarOAuth->getClient());
     $list = $calendar->calendarList->listCalendarList();
 
     if (!$list)
