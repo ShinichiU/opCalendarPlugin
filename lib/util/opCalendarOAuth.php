@@ -2,7 +2,7 @@
 
 require_once('OAuth.php');
 
-class opGoogleCalendarOAuth
+class opCalendarOAuth
 {
   const ACCESS_TOKEN_KEY = 'google_calendar_oauth_access_token';
 
