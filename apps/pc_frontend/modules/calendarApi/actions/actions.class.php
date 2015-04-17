@@ -27,7 +27,7 @@ class calendarApiActions extends sfActions
     $this->redirect($this->opCalendarOAuth->getClient()->createAuthUrl());
   }
 
-  const TOKEN_SESSEION_KEY = 'calendar_api_access_token';
+  const TOKEN_CODE_KEY = 'calendar_api_access_token_code';
 
  /**
   * Executes callback action
@@ -36,12 +36,7 @@ class calendarApiActions extends sfActions
   */
   public function executeCallback(sfWebRequest $request)
   {
-    $code = $request['code'];
-
-    $client = $this->opCalendarOAuth->getClient();
-    $client->authenticate($code);
-
-    $this->getUser()->setFlash(self::TOKEN_SESSEION_KEY, $client->getAccessToken());
+    $this->getUser()->setFlash(self::TOKEN_CODE_KEY, $request['code']);
 
     $this->redirect('@calendar_api_set_access_token');
   }
@@ -53,11 +48,14 @@ class calendarApiActions extends sfActions
   */
   public function executeSetAccessToken(sfWebRequest $request)
   {
-    $token = $this->getUser()->getFlash(self::TOKEN_SESSEION_KEY);
-    $this->forward404Unless($token);
+    $code = $this->getUser()->getFlash(self::TOKEN_CODE_KEY);
+    $this->forward404Unless($code);
+
+    $client = $this->opCalendarOAuth->getClient();
+    $client->authenticate($code);
 
     $member = $this->getUser()->getMember();
-    $this->opCalendarOAuth->saveAccessToken($member, $token);
+    $this->opCalendarOAuth->saveAccessToken($member, $client->getAccessToken());
 
     $this->getUser()->setFlash('notice', 'Google Calendar API is now available.');
     $this->redirect('@calendar_api_import');
