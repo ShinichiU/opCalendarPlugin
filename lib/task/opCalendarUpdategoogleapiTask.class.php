@@ -33,7 +33,7 @@ EOF;
 
     if (!opConfig::get('op_calendar_google_data_api_auto_update', false))
     {
-      throw new sfException("This task is not allowed. \nPlease allow from 'pc_backend.php/opCalendarPlugin' setting.");
+      throw new sfException('This task is not allowed. Please allow from "pc_backend.php/opCalendarPlugin" setting.');
     }
 
     $crons = opCalendarPluginToolkit::getAllGoogleCalendarCronConfig();
@@ -51,9 +51,14 @@ EOF;
 
     foreach ($crons as $cron)
     {
+      $memberId = $cron['member_id'];
+      $this->logSection('prepare', sprintf('update member_id: %d, id: %s', $memberId, $id));
+
       $member = Doctrine_Core::getTable('Member')->find($cron['member_id']);
       if (!$member)
       {
+        $this->logSection('result', 'skipped');
+
         continue;
       }
 
@@ -65,21 +70,18 @@ EOF;
 
         if (!$result)
         {
+          $this->logSection('result', 'skipped');
+
           continue;
         }
 
-        if (opCalendarPluginToolkit::insertSchedules($result->toArray(), $cron_config['public_flag'], true, $member))
-        {
-          $this->logSection('end', 'updated success member_id: '.$cron['member_id']."\nscope: ".$src);
-        }
-        else
-        {
-          $this->logSection('end', 'updated failed member_id: '.$cron['member_id']."\nscope: ".$src);
-        }
+        $isSuccess = (bool) opCalendarPluginToolkit::insertSchedules($result->toArray(), $cron_config['public_flag'], true, $member);
+        $this->logSection('result', $isSuccess ? 'success' : 'failed');
 
         if ($options['interval'])
         {
-          $this->logSection('sleep', 'set interval: '.$options['interval'].' second');
+          $this->logSection('sleep', 'interval: '.$options['interval'].' second');
+
           sleep((int)$options['interval']);
         }
       }
