@@ -47,39 +47,42 @@ EOF;
     $this->opCalendarOAuth = opCalendarOAuth::getInstance();
 
     $this->logSection('prepared', 'start update');
-    $interval = $options['interval'];
 
     foreach ($crons as $cron)
     {
-      $memberId = $cron['member_id'];
-      $member = Doctrine_Core::getTable('Member')->find($memberId);
-      if (!$member || !$this->opCalendarOAuth->authenticate($member))
+      $this->updateMemberSchedule($cron, (int)$options['interval']);
+    }
+  }
+
+  protected function updateMemberSchedule($cron, $interval)
+  {
+    $memberId = $cron['member_id'];
+    $member = Doctrine_Core::getTable('Member')->find($memberId);
+    if (!$member || !$this->opCalendarOAuth->authenticate($member))
+    {
+      return false;
+    }
+
+    $cronConfig = unserialize($cron['serial']);
+    foreach ($cronConfig['src'] as $id)
+    {
+      $this->logSection('prepare', sprintf('update member_id: %d, id: %s', $memberId, $id));
+      if (!$events = $this->getContents($id))
       {
-        return false;
+        $this->logSection('result', 'skipped');
+
+        continue;
       }
 
-      $cronConfig = unserialize($cron['serial']);
-      foreach ($cronConfig['src'] as $id)
+      $isSuccess = opCalendarPluginToolkit::insertSchedules($events, $cronConfig['public_flag'], true, $member);
+      $this->logSection('result', $isSuccess ? 'success' : 'failed');
+
+      if ($interval)
       {
-        $this->logSection('prepare', sprintf('update member_id: %d, id: %s', $memberId, $id));
-        if (!$events = $this->getContents($id))
-        {
-          $this->logSection('result', 'skipped');
+        $this->logSection('sleep', 'interval: '.$interval.' second');
 
-          continue;
-        }
-
-        $isSuccess = opCalendarPluginToolkit::insertSchedules($events, $cronConfig['public_flag'], true, $member);
-        $this->logSection('result', $isSuccess ? 'success' : 'failed');
-
-        if ($interval)
-        {
-          $this->logSection('sleep', 'interval: '.$interval.' second');
-
-          sleep($interval);
-        }
+        sleep($interval);
       }
-
     }
   }
 
