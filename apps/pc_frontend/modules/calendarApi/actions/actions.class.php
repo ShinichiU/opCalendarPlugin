@@ -53,11 +53,11 @@ class calendarApiActions extends sfActions
   */
   public function executeSetAccessToken(sfWebRequest $request)
   {
-    $tokens = $this->getUser()->getFlash(self::TOKEN_SESSEION_KEY);
-    $this->forward404Unless($tokens);
+    $token = $this->getUser()->getFlash(self::TOKEN_SESSEION_KEY);
+    $this->forward404Unless($token);
 
     $member = $this->getUser()->getMember();
-    $this->opCalendarOAuth->saveAccessToken($member, $tokens);
+    $this->opCalendarOAuth->saveAccessToken($member, $token);
 
     $this->getUser()->setFlash('notice', 'Google Calendar API is now available.');
     $this->redirect('@calendar_api_import');
