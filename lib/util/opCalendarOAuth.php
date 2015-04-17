@@ -1,14 +1,11 @@
 <?php
 
-require_once('OAuth.php');
-
 class opCalendarOAuth
 {
   const ACCESS_TOKEN_KEY = 'google_calendar_oauth_access_token';
 
   protected static
-    $instance = null,
-    $last_status_code = null;
+    $instance = null;
 
   protected
     $client = null;
@@ -25,8 +22,6 @@ class opCalendarOAuth
 
   public function __construct()
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('opUtil');
-
     $this->buildClient();
   }
 
@@ -60,10 +55,6 @@ class opCalendarOAuth
     {
       $member = sfContext::getInstance()->getUser()->getMember();
     }
-    if (!$member || !$member->id)
-    {
-      return null;
-    }
 
     return $member->getConfig(self::ACCESS_TOKEN_KEY);
   }
@@ -82,8 +73,7 @@ class opCalendarOAuth
     }
 
     $this->client->refreshToken($this->client->getRefreshToken());
-    $token = $this->client->getAccessToken();
-    $this->saveAccessToken($member, $token);
+    $this->saveAccessToken($member, $this->client->getAccessToken());
 
     return !$this->client->isAccessTokenExpired();
   }
