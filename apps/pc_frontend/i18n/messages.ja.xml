@@ -286,6 +286,14 @@
         <source>Do Auto Update</source>
         <target>カレンダーの自動更新を行う</target>
       </trans-unit>
+      <trans-unit id="">
+        <source>Is Google calendar OAuth key revoke</source>
+        <target>Google Calendar の OAuth キーを削除</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Is delete.</source>
+        <target>削除する</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
