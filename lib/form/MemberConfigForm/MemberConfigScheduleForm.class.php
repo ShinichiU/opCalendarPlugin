@@ -58,7 +58,7 @@ class MemberConfigScheduleForm extends MemberConfigForm
 
   public function save()
   {
-    if ($this->isOAuthAuthenticate() && $this->values[self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE])
+    if ($this->isOAuthAuthenticate() && array_key_exists(self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE, $this->values))
     {
       $isDelete = (bool) $this->values[self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE];
       unset($this->values[self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE]);
