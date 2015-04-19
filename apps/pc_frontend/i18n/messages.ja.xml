@@ -294,6 +294,10 @@
         <source>Is delete.</source>
         <target>削除する</target>
       </trans-unit>
+      <trans-unit id="">
+        <source>Revoke Google calendar OAuth key</source>
+        <target>Google Calendar の OAuth キーの削除</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

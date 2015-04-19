@@ -5,7 +5,7 @@
 <div class="block topBox">
 <p class="note_schedule">
 <?php if (opCalendarOAuth::getInstance()->authenticate()): ?>
-&nbsp;<?php echo link_to(__('Add schedule to Google Calendar'), '@calendar_api_import') ?>
+&nbsp;<?php echo link_to(__('Add schedule to Google Calendar'), '@calendar_api_import') ?>&nbsp;(<?php echo link_to(__('Revoke Google calendar OAuth key'), '@member_config?category=schedule') ?>)
 <?php else: ?>
 &nbsp;<?php echo link_to(__('Enable to Google Calendar\'s permission settings'), '@calendar_api') ?>
 <?php endif ?>
