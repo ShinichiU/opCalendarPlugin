@@ -81,3 +81,21 @@ function op_calendar_format_date($date, $format = 'd', $culture = null, $charset
   }
   return $result;
 }
+
+function op_link_to_schedule($schedule, $width = 40)
+{
+  $space = '&nbsp;';
+  $icon = sprintf(
+    '<span class="icon">%s%s</span>',
+    image_tag('/opCalendarPlugin/images/icon_pen.gif', array('alt' => '[予]')).$space,
+    $schedule->getApiIdUnique() ? image_tag(
+      '//www.google.com/images/icons/product/calendar-16.png',
+      array('raw_name' => true, 'alt' => 'Google Calendar')
+    ).$space : ''
+  );
+
+  return link_to(
+    $icon.op_truncate($schedule->title, $width, '...', 1),
+    '@schedule_show?id='.$schedule->id
+  );
+}
