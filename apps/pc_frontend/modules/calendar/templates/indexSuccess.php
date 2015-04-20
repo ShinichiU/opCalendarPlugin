@@ -1,3 +1,4 @@
+<?php use_helper('opCalendar') ?>
 <div class="dparts monthlyCalendarTable"><div class="parts">
 <div class="partsHeading"><h3><?php $is_community ? printf('[%s] ', $community->name) : '' ?><?php echo format_number_choice('[0]%ym%|[1]%ym% of %f%', array('%ym%' => op_format_date(mktime(0, 0, 0, $ym['month_disp'], 1, $ym['year_disp']), 'XCalendarMonth'), '%f%' => $member->name), $is_community ? 1 : $isSelf ? 0 : 1) ?></h3></div>
 
@@ -85,7 +86,7 @@ else
 <?php endforeach ?>
 <?php foreach ($item['schedules'] as $schedule): ?>
 <?php if ($schedule->isShowable($sf_user->getMemberId())): ?>
-<p class="schedule"><?php echo link_to(sprintf('<span class="icon">%s </span>%s', image_tag('/opCalendarPlugin/images/icon_pen.gif', array('alt' => '[予]')), op_truncate($schedule->title, 40, '...', 1)), '@schedule_show?id='.$schedule->id) ?></p>
+<p class="schedule"><?php echo op_link_to_schedule($schedule) ?></p>
 <?php endif ?>
 <?php endforeach ?>
 </td>
