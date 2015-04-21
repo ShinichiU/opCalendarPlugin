@@ -36,7 +36,6 @@ class opCalendarPluginToolkit
 
     $member->setConfig('google_cron_update', (bool) $cronFlag);
     $member->setConfig('google_cron_update_public_flag', (bool) $publicFlag);
-    $member->setConfig('opCalendarPlugin_email', $id);
   }
 
   /**
@@ -143,6 +142,26 @@ EOT;
     self::$cached_emails[$email] = $conn->fetchOne($sql, $params);
 
     return self::$cached_emails[$email];
+  }
+
+  public static function deleteMemberGoogleCalendar(Member $member)
+  {
+    Doctrine_Core::getTable('MemberConfig')->createQuery()
+      ->delete()
+      ->whereIn('name', array(
+        'google_calendar_oauth_access_token',
+        'google_cron_update',
+        'google_cron_update_public_flag',
+        'opCalendarPlugin_email',
+      ))
+      ->andWhere('member_id = ?', $member->id)
+      ->execute();
+
+    ScheduleTable::getInstance()->createQuery()
+      ->delete()
+      ->where('member_id = ?', $member->id)
+      ->andWhere('api_id_unique IS NOT NULL')
+      ->execute();
   }
 
   public static function getLastDay($month, $year = null)

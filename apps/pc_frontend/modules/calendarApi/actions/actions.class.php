@@ -55,7 +55,16 @@ class calendarApiActions extends sfActions
     $client->authenticate($code);
 
     $member = $this->getUser()->getMember();
-    $this->opCalendarOAuth->saveAccessToken($member, $client->getAccessToken());
+    $token = $client->getAccessToken();
+    if ($this->opCalendarOAuth->isAlreadyUsedCalendarId($member, $token))
+    {
+      $member = $this->getUser()->setFlash('error', 'This calendar is used other SNS Member.');
+
+      $this->redirect('@calendar');
+    }
+
+    $this->opCalendarOAuth->saveAccessToken($member, $token);
+    $this->opCalendarOAuth->savePrimaryId($member, $this->opCalendarOAuth->getPrimaryId($member, $token));
 
     $this->getUser()->setFlash('notice', 'Google Calendar API is now available.');
     $this->redirect('@calendar_api_import');

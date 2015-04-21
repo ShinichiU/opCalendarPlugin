@@ -50,6 +50,16 @@ class opCalendarOAuth
     $member->setConfig(self::ACCESS_TOKEN_KEY, $token);
   }
 
+  public function savePrimaryId(Member $member = null, $id)
+  {
+    if (null === $member)
+    {
+      $member = sfContext::getInstance()->getUser()->getMember();
+    }
+
+    $member->setConfig('opCalendarPlugin_email', $id);
+  }
+
   public function findAccessToken(Member $member = null)
   {
     if (null === $member)
@@ -60,9 +70,9 @@ class opCalendarOAuth
     return $member->getConfig(self::ACCESS_TOKEN_KEY);
   }
 
-  public function authenticate(Member $member = null)
+  public function authenticate(Member $member = null, $token = null)
   {
-    if (!$token = $this->findAccessToken($member))
+    if (!$token && !($token = $this->findAccessToken($member)))
     {
       return false;
     }
@@ -79,13 +89,32 @@ class opCalendarOAuth
     return !$this->client->isAccessTokenExpired();
   }
 
-  public function getCalendar($member = null)
+  public function getCalendar(Member $member = null, $token = null)
   {
-    if (!$this->authenticate($member))
+    if (!$this->authenticate($member, $token))
     {
       return false;
     }
 
     return new Google_Service_Calendar($this->getClient());
+  }
+
+  public function getPrimaryId(Member $member = null, $token = null)
+  {
+    if (!$calendar = $this->getCalendar($member, $token))
+    {
+      return false;
+    }
+
+    return $calendar->calendars->get('primary')->id;
+  }
+
+  public function isAlreadyUsedCalendarId(Member $member = null, $token = null)
+  {
+    $id = $this->getPrimaryId($member, $token);
+
+    $memberId = opCalendarPluginToolkit::seekEmailAndGetMemberId($id);
+
+    return $memberId && (int)$member->id !== (int)$memberId;
   }
 }

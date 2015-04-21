@@ -298,6 +298,14 @@
         <source>Revoke Google calendar OAuth key</source>
         <target>Google Calendar の OAuth キーの削除</target>
       </trans-unit>
+      <trans-unit id="">
+        <source>Please note that the schedule data in cooperation with OAuth key will disappear all.</source>
+        <target>OAuth のキーと連携したスケジュールデータが全て消えますのでご注意ください。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>This calendar is used other SNS Member.</source>
+        <target>このカレンダーは既に別のSNSメンバによって連携されています</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

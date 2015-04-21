@@ -51,7 +51,20 @@ class opGoogleCalendarChoiceForm extends BaseForm
       $this->setDefault('google_cron_update', $this->member->getConfig('google_cron_update', 0));
       $this->widgetSchema->setLabel('google_cron_update', 'Google Calendar Auto Update');
     }
+
+    $this->mergePostValidator(new sfValidatorCallback(array('callback' => array($this, 'validateId'))));
+
     $this->widgetSchema->setNameFormat('google_calendars[%s]');
+  }
+
+  public function validateId($validator, $values, $arguments = array())
+  {
+    if (opCalendarOAuth::getInstance()->isAlreadyUsedCalendarId($this->member))
+    {
+      throw new sfValidatorError($validator, 'This calendar is used other SNS Member.');
+    }
+
+    return $values;
   }
 
   public function save()
