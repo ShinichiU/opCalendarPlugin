@@ -36,7 +36,6 @@ class opCalendarPluginToolkit
 
     $member->setConfig('google_cron_update', (bool) $cronFlag);
     $member->setConfig('google_cron_update_public_flag', (bool) $publicFlag);
-    $member->setConfig('opCalendarPlugin_email', $id);
   }
 
   /**
