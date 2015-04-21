@@ -60,23 +60,23 @@ class opGoogleCalendarChoiceForm extends BaseForm
     $id = $this->getOption('id');
     $googleCronUpdate = isset($values['google_cron_update']) && (bool) $values['google_cron_update'];
     $publicFlag = $values['public_flag'];
-
     $calendar = $this->getOption('googleCalendar');
 
     $lastDay = opCalendarPluginToolkit::getLastDay($values['months']);
     $yearMonth = sprintf('%04d-%02d', date('Y'), $values['months']);
 
-    $result = $calendar->events->listEvents($id, array(
+    $events = $calendar->events->listEvents($id, array(
       'timeMin' => date('c', strtotime(sprintf('%s-01 00:00:00', $yearMonth))),
       'timeMax' => date('c', strtotime(sprintf('%s-%02d 23:59:59', $yearMonth, $lastDay))),
     ));
 
-    if (!$result)
+    if (!$events)
     {
       return false;
     }
+
     opCalendarPluginToolkit::updateGoogleCalendarCronFlags($id, $googleCronUpdate, $publicFlag, $this->member);
 
-    return opCalendarPluginToolkit::insertSchedules($result, $publicFlag);
+    return opCalendarPluginToolkit::insertSchedules($events, $publicFlag);
   }
 }
