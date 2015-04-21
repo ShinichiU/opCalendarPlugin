@@ -68,20 +68,10 @@ class calendarApiActions extends sfActions
   */
   public function executeImport(sfWebRequest $request)
   {
-    $this->forwardUnless($this->opCalendarOAuth->authenticate(), 'calendarApi', 'index');
-
-    $calendar = new Google_Service_Calendar($this->opCalendarOAuth->getClient());
-    $list = $calendar->calendarList->listCalendarList();
-
-    if (!$list)
-    {
-      $this->getUser()->setFlash('error', 'カレンダーの読み込みに失敗しました');
-
-      $this->redirect('@calendar');
-    }
+    $this->forwardUnless($calendar = $this->opCalendarOAuth->getCalendar(), 'calendarApi', 'index');
 
     $this->form = new opGoogleCalendarChoiceForm(null, array(
-      'list' => $list['items'],
+      'id' => $calendar->calendars->get('primary')->id,
       'googleCalendar' => $calendar,
     ));
 

@@ -22,34 +22,21 @@ class opCalendarPluginToolkit
    *
    * Cronでの自動更新設定を反映するメソッド
    *
-   * @param  String  $src            Google Api を更新する カレンダーのキーとなるソース
-   * @param  Integer $cron_flag      cron 使用有無
-   * @param  Integer $public_flag    スケジュールの公開範囲
-   * @param  mixed   $member         Member インスタンス (Optional)
+   * @param  String  $id             Google Api を更新する カレンダーのキーとなるソース
+   * @param  Boolean $cronFlag       cron 使用有無
+   * @param  Integer $publicFlag     スケジュールの公開範囲
+   * @param  mixed   Member|null     Member インスタンス (Optional)
    */
-  static public function updateGoogleCalendarCronFlags($src, $cron_flag, $public_flag, Member $member = null)
+  static public function updateGoogleCalendarCronFlags($id, $cronFlag, $publicFlag, Member $member = null)
   {
     if (null === $member)
     {
       $member = sfContext::getInstance()->getMember();
     }
 
-    $member->setConfig('google_cron_update', $cron_flag);
-    if (!$cron_flag)
-    {
-      return false;
-    }
-
-    $crondata = $member->getConfig('google_cron_update_params');
-    $update_params = array();
-    if ($crondata)
-    {
-      $update_params = unserialize($crondata);
-    }
-    $update_params['src'][] = $src;
-    $update_params['src'] = array_unique($update_params['src']);
-    $update_params['public_flag'] = $public_flag;
-    $member->setConfig('google_cron_update_params', serialize($update_params));
+    $member->setConfig('google_cron_update', (bool) $cronFlag);
+    $member->setConfig('google_cron_update_public_flag', (bool) $publicFlag);
+    $member->setConfig('opCalendarPlugin_email', $id);
   }
 
   /**
@@ -65,20 +52,25 @@ class opCalendarPluginToolkit
     $sql = <<<EOT
 SELECT
  mc.member_id AS member_id,
- mc2.value AS serial
+ mc2.value AS public_flag,
+ mc3.value AS id
  FROM member_config AS mc
- LEFT JOIN member_config AS mc2
+ INNER JOIN member_config AS mc2
  ON mc.member_id = mc2.member_id
  AND mc.name_value_hash = ?
  AND mc.name = ?
  AND mc2.name = ?
+ INNER JOIN member_config AS mc3
+ ON mc.member_id = mc3.member_id
+ AND mc3.name = ?
 ;
 EOT;
 
     return $conn->fetchAll($sql, array(
       md5('google_cron_update,1'),
       'google_cron_update',
-      'google_cron_update_params',
+      'google_cron_update_public_flag',
+      'opCalendarPlugin_email',
     ));
   }
 
@@ -87,16 +79,13 @@ EOT;
    *
    * APIから取得した配列をScheduleに挿入するメソッド
    *
-   * @param  Array   $list           スケジュールの配列
-   * @param  Integer $public_flag    スケジュールの公開範囲
-   * @param  Boolean $isSaveEmail  APIから取得した本人のメールアドレスを保存するか否か
-   * @param  mixed   $member         Member インスタンス (Optional)
-   * @return Boolean 該当する member_id、ヒットしない場合は false
+   * @param  Array   $list         スケジュールの配列
+   * @param  Integer $public_flag  スケジュールの公開範囲
+   * @param  mixed   $member       Member インスタンス (Optional)
+   * @return Boolean               該当する member_id、ヒットしない場合は false
    */
-  static public function insertSchedules(Google_Service_Calendar_Events $events, $publicFlag, $isSaveEmail = true, Member $member = null)
+  static public function insertSchedules(Google_Service_Calendar_Events $events, $publicFlag, Member $member = null)
   {
-    static $first = true;
-
     $count = count($events['items']);
     $okCount = 0;
 
@@ -107,17 +96,6 @@ EOT;
 
     foreach ($events['items'] as $event)
     {
-      $authorEmail = $event->email;
-      if ($isSaveEmail && $first)
-      {
-        if (!$id = self::seekEmailAndGetMemberId($authorEmail))
-        {
-          $member->setConfig('opCalendarPlugin_email', $authorEmail);
-        }
-
-        $first = false;
-      }
-
       if (Doctrine_Core::getTable('Schedule')->updateApiFromEvent($event, $member, $publicFlag))
       {
         $okCount++;

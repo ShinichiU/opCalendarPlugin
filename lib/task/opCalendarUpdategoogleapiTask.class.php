@@ -54,37 +54,35 @@ EOF;
   {
     $memberId = $cron['member_id'];
     $member = Doctrine_Core::getTable('Member')->find($memberId);
-    if (!$member || !$this->opCalendarOAuth->authenticate($member))
+    if (!$member || !($calendar = $this->opCalendarOAuth->getCalendar($member)))
     {
       return false;
     }
 
-    $cronConfig = unserialize($cron['serial']);
-    foreach ($cronConfig['src'] as $id)
+    $id = $calendar->calendars->get('primary')->id;
+    $publicFlag = $cron['public_flag'];
+
+    $this->logSection('prepare', sprintf('update member_id: %d, id: %s', $memberId, $id));
+    if (!$events = $this->getContents($id, $calendar))
     {
-      $this->logSection('prepare', sprintf('update member_id: %d, id: %s', $memberId, $id));
-      if (!$events = $this->getContents($id))
-      {
-        $this->logSection('result', 'skipped');
+      $this->logSection('result', 'skipped');
 
-        continue;
-      }
+      continue;
+    }
 
-      $isSuccess = opCalendarPluginToolkit::insertSchedules($events, $cronConfig['public_flag'], true, $member);
-      $this->logSection('result', $isSuccess ? 'success' : 'failed');
+    $isSuccess = opCalendarPluginToolkit::insertSchedules($events, $publicFlag, $member);
+    $this->logSection('result', $isSuccess ? 'success' : 'failed');
 
-      if ($interval)
-      {
-        $this->logSection('sleep', 'interval: '.$interval.' second');
+    if ($interval)
+    {
+      $this->logSection('sleep', 'interval: '.$interval.' second');
 
-        sleep($interval);
-      }
+      sleep($interval);
     }
   }
 
-  protected function getContents($id)
+  protected function getContents($id, Google_Service_Calendar $calendar)
   {
-    $calendar = new Google_Service_Calendar($this->opCalendarOAuth->getClient());
     $endYear = date('Y', strtotime('+1 month'));
     $endMonth = date('m', strtotime('+1 month'));
     $endDay = opCalendarPluginToolkit::getLastDay($endMonth, $endYear);
