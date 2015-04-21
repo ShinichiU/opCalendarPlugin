@@ -53,6 +53,7 @@ class MemberConfigScheduleForm extends MemberConfigForm
         'multiple' => true,
         'required' => false,
       )));
+      $this->widgetSchema->setHelp(self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE, 'Please note that the schedule data in cooperation with OAuth key will disappear all.');
     }
   }
 
@@ -65,16 +66,22 @@ class MemberConfigScheduleForm extends MemberConfigForm
 
       if ($isDelete)
       {
-        $this->opCalendarOAuth->getClient()->revokeToken();
+        $con = opDoctrineQuery::getMasterConnection();
+        $con->beginTransaction();
 
-        Doctrine_Core::getTable('MemberConfig')->createQuery()
-          ->delete()
-          ->whereIn('name', array(
-            'google_calendar_oauth_access_token',
-            'google_cron_update',
-            'google_cron_update_params',
-          ))
-          ->execute();
+        try
+        {
+          $this->opCalendarOAuth->getClient()->revokeToken();
+          opCalendarPluginToolkit::deleteMemberGoogleCalendar($this->member);
+
+          $con->commit();
+        }
+        catch (Exception $e)
+        {
+          $con->rollback();
+
+          return false;
+        }
       }
     }
 

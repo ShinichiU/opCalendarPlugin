@@ -145,6 +145,26 @@ EOT;
     return self::$cached_emails[$email];
   }
 
+  public static function deleteMemberGoogleCalendar(Member $member)
+  {
+    Doctrine_Core::getTable('MemberConfig')->createQuery()
+      ->delete()
+      ->whereIn('name', array(
+        'google_calendar_oauth_access_token',
+        'google_cron_update',
+        'google_cron_update_public_flag',
+        'opCalendarPlugin_email',
+      ))
+      ->andWhere('member_id = ?', $member->id)
+      ->execute();
+
+    ScheduleTable::getInstance()->createQuery()
+      ->delete()
+      ->where('member_id = ?', $member->id)
+      ->andWhere('api_id_unique IS NOT NULL')
+      ->execute();
+  }
+
   public static function getLastDay($month, $year = null)
   {
     $year = $year ? $year : date('Y');
