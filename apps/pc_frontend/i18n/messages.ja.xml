@@ -207,8 +207,8 @@
         <target>SNS側にGoogleカレンダーのemailを保存したくない場合は[Google Calendar のemailの保存]のチェックボックスをオフにしてください。</target>
       </trans-unit>
       <trans-unit id="">
-        <source>Select to fetch Google Calendar</source>
-        <target>読み込むGoogleカレンダーを選択</target>
+        <source>Fetch from Google Calendar %email%</source>
+        <target>%email% の Google カレンダーを取得</target>
       </trans-unit>
       <trans-unit id="">
         <source>Save the email on Google Calendar to SNS</source>

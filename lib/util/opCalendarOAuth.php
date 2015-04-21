@@ -78,4 +78,14 @@ class opCalendarOAuth
 
     return !$this->client->isAccessTokenExpired();
   }
+
+  public function getCalendar($member = null)
+  {
+    if (!$this->authenticate($member))
+    {
+      return false;
+    }
+
+    return new Google_Service_Calendar($this->getClient());
+  }
 }

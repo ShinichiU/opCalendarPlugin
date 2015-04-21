@@ -12,7 +12,7 @@
 <?php
 $options = array(
   'button' => __('Update'),
-  'title' => __('Select to fetch Google Calendar'),
+  'title' => __('Fetch from Google Calendar %email%', array('%email%' => sfWidget::escapeOnce($form->getOption('id')))),
   'url' => url_for('calendar_api_import')
 );
 

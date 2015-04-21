@@ -11,21 +11,11 @@ class opGoogleCalendarChoiceForm extends BaseForm
 {
   public function configure()
   {
-    $list = $this->getOption('list');
-    $choices = array();
-    foreach ($list as $value)
-    {
-      $choices[$value->id] = sprintf('%s (%s)', $value->summary, $value->id);
-    }
     $months = array();
     for ($i = 1; $i <= 12; $i++)
     {
       $months[$i] = sprintf('%02d', $i);
     }
-    $this->setWidget('choice', new sfWidgetFormChoice(array(
-      'choices'  => $choices,
-      'expanded' => true,
-    )));
     $this->setWidget('public_flag', new sfWidgetFormChoice(array(
       'choices'  => Doctrine_Core::getTable('Schedule')->getPublicFlags(),
       'expanded' => true,
@@ -35,9 +25,6 @@ class opGoogleCalendarChoiceForm extends BaseForm
     )));
     $save_email_check = array(1 => 'Save the email on Google Calendar to SNS');
     $this->setDefault('months', date('n'));
-    $this->validatorSchema['choice'] = new sfValidatorChoice(array(
-      'choices' => array_keys($choices),
-    ));
     $this->validatorSchema['public_flag'] = new sfValidatorChoice(array(
       'choices' => array_keys(Doctrine_Core::getTable('Schedule')->getPublicFlags()),
     ));
@@ -46,7 +33,6 @@ class opGoogleCalendarChoiceForm extends BaseForm
     $this->validatorSchema['months'] = new sfValidatorChoice(array(
       'choices' => array_keys($months),
     ));
-    $this->widgetSchema->setLabel('choice', 'Google Calendars');
     $this->widgetSchema->setLabel('months', 'Month to be fetched');
 
     if (Doctrine_Core::getTable('SnsConfig')->get('op_calendar_google_data_api_auto_update', false))
@@ -71,26 +57,26 @@ class opGoogleCalendarChoiceForm extends BaseForm
   public function save()
   {
     $values = $this->getValues();
-    $id = $values['choice'];
+    $id = $this->getOption('id');
     $googleCronUpdate = isset($values['google_cron_update']) && (bool) $values['google_cron_update'];
     $publicFlag = $values['public_flag'];
-
     $calendar = $this->getOption('googleCalendar');
 
     $lastDay = opCalendarPluginToolkit::getLastDay($values['months']);
     $yearMonth = sprintf('%04d-%02d', date('Y'), $values['months']);
 
-    $result = $calendar->events->listEvents($id, array(
+    $events = $calendar->events->listEvents($id, array(
       'timeMin' => date('c', strtotime(sprintf('%s-01 00:00:00', $yearMonth))),
       'timeMax' => date('c', strtotime(sprintf('%s-%02d 23:59:59', $yearMonth, $lastDay))),
     ));
 
-    if (!$result)
+    if (!$events)
     {
       return false;
     }
+
     opCalendarPluginToolkit::updateGoogleCalendarCronFlags($id, $googleCronUpdate, $publicFlag, $this->member);
 
-    return opCalendarPluginToolkit::insertSchedules($result, $publicFlag);
+    return opCalendarPluginToolkit::insertSchedules($events, $publicFlag);
   }
 }
