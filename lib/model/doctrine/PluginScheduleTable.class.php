@@ -91,39 +91,39 @@ class PluginScheduleTable extends Doctrine_Table
       {
         $schedule = new Schedule;
         $schedule->setApiIdUnique($event->id);
-        $schedule->setTitle($event->summary);
-        $schedule->setBody($event->description);
-        $schedule->setMember($member);
-        $schedule->setPublicFlag($publicFlag);
-
-        if ($event->start->dateTime)
-        {
-          $startDateTime = new DateTime($event->start->dateTime);
-          $schedule->setStartDate($startDateTime->format('Y-m-d'));
-          $schedule->setStartTime($startDateTime->format('H:i:s'));
-        }
-        elseif ($event->start->date)
-        {
-          $schedule->setStartDate($event->start->date);
-        }
-
-        if ($event->end->dateTime)
-        {
-          $endDateTime = new DateTime($event->end->dateTime);
-          $schedule->setEndDate($endDateTime->format('Y-m-d'));
-          $schedule->setEndTime($endDateTime->format('H:i:s'));
-        }
-        elseif ($event->end->date)
-        {
-          $schedule->setStartDate($event->end->date);
-        }
       }
-
-      if ($event->etag === $schedule->api_etag)
+      elseif ($event->etag === $schedule->api_etag)
       {
         $conn->rollback();
 
         return $schedule->id;
+      }
+
+      $schedule->setTitle($event->summary);
+      $schedule->setBody($event->description);
+      $schedule->setMember($member);
+      $schedule->setPublicFlag($publicFlag);
+
+      if ($event->start->dateTime)
+      {
+        $startDateTime = new DateTime($event->start->dateTime);
+        $schedule->setStartDate($startDateTime->format('Y-m-d'));
+        $schedule->setStartTime($startDateTime->format('H:i:s'));
+      }
+      elseif ($event->start->date)
+      {
+        $schedule->setStartDate($event->start->date);
+      }
+
+      if ($event->end->dateTime)
+      {
+        $endDateTime = new DateTime($event->end->dateTime);
+        $schedule->setEndDate($endDateTime->format('Y-m-d'));
+        $schedule->setEndTime($endDateTime->format('H:i:s'));
+      }
+      elseif ($event->end->date)
+      {
+        $schedule->setStartDate($event->end->date);
       }
 
       $schedule->setApiEtag($event->etag);
