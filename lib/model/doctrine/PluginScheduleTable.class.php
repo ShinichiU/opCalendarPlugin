@@ -105,7 +105,7 @@ class PluginScheduleTable extends Doctrine_Table
       $schedule->setTitle($event->summary);
       $schedule->setBody($event->description);
       $schedule->setMember($member);
-      $schedule->setPublicFlag($publicFlag);
+      $schedule->setPublicFlag($this->getEventPublicFlag($event, $publicFlag));
 
       if ($event->start->dateTime)
       {
@@ -161,5 +161,10 @@ class PluginScheduleTable extends Doctrine_Table
     }
 
     return $schedule->id;
+  }
+
+  protected function getEventPublicFlag(Google_Service_Calendar_Event $event, $publicFlag)
+  {
+    return 'public' !== $event->visibility ? self::PUBLIC_FLAG_SCHEDULE_MEMBER : $publicFlag;
   }
 }
