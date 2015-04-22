@@ -81,6 +81,7 @@ class opGoogleCalendarChoiceForm extends BaseForm
     $events = $calendar->events->listEvents($id, array(
       'timeMin' => date('c', strtotime(sprintf('%s-01 00:00:00', $yearMonth))),
       'timeMax' => date('c', strtotime(sprintf('%s-%02d 23:59:59', $yearMonth, $lastDay))),
+      'showDeleted' => true,
     ));
 
     if (!$events)
