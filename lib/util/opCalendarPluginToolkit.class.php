@@ -50,17 +50,13 @@ class opCalendarPluginToolkit
     $sql = <<<EOT
 SELECT
  mc.member_id AS member_id,
- mc2.value AS public_flag,
- mc3.value AS id
+ mc2.value AS public_flag
  FROM member_config AS mc
  INNER JOIN member_config AS mc2
  ON mc.member_id = mc2.member_id
  AND mc.name_value_hash = ?
  AND mc.name = ?
  AND mc2.name = ?
- INNER JOIN member_config AS mc3
- ON mc.member_id = mc3.member_id
- AND mc3.name = ?
 ;
 EOT;
 
@@ -68,7 +64,6 @@ EOT;
       md5('google_cron_update,1'),
       'google_cron_update',
       'google_cron_update_public_flag',
-      'opCalendarPlugin_email',
     ));
   }
 
