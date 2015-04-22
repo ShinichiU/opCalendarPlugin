@@ -1,3 +1,4 @@
+<?php use_helper('opCalendar') ?>
 <tr><td class="community_calendar" colspan="2">
 <?php use_stylesheet('/opCalendarPlugin/css/main') ?>
 <div class="block">
@@ -45,7 +46,8 @@ else
 <?php endforeach ?>
 <?php foreach ($item['schedules'] as $schedule): ?>
 <?php if ($schedule->isShowable($sf_user->getMemberId())): ?>
-<p class="schedule"><?php echo link_to(sprintf('<span class="icon">%s </span>%s', image_tag('/opCalendarPlugin/images/icon_pen.gif', array('alt' => '[予]')), op_truncate($schedule->title, 20, '...', 1)), '@schedule_show?id='.$schedule->id) ?></p>
+<p class="schedule"><?php echo op_link_to_schedule($schedule, 20) ?></p>
+
 <?php endif ?>
 <?php endforeach ?>
 </td>

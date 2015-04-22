@@ -55,7 +55,16 @@ class calendarApiActions extends sfActions
     $client->authenticate($code);
 
     $member = $this->getUser()->getMember();
-    $this->opCalendarOAuth->saveAccessToken($member, $client->getAccessToken());
+    $token = $client->getAccessToken();
+    if ($this->opCalendarOAuth->isAlreadyUsedCalendarId($member, $token))
+    {
+      $member = $this->getUser()->setFlash('error', 'This calendar is used other SNS Member.');
+
+      $this->redirect('@calendar');
+    }
+
+    $this->opCalendarOAuth->saveAccessToken($member, $token);
+    $this->opCalendarOAuth->savePrimaryId($member, $this->opCalendarOAuth->getPrimaryId($member, $token));
 
     $this->getUser()->setFlash('notice', 'Google Calendar API is now available.');
     $this->redirect('@calendar_api_import');
@@ -68,20 +77,10 @@ class calendarApiActions extends sfActions
   */
   public function executeImport(sfWebRequest $request)
   {
-    $this->forwardUnless($this->opCalendarOAuth->authenticate(), 'calendarApi', 'index');
-
-    $calendar = new Google_Service_Calendar($this->opCalendarOAuth->getClient());
-    $list = $calendar->calendarList->listCalendarList();
-
-    if (!$list)
-    {
-      $this->getUser()->setFlash('error', 'カレンダーの読み込みに失敗しました');
-
-      $this->redirect('@calendar');
-    }
+    $this->forwardUnless($calendar = $this->opCalendarOAuth->getCalendar(), 'calendarApi', 'index');
 
     $this->form = new opGoogleCalendarChoiceForm(null, array(
-      'list' => $list['items'],
+      'id' => $calendar->calendars->get('primary')->id,
       'googleCalendar' => $calendar,
     ));
 

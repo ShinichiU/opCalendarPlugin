@@ -207,8 +207,8 @@
         <target>SNS側にGoogleカレンダーのemailを保存したくない場合は[Google Calendar のemailの保存]のチェックボックスをオフにしてください。</target>
       </trans-unit>
       <trans-unit id="">
-        <source>Select to fetch Google Calendar</source>
-        <target>読み込むGoogleカレンダーを選択</target>
+        <source>Fetch from Google Calendar %email%</source>
+        <target>%email% の Google カレンダーを取得</target>
       </trans-unit>
       <trans-unit id="">
         <source>Save the email on Google Calendar to SNS</source>
@@ -285,6 +285,26 @@
       <trans-unit id="">
         <source>Do Auto Update</source>
         <target>カレンダーの自動更新を行う</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Is Google calendar OAuth key revoke</source>
+        <target>Google Calendar の OAuth キーを削除</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Is delete.</source>
+        <target>削除する</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Revoke Google calendar OAuth key</source>
+        <target>Google Calendar の OAuth キーの削除</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Please note that the schedule data in cooperation with OAuth key will disappear all.</source>
+        <target>OAuth のキーと連携したスケジュールデータが全て消えますのでご注意ください。</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>This calendar is used other SNS Member.</source>
+        <target>このカレンダーは既に別のSNSメンバによって連携されています</target>
       </trans-unit>
     </body>
   </file>

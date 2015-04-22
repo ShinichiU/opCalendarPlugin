@@ -18,9 +18,13 @@
 class MemberConfigScheduleForm extends MemberConfigForm
 {
   const PUBLIC_FLAG = 'schedule_public_flag';
+  const IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE = 'is_Google_calendar_OAuth_key_revoke';
 
   protected
     $category = 'schedule';
+
+  protected
+    $opCalendarOAuth;
 
   public function configure()
   {
@@ -35,6 +39,53 @@ class MemberConfigScheduleForm extends MemberConfigForm
     $this->validatorSchema[self::PUBLIC_FLAG] = new sfValidatorChoice(array(
       'choices' => array_keys(Doctrine::getTable('Schedule')->getPublicFlags()),
     ));
+
+    if ($this->isOAuthAuthenticate())
+    {
+      $check = array(1 => 'Is delete.');
+      $this->setWidget(self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE, new sfWidgetFormChoice(array(
+        'choices'  => $check,
+        'multiple' => true,
+        'expanded' => true,
+      )));
+      $this->setValidator(self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE, new sfValidatorChoice(array(
+        'choices' => array_keys($check),
+        'multiple' => true,
+        'required' => false,
+      )));
+      $this->widgetSchema->setHelp(self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE, 'Please note that the schedule data in cooperation with OAuth key will disappear all.');
+    }
+  }
+
+  public function save()
+  {
+    if ($this->isOAuthAuthenticate() && array_key_exists(self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE, $this->values))
+    {
+      $isDelete = (bool) $this->values[self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE];
+      unset($this->values[self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE]);
+
+      if ($isDelete)
+      {
+        $con = opDoctrineQuery::getMasterConnection();
+        $con->beginTransaction();
+
+        try
+        {
+          $this->opCalendarOAuth->getClient()->revokeToken();
+          opCalendarPluginToolkit::deleteMemberGoogleCalendar($this->member);
+
+          $con->commit();
+        }
+        catch (Exception $e)
+        {
+          $con->rollback();
+
+          return false;
+        }
+      }
+    }
+
+    return parent::save();
   }
 
   private function getConfig($name, $default = null)
@@ -42,5 +93,12 @@ class MemberConfigScheduleForm extends MemberConfigForm
     $value = $this->member->getConfig($name, $default);
 
     return null === $value ? $default : $value;
+  }
+
+  private function isOAuthAuthenticate()
+  {
+    $this->opCalendarOAuth = opCalendarOAuth::getInstance();
+
+    return $this->opCalendarOAuth->authenticate($this->member);
   }
 }
