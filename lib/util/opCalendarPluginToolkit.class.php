@@ -22,12 +22,11 @@ class opCalendarPluginToolkit
    *
    * Cronでの自動更新設定を反映するメソッド
    *
-   * @param  String  $id             Google Api を更新する カレンダーのキーとなるソース
    * @param  Boolean $cronFlag       cron 使用有無
    * @param  Integer $publicFlag     スケジュールの公開範囲
    * @param  mixed   Member|null     Member インスタンス (Optional)
    */
-  static public function updateGoogleCalendarCronFlags($id, $cronFlag, $publicFlag, Member $member = null)
+  static public function updateGoogleCalendarCronFlags($cronFlag, $publicFlag, Member $member = null)
   {
     if (null === $member)
     {

@@ -89,7 +89,7 @@ class opGoogleCalendarChoiceForm extends BaseForm
       return false;
     }
 
-    opCalendarPluginToolkit::updateGoogleCalendarCronFlags($id, $googleCronUpdate, $publicFlag, $this->member);
+    opCalendarPluginToolkit::updateGoogleCalendarCronFlags($googleCronUpdate, $publicFlag, $this->member);
 
     return opCalendarPluginToolkit::insertSchedules($events, $publicFlag);
   }
