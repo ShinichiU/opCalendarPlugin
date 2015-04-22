@@ -78,6 +78,15 @@ class PluginScheduleTable extends Doctrine_Table
     {
       $schedule = $this->findOneByApiIdUnique($event->id);
 
+      if ('cancelled' === $event->status && $schedule)
+      {
+        $schedule->delete();
+
+        $conn->commit();
+
+        return true;
+      }
+
       if (!$schedule)
       {
         $schedule = new Schedule;

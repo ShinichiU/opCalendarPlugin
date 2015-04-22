@@ -90,6 +90,7 @@ EOF;
     return $calendar->events->listEvents($id, array(
       'timeMin' => date('c', strtotime(sprintf('%s-01 00:00:00', date('Y-m', strtotime('-1 month'))))),
       'timeMax' => date('c', strtotime(sprintf('%04d-%02d-%02d 23:59:59', $endYear, $endMonth, $endDay))),
+      'showDeleted' => true,
     ));
   }
 }
