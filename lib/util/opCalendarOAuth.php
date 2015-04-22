@@ -42,32 +42,17 @@ class opCalendarOAuth
 
   public function saveAccessToken(Member $member = null, $token)
   {
-    if (null === $member)
-    {
-      $member = sfContext::getInstance()->getUser()->getMember();
-    }
-
-    $member->setConfig(self::ACCESS_TOKEN_KEY, $token);
+    $this->getMember($member)->setConfig(self::ACCESS_TOKEN_KEY, $token);
   }
 
   public function savePrimaryId(Member $member = null, $id)
   {
-    if (null === $member)
-    {
-      $member = sfContext::getInstance()->getUser()->getMember();
-    }
-
-    $member->setConfig('opCalendarPlugin_email', $id);
+    $this->getMember($member)->setConfig('opCalendarPlugin_email', $id);
   }
 
   public function findAccessToken(Member $member = null)
   {
-    if (null === $member)
-    {
-      $member = sfContext::getInstance()->getUser()->getMember();
-    }
-
-    return $member->getConfig(self::ACCESS_TOKEN_KEY);
+    return $this->getMember($member)->getConfig(self::ACCESS_TOKEN_KEY);
   }
 
   public function authenticate(Member $member = null, $token = null)
@@ -111,10 +96,21 @@ class opCalendarOAuth
 
   public function isAlreadyUsedCalendarId(Member $member = null, $token = null)
   {
+    $member = $this->getMember($member);
     $id = $this->getPrimaryId($member, $token);
 
     $memberId = opCalendarPluginToolkit::seekEmailAndGetMemberId($id);
 
     return $memberId && (int)$member->id !== (int)$memberId;
+  }
+
+  private function getMember(Member $member = null)
+  {
+    if (null === $member)
+    {
+      $member = sfContext::getInstance()->getUser()->getMember();
+    }
+
+    return $member;
   }
 }
