@@ -25,11 +25,23 @@
   <email />
   <active>yes</active>
  </developer>
- <date>2011-09-14</date>
- <time>13:46:42</time>
+ <developer>
+  <name>順 佐藤</name>
+  <user>den256</user>
+  <email />
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>kaoru nishizoe</name>
+  <user>nishizoe</user>
+  <email />
+  <active>yes</active>
+ </developer>
+ <date>2015-04-24</date>
+ <time>15:26:38</time>
  <version>
-  <release>0.9.4</release>
-  <api>0.9.4</api>
+  <release>0.9.5</release>
+  <api>0.9.5</api>
  </version>
  <stability>
   <release>beta</release>
@@ -37,7 +49,7 @@
  </stability>
  <license>Apache</license>
  <notes>
-fixes 5 bugs and add 3 enhancement. http://redmine.openpne.jp/projects/plg-calendar/versions/170
+Upgrade Google Api OAuth 1.0 to 2.0
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -45,25 +57,26 @@ fixes 5 bugs and add 3 enhancement. http://redmine.openpne.jp/projects/plg-calen
    <file baseinstalldir="/" md5sum="50c1e570b0670c99c34fce1c700afc70" name="apps/pc_backend/i18n/messages.ja.xml" role="data" />
    <file baseinstalldir="/" md5sum="ed382002014ff7cece7855830aa81c1a" name="apps/pc_backend/modules/holiday/actions/actions.class.php" role="data" />
    <file baseinstalldir="/" md5sum="70deea9108d8e60d23c01e860dcea803" name="apps/pc_backend/modules/holiday/templates/listSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="d3d63c002164513e167b05800bad4ca1" name="apps/pc_backend/modules/opCalendarPlugin/actions/actions.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="557258e478059e29cfd21558183653db" name="apps/pc_backend/modules/opCalendarPlugin/lib/opGoogleDataApiConsumerKeyForm.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="b986830505b59151d43604b10138baf7" name="apps/pc_backend/modules/opCalendarPlugin/templates/indexSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="d8143fda06c337fd1ba340dec1e0f1e1" name="apps/pc_backend/modules/opCalendarPlugin/actions/actions.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="ba9fc2a0692a331bd1a9e7dd793a66b5" name="apps/pc_backend/modules/opCalendarPlugin/lib/opGoogleDataApiConsumerKeyForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="840cf444335609b4a912ba95fe56c9ca" name="apps/pc_backend/modules/opCalendarPlugin/templates/indexSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="816a4f244e88ac702b2b9c0df3a8f7d6" name="apps/pc_backend/modules/opCalendarPlugin/templates/resourceDeleteConfirmSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="51f224642829b4302ef1cb82f3c0a3f3" name="apps/pc_backend/modules/opCalendarPlugin/templates/resourceTypeDeleteConfirmSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="2dfc52aa8eeaab2f904c51b438a20731" name="apps/pc_frontend/config/routing.yml" role="data" />
+   <file baseinstalldir="/" md5sum="f0431af3c2d12ec7a6ffd3ad2eebe6e9" name="apps/pc_backend/modules/opCalendarPlugin/templates/_formEditFile.php" role="data" />
+   <file baseinstalldir="/" md5sum="081f5d8a35f74afc612a415c229eab77" name="apps/pc_frontend/config/routing.yml" role="data" />
    <file baseinstalldir="/" md5sum="ddbae92970b81b5db872732bd642d858" name="apps/pc_frontend/i18n/form_community.ja.xml" role="data" />
-   <file baseinstalldir="/" md5sum="be7771a5680bc3062a5c0ded7ceef290" name="apps/pc_frontend/i18n/messages.ja.xml" role="data" />
+   <file baseinstalldir="/" md5sum="0bacdf9ac46c55f2510d05268130188f" name="apps/pc_frontend/i18n/messages.ja.xml" role="data" />
    <file baseinstalldir="/" md5sum="d99db0f1a8ceb2de1d9f33ea103fa4af" name="apps/pc_frontend/modules/calendar/actions/actions.class.php" role="data" />
    <file baseinstalldir="/" md5sum="464b82bf3934a0f0f720bc082d8e8d6e" name="apps/pc_frontend/modules/calendar/actions/components.class.php" role="data" />
    <file baseinstalldir="/" md5sum="23a85a877ba78a09b520b19d03c3650c" name="apps/pc_frontend/modules/calendar/config/security.yml" role="data" />
    <file baseinstalldir="/" md5sum="07b9b31053b38baa66aff7e597d6003c" name="apps/pc_frontend/modules/calendar/config/view.yml" role="data" />
-   <file baseinstalldir="/" md5sum="b045b1d509003129f688ac51e409f35f" name="apps/pc_frontend/modules/calendar/templates/indexSuccess.php" role="data" />
-   <file baseinstalldir="/" md5sum="943866956be74bf4499a5dc022637775" name="apps/pc_frontend/modules/calendar/templates/_communityCalendar.php" role="data" />
-   <file baseinstalldir="/" md5sum="82867893164c922fc576b16f4988e14c" name="apps/pc_frontend/modules/calendar/templates/_weekly.php" role="data" />
-   <file baseinstalldir="/" md5sum="5c6dab0816fad2f400e424515a17e002" name="apps/pc_frontend/modules/calendarApi/actions/actions.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="c776ae8d1be9d3138a31b7d021d83ede" name="apps/pc_frontend/modules/calendar/templates/indexSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="4346c00dac533ae764c90e1b30c8c88f" name="apps/pc_frontend/modules/calendar/templates/_communityCalendar.php" role="data" />
+   <file baseinstalldir="/" md5sum="f91d7ce7652f4d8b0ba195ff32f8fa6c" name="apps/pc_frontend/modules/calendar/templates/_weekly.php" role="data" />
+   <file baseinstalldir="/" md5sum="2d99122a09b1f04bf818ad55aba62c5f" name="apps/pc_frontend/modules/calendarApi/actions/actions.class.php" role="data" />
    <file baseinstalldir="/" md5sum="23a85a877ba78a09b520b19d03c3650c" name="apps/pc_frontend/modules/calendarApi/config/security.yml" role="data" />
    <file baseinstalldir="/" md5sum="07b9b31053b38baa66aff7e597d6003c" name="apps/pc_frontend/modules/calendarApi/config/view.yml" role="data" />
-   <file baseinstalldir="/" md5sum="16a12f55bf2c792a71a6e61a7620cccf" name="apps/pc_frontend/modules/calendarApi/templates/importSuccess.php" role="data" />
+   <file baseinstalldir="/" md5sum="dd7ee0707d5863f67c7757a6542df655" name="apps/pc_frontend/modules/calendarApi/templates/importSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="apps/pc_frontend/modules/calendarApi/templates/indexSuccess.php" role="data" />
    <file baseinstalldir="/" md5sum="16a70e080b0b3ef39810c5afe6b80993" name="apps/pc_frontend/modules/community/config/view.yml" role="data" />
    <file baseinstalldir="/" md5sum="7e2b986dee423039c606aae30db1b4b8" name="apps/pc_frontend/modules/schedule/actions/actions.class.php" role="data" />
@@ -80,11 +93,11 @@ fixes 5 bugs and add 3 enhancement. http://redmine.openpne.jp/projects/plg-calen
    <file baseinstalldir="/" md5sum="230ee7611146a1b1790d001e29a08102" name="config/community_config.yml" role="data" />
    <file baseinstalldir="/" md5sum="d84869340ae5f83c754f9959e8beb44f" name="config/gadget.yml" role="data" />
    <file baseinstalldir="/" md5sum="fa9c2083a7b57ccfc303b1d44de69462" name="config/member_config.yml" role="data" />
-   <file baseinstalldir="/" md5sum="5752bb66b9d3d8cb35f1b5324d560a01" name="config/opCalendarPluginConfiguration.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="026f96561ca851acc965a46925dd8a2d" name="config/opCalendarPluginConfiguration.class.php" role="data" />
    <file baseinstalldir="/" md5sum="fe5e7d7e6d8ab0b77785d99faf2269f0" name="config/profile_gadget.yml" role="data" />
    <file baseinstalldir="/" md5sum="562552321bdd8d627663481d11227641" name="config/doctrine/schema.yml" role="data" />
    <file baseinstalldir="/" md5sum="2b03bcd34adf9677103cbae007639c97" name="data/TODO" role="data" />
-   <file baseinstalldir="/" md5sum="68b0615a8c23545561dc131a03f2eab1" name="data/fixtures/000_revision.yml" role="data" />
+   <file baseinstalldir="/" md5sum="abf66c06c6935feddf6eb51894a14851" name="data/fixtures/000_revision.yml" role="data" />
    <file baseinstalldir="/" md5sum="9ef7cb67ef1ea8957c6925f37878bd7d" name="data/fixtures/001_import_backend_navi_menu.yml" role="data" />
    <file baseinstalldir="/" md5sum="5808b0c328a9c964f6237f2b92187133" name="data/fixtures/002_gadget.yml" role="data" />
    <file baseinstalldir="/" md5sum="fd00cd144ccc788d91b780618f085291" name="data/migrations/v0.9.1/002_add_year_column.php" role="data" />
@@ -96,20 +109,10 @@ fixes 5 bugs and add 3 enhancement. http://redmine.openpne.jp/projects/plg-calen
    <file baseinstalldir="/" md5sum="b0b5085c7fdc04e25896c805d6bc95ed" name="data/migrations/v0.9.2/007_add_schedule_resource_lock_table.php" role="data" />
    <file baseinstalldir="/" md5sum="5a7dbfd9cedd261fc7e9e97f03ab7eb6" name="data/migrations/v0.9.3/008_add_api_columns.php" role="data" />
    <file baseinstalldir="/" md5sum="6649f7e5edf9f734d6589f57ab1104a2" name="data/migrations/v0.9.3.1/009_alter_api_id_unique_columns.php" role="data" />
+   <file baseinstalldir="/" md5sum="4b4063b6541fcc237be08d353e9a9587" name="data/migrations/v0.9.5/010_remove_google_api_oauth_keys.php" role="data" />
+   <file baseinstalldir="/" md5sum="143d2669f97f934b1c55d6aff13accb3" name="data/migrations/v0.9.5/011_remove_google_api_user_keys.php" role="data" />
    <file baseinstalldir="/" md5sum="8ea9e603b909e123466e5d51fddb8cfd" name="data/migrations/v1/001_dummy.php" role="data" />
    <file baseinstalldir="/" md5sum="7716e749b673da8c791da4269cdce932" name="data/migrations/v1/fixtures/001_gadget_and_navi.yml" role="data" />
-   <file baseinstalldir="/" md5sum="c51b79dfaa879b8f54c0e84ede9add2c" name="lib/api/opCalendarApi.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="e00821a076c92b3f4437e6913341f911" name="lib/api/opCalendarApiHandler.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="6e751a814ad712141147190d5a20e21a" name="lib/api/opCalendarApiInterface.php" role="data" />
-   <file baseinstalldir="/" md5sum="e0f8bbc98ac4e793ea83e795a99fe76a" name="lib/api/opCalendarApiResults.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="399ed107bacda9ea81ed3b1533cb519c" name="lib/api/opCalendarApiResultsCalendars.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="03ad5a3ea0d97794847cc5839d18dc85" name="lib/api/opCalendarApiResultsEvents.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="6e45cedc6147a976e45f0afe7c2e8464" name="lib/api/opCalendarApiResultsInterface.php" role="data" />
-   <file baseinstalldir="/" md5sum="72dac6f4d02cbb0f7191c7be9e4d8d2c" name="lib/api/opCalendarApiResultsJson.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="cb8d14193358492b8f1ac38e8d99b4d4" name="lib/api/opCalendarApiResultsJsonEvents.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="78d5a57b30cd9b2c5e7396cffac67e06" name="lib/api/opCalendarApiResultsNoParse.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="846bc3263e9071b1d5ea79e4a7a3f834" name="lib/api/opCalendarApiResultsStr.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="f9e33594b338838d30863cec463f940d" name="lib/api/opCalendarApiResultsXml.class.php" role="data" />
    <file baseinstalldir="/" md5sum="278a443f0a91dcab08db86e7456626dd" name="lib/filter/doctrine/PluginHolidayFormFilter.class.php" role="data" />
    <file baseinstalldir="/" md5sum="9081919c79c109788878aaea4a2745fa" name="lib/filter/doctrine/PluginResourceTypeFormFilter.class.php" role="data" />
    <file baseinstalldir="/" md5sum="7798944cfe5a79d3ea5f17bb4eebea38" name="lib/filter/doctrine/PluginScheduleFormFilter.class.php" role="data" />
@@ -117,31 +120,193 @@ fixes 5 bugs and add 3 enhancement. http://redmine.openpne.jp/projects/plg-calen
    <file baseinstalldir="/" md5sum="d0c3789ce187e6753c42c511b10fd9f4" name="lib/filter/doctrine/PluginScheduleResourceFormFilter.class.php" role="data" />
    <file baseinstalldir="/" md5sum="ba8ea886a15b5f63492b33e472fe642d" name="lib/filter/doctrine/PluginScheduleResourceLockFormFilter.class.php" role="data" />
    <file baseinstalldir="/" md5sum="7ac333549baf534f446d94aa2ca1a925" name="lib/form/MiniScheduleForm.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="b0f92c27572aab03d627873b0023c484" name="lib/form/opGoogleCalendarChoiceForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="82ef0dbf6ae5644ba5d1544dcd96f64a" name="lib/form/opGoogleCalendarChoiceForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="e8a6accba1d3eb96c5592cc64bafef76" name="lib/form/doctrine/PluginHolidayForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="21f34fb1631e89bfe467b2d13d56751d" name="lib/form/doctrine/PluginResourceTypeForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="5c08cd9914cd6c78535b9b43eaa7cbbf" name="lib/form/doctrine/PluginScheduleForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="d0f30b24e1488f95e8a5c8e487b007f1" name="lib/form/doctrine/PluginScheduleMemberForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="9cc22f7464944fdc945d35f0e2e873fa" name="lib/form/doctrine/PluginScheduleResourceForm.class.php" role="data" />
    <file baseinstalldir="/" md5sum="6610ef4d339dadb9b1848310dfe89621" name="lib/form/doctrine/PluginScheduleResourceLockForm.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="6cd734f18ecacf38e9e3ebd3c8806559" name="lib/form/MemberConfigForm/MemberConfigScheduleForm.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="d4863db0a2aaafd155405d185a7b4825" name="lib/helper/opCalendarHelper.php" role="data" />
-   <file baseinstalldir="/" md5sum="34828a0ca653fbffec2332bb42a8c60a" name="lib/model/opCalendarPluginExtension.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="c11c2b30b6f9f33d73e470983c8edc5a" name="lib/form/MemberConfigForm/MemberConfigScheduleForm.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="ef23657b9a7bc5f349118824673e12bf" name="lib/helper/opCalendarHelper.php" role="data" />
+   <file baseinstalldir="/" md5sum="4ef6756c3057370d2e904cb3f0d55ac8" name="lib/model/opCalendarPluginExtension.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="d73482d75baa6a72ffb71a620d3ea22b" name="lib/model/opGoogleOAuthJson.class.php" role="data" />
    <file baseinstalldir="/" md5sum="43c0503e4c9d261e215da41220596228" name="lib/model/doctrine/PluginHoliday.class.php" role="data" />
    <file baseinstalldir="/" md5sum="4a93d74ccda20372b7de39140c4cf4c7" name="lib/model/doctrine/PluginHolidayTable.class.php" role="data" />
    <file baseinstalldir="/" md5sum="85ce57b6b645c1a5fa27a2294e0f4a5c" name="lib/model/doctrine/PluginResourceType.class.php" role="data" />
    <file baseinstalldir="/" md5sum="35172096b1fdd85906100cad47f7e1b1" name="lib/model/doctrine/PluginResourceTypeTable.class.php" role="data" />
    <file baseinstalldir="/" md5sum="d1726b8e25d856bd99061e8a2b8ffc3d" name="lib/model/doctrine/PluginSchedule.class.php" role="data" />
    <file baseinstalldir="/" md5sum="7ef82b0b8ad5b21a4b743c81cb34d10f" name="lib/model/doctrine/PluginScheduleMember.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="8cccf16042c407e9297b19178a91a748" name="lib/model/doctrine/PluginScheduleMemberTable.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="5d62badc3c45d83187ec346cb1f16eb5" name="lib/model/doctrine/PluginScheduleMemberTable.class.php" role="data" />
    <file baseinstalldir="/" md5sum="ab65f9d47167ac657baf9bdabbce7304" name="lib/model/doctrine/PluginScheduleResource.class.php" role="data" />
    <file baseinstalldir="/" md5sum="4c6850a93c47a3b9d637e2fcc7ae1477" name="lib/model/doctrine/PluginScheduleResourceLock.class.php" role="data" />
    <file baseinstalldir="/" md5sum="2f5f6f82fd7c9e350894ea623685be92" name="lib/model/doctrine/PluginScheduleResourceLockTable.class.php" role="data" />
    <file baseinstalldir="/" md5sum="a8c4f19c7622594766079611ecb96bae" name="lib/model/doctrine/PluginScheduleResourceTable.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="0238d1b9f39b75bb6fbf6011f10f974d" name="lib/model/doctrine/PluginScheduleTable.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="82f4554bff76f63061d407a0fa7e5ab9" name="lib/task/opCalendarUpdategoogleapiTask.class.php" role="data" />
-   <file baseinstalldir="/" md5sum="c009eb58b7e02d3e9ae1394fe1f1ada7" name="lib/util/opCalendarOAuth.php" role="data" />
-   <file baseinstalldir="/" md5sum="bd43627b9ab917562ae367e548bc465f" name="lib/util/opCalendarPluginToolkit.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="2256bf92472878bd40c1f8a2148b1322" name="lib/model/doctrine/PluginScheduleTable.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="4689ee8e8163a8dc27aa5f94d08f10bf" name="lib/task/opCalendarUpdategoogleapiTask.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="93178b938f692a8afa8bfad2960c5bcc" name="lib/util/opCalendarOAuth.php" role="data" />
+   <file baseinstalldir="/" md5sum="7057769dc922d56cc3808f70494116a8" name="lib/util/opCalendarPluginToolkit.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="99550c2b50faf835ead23f03a30c6db4" name="lib/validator/opValidatorGoogleApiJsonFile.class.php" role="data" />
+   <file baseinstalldir="/" md5sum="6efeaff558e0cf013b783b4dd91d22c9" name="lib/vendor/google-api-php-client/autoload.php" role="data" />
+   <file baseinstalldir="/" md5sum="960d75bc440a60b497f6640e678c5763" name="lib/vendor/google-api-php-client/composer.json" role="data" />
+   <file baseinstalldir="/" md5sum="d424749ea3ce2dc8f08196eb187b3582" name="lib/vendor/google-api-php-client/CONTRIBUTING.md" role="data" />
+   <file baseinstalldir="/" md5sum="55e7ff97994f4fedbd443167523f7e2c" name="lib/vendor/google-api-php-client/LICENSE" role="data" />
+   <file baseinstalldir="/" md5sum="1d740896894056f7affd3dab5781d1aa" name="lib/vendor/google-api-php-client/phpunit.xml.dist" role="data" />
+   <file baseinstalldir="/" md5sum="28b4499624083677946f7b2e6563310d" name="lib/vendor/google-api-php-client/README.md" role="data" />
+   <file baseinstalldir="/" md5sum="ed525864397763d487752e62165a27b8" name="lib/vendor/google-api-php-client/examples/appengineauth.php" role="data" />
+   <file baseinstalldir="/" md5sum="5dc53c750a8e59cee7e49a09db710ebe" name="lib/vendor/google-api-php-client/examples/batch.php" role="data" />
+   <file baseinstalldir="/" md5sum="788e45544c6ad867bedfb2f3703a1d26" name="lib/vendor/google-api-php-client/examples/fileupload.php" role="data" />
+   <file baseinstalldir="/" md5sum="952c888744100527c210b8f38c745678" name="lib/vendor/google-api-php-client/examples/idtoken.php" role="data" />
+   <file baseinstalldir="/" md5sum="fbec13cda1a06b97067fb23ca525abb5" name="lib/vendor/google-api-php-client/examples/index.php" role="data" />
+   <file baseinstalldir="/" md5sum="9f3e70e6354d35e20f11b5aa41e35129" name="lib/vendor/google-api-php-client/examples/key.p12" role="data" />
+   <file baseinstalldir="/" md5sum="055a00a702be9496cc2608b2ca7e2cce" name="lib/vendor/google-api-php-client/examples/multi-api.php" role="data" />
+   <file baseinstalldir="/" md5sum="48ae7572c6e79944b68077d885b42365" name="lib/vendor/google-api-php-client/examples/service-account.php" role="data" />
+   <file baseinstalldir="/" md5sum="a8c4193b1cbebba1ece51581ed0415db" name="lib/vendor/google-api-php-client/examples/simple-query.php" role="data" />
+   <file baseinstalldir="/" md5sum="b763f3522e2a8e87c10a6a86a665ab7f" name="lib/vendor/google-api-php-client/examples/simplefileupload.php" role="data" />
+   <file baseinstalldir="/" md5sum="b7c1dbbe99389eccca4cbea739e324a1" name="lib/vendor/google-api-php-client/examples/user-example.php" role="data" />
+   <file baseinstalldir="/" md5sum="5b5bf2f2924c7e4db2fd9ece7196e66b" name="lib/vendor/google-api-php-client/examples/styles/style.css" role="data" />
+   <file baseinstalldir="/" md5sum="2f97c14577cc2ab345325bb686362712" name="lib/vendor/google-api-php-client/examples/templates/base.php" role="data" />
+   <file baseinstalldir="/" md5sum="51bfec29c85d67b4cd697b2891a7afde" name="lib/vendor/google-api-php-client/src/Google/Client.php" role="data" />
+   <file baseinstalldir="/" md5sum="4d47ce7a7e489d2207c51c8e8078f2f2" name="lib/vendor/google-api-php-client/src/Google/Collection.php" role="data" />
+   <file baseinstalldir="/" md5sum="735d46d29b6f2d0c0f5a39cf62ecd180" name="lib/vendor/google-api-php-client/src/Google/Config.php" role="data" />
+   <file baseinstalldir="/" md5sum="318afca9f008d35a174bfd9dadc02ff2" name="lib/vendor/google-api-php-client/src/Google/Exception.php" role="data" />
+   <file baseinstalldir="/" md5sum="f74fdedebbbdeacf7986d8d9276462a2" name="lib/vendor/google-api-php-client/src/Google/Model.php" role="data" />
+   <file baseinstalldir="/" md5sum="ee0e8ffbdb3778cab50198cf5fc5091f" name="lib/vendor/google-api-php-client/src/Google/Service.php" role="data" />
+   <file baseinstalldir="/" md5sum="b3115a87eda45381de2d89050f8ec51c" name="lib/vendor/google-api-php-client/src/Google/Utils.php" role="data" />
+   <file baseinstalldir="/" md5sum="faf7c8fdf5f07708cc682e6fd508cc09" name="lib/vendor/google-api-php-client/src/Google/Auth/Abstract.php" role="data" />
+   <file baseinstalldir="/" md5sum="a1b3e2cd3e8dcc01a203ef6c37c95292" name="lib/vendor/google-api-php-client/src/Google/Auth/AppIdentity.php" role="data" />
+   <file baseinstalldir="/" md5sum="3d0a3d7d6cba2f7b4f33fa624be81b21" name="lib/vendor/google-api-php-client/src/Google/Auth/AssertionCredentials.php" role="data" />
+   <file baseinstalldir="/" md5sum="d9a4131bd54022feb1148e937b9c1fa2" name="lib/vendor/google-api-php-client/src/Google/Auth/Exception.php" role="data" />
+   <file baseinstalldir="/" md5sum="20da215d1a10bbb483724c08a750c2c1" name="lib/vendor/google-api-php-client/src/Google/Auth/LoginTicket.php" role="data" />
+   <file baseinstalldir="/" md5sum="18e54b35522aea0d7c67bd00b3079737" name="lib/vendor/google-api-php-client/src/Google/Auth/OAuth2.php" role="data" />
+   <file baseinstalldir="/" md5sum="55016f4350237aca724f07cec7af4a23" name="lib/vendor/google-api-php-client/src/Google/Auth/Simple.php" role="data" />
+   <file baseinstalldir="/" md5sum="99e51011a700c21dbe8c5d2739e3777f" name="lib/vendor/google-api-php-client/src/Google/Cache/Abstract.php" role="data" />
+   <file baseinstalldir="/" md5sum="b07a0dfe29242ca4a9a97b352ccedcde" name="lib/vendor/google-api-php-client/src/Google/Cache/Apc.php" role="data" />
+   <file baseinstalldir="/" md5sum="d95a2ecc3fe150428212bbb2b6e4a19f" name="lib/vendor/google-api-php-client/src/Google/Cache/Exception.php" role="data" />
+   <file baseinstalldir="/" md5sum="aa4337fb4a0e3bf01cd11d31cc4b407d" name="lib/vendor/google-api-php-client/src/Google/Cache/File.php" role="data" />
+   <file baseinstalldir="/" md5sum="242e6e0221e6c2ed730eadea1728201b" name="lib/vendor/google-api-php-client/src/Google/Cache/Memcache.php" role="data" />
+   <file baseinstalldir="/" md5sum="8bb133334595384201aa2a85e7326d06" name="lib/vendor/google-api-php-client/src/Google/Cache/Null.php" role="data" />
+   <file baseinstalldir="/" md5sum="a33f1219ce59625999305b8001225a90" name="lib/vendor/google-api-php-client/src/Google/Http/Batch.php" role="data" />
+   <file baseinstalldir="/" md5sum="18dffe030eedc15284972eba0cbbc7d9" name="lib/vendor/google-api-php-client/src/Google/Http/CacheParser.php" role="data" />
+   <file baseinstalldir="/" md5sum="54e429c10cf8aa3f4c8d581f7531eb8b" name="lib/vendor/google-api-php-client/src/Google/Http/MediaFileUpload.php" role="data" />
+   <file baseinstalldir="/" md5sum="d254810b8d744a589abb2d9ebeaf2f2c" name="lib/vendor/google-api-php-client/src/Google/Http/Request.php" role="data" />
+   <file baseinstalldir="/" md5sum="2303536c0714152aea848c1f648841cd" name="lib/vendor/google-api-php-client/src/Google/Http/REST.php" role="data" />
+   <file baseinstalldir="/" md5sum="441aefa5dd7fadc3c1da5e5f493e8933" name="lib/vendor/google-api-php-client/src/Google/IO/Abstract.php" role="data" />
+   <file baseinstalldir="/" md5sum="a527b93e71b94759d99643641ff3b531" name="lib/vendor/google-api-php-client/src/Google/IO/cacerts.pem" role="data" />
+   <file baseinstalldir="/" md5sum="72bf9351319af6da76062fcdbc99d74a" name="lib/vendor/google-api-php-client/src/Google/IO/Curl.php" role="data" />
+   <file baseinstalldir="/" md5sum="acdb3dacbcc6ef70b2eece740ce463da" name="lib/vendor/google-api-php-client/src/Google/IO/Exception.php" role="data" />
+   <file baseinstalldir="/" md5sum="dbabe3e9dc5bf87603a7c5e00cc546f7" name="lib/vendor/google-api-php-client/src/Google/IO/Stream.php" role="data" />
+   <file baseinstalldir="/" md5sum="a33e8f35251b3580efafce729e6ec609" name="lib/vendor/google-api-php-client/src/Google/Logger/Abstract.php" role="data" />
+   <file baseinstalldir="/" md5sum="1398ef555e155d1735a7652d39f43f80" name="lib/vendor/google-api-php-client/src/Google/Logger/Exception.php" role="data" />
+   <file baseinstalldir="/" md5sum="d11f4b499d4f9bb112d902fe42762c89" name="lib/vendor/google-api-php-client/src/Google/Logger/File.php" role="data" />
+   <file baseinstalldir="/" md5sum="a862f0007119b8e522a7aa57368fac1e" name="lib/vendor/google-api-php-client/src/Google/Logger/Null.php" role="data" />
+   <file baseinstalldir="/" md5sum="bc2b2f312ca169d45201eb7ff6730f6c" name="lib/vendor/google-api-php-client/src/Google/Logger/Psr.php" role="data" />
+   <file baseinstalldir="/" md5sum="626bba19da3a1289aa55e23862f05fe8" name="lib/vendor/google-api-php-client/src/Google/Service/AdExchangeBuyer.php" role="data" />
+   <file baseinstalldir="/" md5sum="ff285b09c6690516676dc38ea37eef36" name="lib/vendor/google-api-php-client/src/Google/Service/AdExchangeSeller.php" role="data" />
+   <file baseinstalldir="/" md5sum="d60c7603598d57437058dbdd5fb69545" name="lib/vendor/google-api-php-client/src/Google/Service/Admin.php" role="data" />
+   <file baseinstalldir="/" md5sum="0a18909d2703db585eab573e04b5478d" name="lib/vendor/google-api-php-client/src/Google/Service/AdSense.php" role="data" />
+   <file baseinstalldir="/" md5sum="0a6922858db3d146f35bbca62dfc8f05" name="lib/vendor/google-api-php-client/src/Google/Service/AdSenseHost.php" role="data" />
+   <file baseinstalldir="/" md5sum="deb91e1381b06c2266171b653feafce8" name="lib/vendor/google-api-php-client/src/Google/Service/Analytics.php" role="data" />
+   <file baseinstalldir="/" md5sum="499ab09302132c83ca08eb010d52c3e8" name="lib/vendor/google-api-php-client/src/Google/Service/AndroidPublisher.php" role="data" />
+   <file baseinstalldir="/" md5sum="56e739f4ef1a9b0bee2c0b2c88f1f674" name="lib/vendor/google-api-php-client/src/Google/Service/Appsactivity.php" role="data" />
+   <file baseinstalldir="/" md5sum="6fe071f87750a79c53bfb74bd3f71489" name="lib/vendor/google-api-php-client/src/Google/Service/AppState.php" role="data" />
+   <file baseinstalldir="/" md5sum="c90c3336e1c307a5214c9f6cb0658444" name="lib/vendor/google-api-php-client/src/Google/Service/Audit.php" role="data" />
+   <file baseinstalldir="/" md5sum="55d36fa43b635556f5ca88680fefb72a" name="lib/vendor/google-api-php-client/src/Google/Service/Autoscaler.php" role="data" />
+   <file baseinstalldir="/" md5sum="5b80e8d37f0a9b7991de2cfe530bf407" name="lib/vendor/google-api-php-client/src/Google/Service/Bigquery.php" role="data" />
+   <file baseinstalldir="/" md5sum="4d19b26e6b737eb370bad9ebd43d4151" name="lib/vendor/google-api-php-client/src/Google/Service/Blogger.php" role="data" />
+   <file baseinstalldir="/" md5sum="c1f83127346e596189623aada090cd37" name="lib/vendor/google-api-php-client/src/Google/Service/Books.php" role="data" />
+   <file baseinstalldir="/" md5sum="15cdac44b43a5b2e9637c85f938e832f" name="lib/vendor/google-api-php-client/src/Google/Service/Calendar.php" role="data" />
+   <file baseinstalldir="/" md5sum="a1db9f9c645b3dacc64c47313980a157" name="lib/vendor/google-api-php-client/src/Google/Service/CivicInfo.php" role="data" />
+   <file baseinstalldir="/" md5sum="7993b0941966b31303849afd28786f98" name="lib/vendor/google-api-php-client/src/Google/Service/CloudMonitoring.php" role="data" />
+   <file baseinstalldir="/" md5sum="30ab02e1a40ece75e5c7a64b33194b2e" name="lib/vendor/google-api-php-client/src/Google/Service/Compute.php" role="data" />
+   <file baseinstalldir="/" md5sum="68a64114a863697f378e8be70d062545" name="lib/vendor/google-api-php-client/src/Google/Service/Container.php" role="data" />
+   <file baseinstalldir="/" md5sum="4ba6781adb3fbd69e8e95a9d85763319" name="lib/vendor/google-api-php-client/src/Google/Service/Coordinate.php" role="data" />
+   <file baseinstalldir="/" md5sum="71921490e6674e62f4950e14e54b1732" name="lib/vendor/google-api-php-client/src/Google/Service/Customsearch.php" role="data" />
+   <file baseinstalldir="/" md5sum="067d86be76b8c6885a58f186d1cf5fc5" name="lib/vendor/google-api-php-client/src/Google/Service/Datastore.php" role="data" />
+   <file baseinstalldir="/" md5sum="4f1411b08b4ff2412a78a14e0d30a849" name="lib/vendor/google-api-php-client/src/Google/Service/Dfareporting.php" role="data" />
+   <file baseinstalldir="/" md5sum="ad9ac74f67b4c9a48e9104b403349fc6" name="lib/vendor/google-api-php-client/src/Google/Service/Directory.php" role="data" />
+   <file baseinstalldir="/" md5sum="b2934823ee6f7177fe52372832365193" name="lib/vendor/google-api-php-client/src/Google/Service/Dns.php" role="data" />
+   <file baseinstalldir="/" md5sum="db654005c877cd006a66e945eff28770" name="lib/vendor/google-api-php-client/src/Google/Service/DoubleClickBidManager.php" role="data" />
+   <file baseinstalldir="/" md5sum="5f127870a52ad60b75362f62c767c901" name="lib/vendor/google-api-php-client/src/Google/Service/Doubleclicksearch.php" role="data" />
+   <file baseinstalldir="/" md5sum="62d20c9a91e543ff0a6e4dee67a91c4e" name="lib/vendor/google-api-php-client/src/Google/Service/Drive.php" role="data" />
+   <file baseinstalldir="/" md5sum="3a60e723b2779f017a61eb87f6d69e36" name="lib/vendor/google-api-php-client/src/Google/Service/Exception.php" role="data" />
+   <file baseinstalldir="/" md5sum="7acd79200d43a8ea9eca94fa33e92119" name="lib/vendor/google-api-php-client/src/Google/Service/Fitness.php" role="data" />
+   <file baseinstalldir="/" md5sum="952cb0c230f0d5b352369c4fcde38c58" name="lib/vendor/google-api-php-client/src/Google/Service/Freebase.php" role="data" />
+   <file baseinstalldir="/" md5sum="f8bef4771c048cb85b8fec24e3e1be75" name="lib/vendor/google-api-php-client/src/Google/Service/Fusiontables.php" role="data" />
+   <file baseinstalldir="/" md5sum="dbf37bbd567343377baf6c6d48292664" name="lib/vendor/google-api-php-client/src/Google/Service/Games.php" role="data" />
+   <file baseinstalldir="/" md5sum="3a2cbb3610a35c4c65d46cee26cf76a8" name="lib/vendor/google-api-php-client/src/Google/Service/GamesManagement.php" role="data" />
+   <file baseinstalldir="/" md5sum="80ee62df1f5a3f1d48cd432103d8b2ec" name="lib/vendor/google-api-php-client/src/Google/Service/Genomics.php" role="data" />
+   <file baseinstalldir="/" md5sum="d216e0134f109d70cc3a8d558a409acd" name="lib/vendor/google-api-php-client/src/Google/Service/Gmail.php" role="data" />
+   <file baseinstalldir="/" md5sum="2f826d7e1d909ba02216621e7496cb7d" name="lib/vendor/google-api-php-client/src/Google/Service/GroupsMigration.php" role="data" />
+   <file baseinstalldir="/" md5sum="1c0a2db814d38b47cf78d1a075176d65" name="lib/vendor/google-api-php-client/src/Google/Service/Groupssettings.php" role="data" />
+   <file baseinstalldir="/" md5sum="445857a71205d00ac670327f63708c0c" name="lib/vendor/google-api-php-client/src/Google/Service/IdentityToolkit.php" role="data" />
+   <file baseinstalldir="/" md5sum="ca837316918fa8545aa7368b93f7aa17" name="lib/vendor/google-api-php-client/src/Google/Service/Licensing.php" role="data" />
+   <file baseinstalldir="/" md5sum="aae57c933cbd84eadcc97d4d84e664a5" name="lib/vendor/google-api-php-client/src/Google/Service/Manager.php" role="data" />
+   <file baseinstalldir="/" md5sum="b49350bc6e1c0ba7027724508034ef07" name="lib/vendor/google-api-php-client/src/Google/Service/MapsEngine.php" role="data" />
+   <file baseinstalldir="/" md5sum="0b0f6217835de5ecfddfb84119083cdd" name="lib/vendor/google-api-php-client/src/Google/Service/Mirror.php" role="data" />
+   <file baseinstalldir="/" md5sum="d434b67cab9b20336a24e0821bdacff9" name="lib/vendor/google-api-php-client/src/Google/Service/Oauth2.php" role="data" />
+   <file baseinstalldir="/" md5sum="560119ccfbbc8b8138ac572215ba0fbe" name="lib/vendor/google-api-php-client/src/Google/Service/Pagespeedonline.php" role="data" />
+   <file baseinstalldir="/" md5sum="90ca7bc4846f11b993c65e35d806f4e2" name="lib/vendor/google-api-php-client/src/Google/Service/Plus.php" role="data" />
+   <file baseinstalldir="/" md5sum="04a9d41bb2342cbe37bcf8c4a2b8d16c" name="lib/vendor/google-api-php-client/src/Google/Service/PlusDomains.php" role="data" />
+   <file baseinstalldir="/" md5sum="eca6d2aac8794f878b8f373622c6bee8" name="lib/vendor/google-api-php-client/src/Google/Service/Prediction.php" role="data" />
+   <file baseinstalldir="/" md5sum="841f642d938d09d3753c0c9e902fc2d6" name="lib/vendor/google-api-php-client/src/Google/Service/Pubsub.php" role="data" />
+   <file baseinstalldir="/" md5sum="58e491c308230adf28c0bfb108eb7058" name="lib/vendor/google-api-php-client/src/Google/Service/QPXExpress.php" role="data" />
+   <file baseinstalldir="/" md5sum="79eddeef8adda40be9eee2123c27a764" name="lib/vendor/google-api-php-client/src/Google/Service/Replicapool.php" role="data" />
+   <file baseinstalldir="/" md5sum="0d006c8b757cee6231d39cd708790dd8" name="lib/vendor/google-api-php-client/src/Google/Service/Replicapoolupdater.php" role="data" />
+   <file baseinstalldir="/" md5sum="ea16a9fa61b89d84425519f29cee2d4b" name="lib/vendor/google-api-php-client/src/Google/Service/Reports.php" role="data" />
+   <file baseinstalldir="/" md5sum="c53bd9291530d2dce7d1ae3a0895d216" name="lib/vendor/google-api-php-client/src/Google/Service/Reseller.php" role="data" />
+   <file baseinstalldir="/" md5sum="0dfe446b54e4b2fc2506f037f26cd8cb" name="lib/vendor/google-api-php-client/src/Google/Service/Resource.php" role="data" />
+   <file baseinstalldir="/" md5sum="71564e2b5896d613de5ffbee9286c57f" name="lib/vendor/google-api-php-client/src/Google/Service/Resourceviews.php" role="data" />
+   <file baseinstalldir="/" md5sum="18de192cc59d2a2e3f885b00f36ed42e" name="lib/vendor/google-api-php-client/src/Google/Service/ShoppingContent.php" role="data" />
+   <file baseinstalldir="/" md5sum="c43b3da5088bae4e5051a245ed8f8978" name="lib/vendor/google-api-php-client/src/Google/Service/SiteVerification.php" role="data" />
+   <file baseinstalldir="/" md5sum="efd6f84604e50a69889501fd71f51cbc" name="lib/vendor/google-api-php-client/src/Google/Service/Spectrum.php" role="data" />
+   <file baseinstalldir="/" md5sum="de851bab182fca1e87f74f42a65a3213" name="lib/vendor/google-api-php-client/src/Google/Service/SQLAdmin.php" role="data" />
+   <file baseinstalldir="/" md5sum="55c5827ecbcb610fb48123a033c923fb" name="lib/vendor/google-api-php-client/src/Google/Service/Storage.php" role="data" />
+   <file baseinstalldir="/" md5sum="732dcf68c3e1becaba40e3fac3ed7cfb" name="lib/vendor/google-api-php-client/src/Google/Service/TagManager.php" role="data" />
+   <file baseinstalldir="/" md5sum="730e99f3b13d61859c3997f39c963999" name="lib/vendor/google-api-php-client/src/Google/Service/Taskqueue.php" role="data" />
+   <file baseinstalldir="/" md5sum="9525b0dff3459a0b5b17597300d6bf1b" name="lib/vendor/google-api-php-client/src/Google/Service/Tasks.php" role="data" />
+   <file baseinstalldir="/" md5sum="62d90782dbd17797dc26421aef281a9d" name="lib/vendor/google-api-php-client/src/Google/Service/Translate.php" role="data" />
+   <file baseinstalldir="/" md5sum="af0e0c1bc5de76c63b188efd8a7b3151" name="lib/vendor/google-api-php-client/src/Google/Service/Urlshortener.php" role="data" />
+   <file baseinstalldir="/" md5sum="1eb5ecdfbc7ecc007ee58757c688d8fc" name="lib/vendor/google-api-php-client/src/Google/Service/Webfonts.php" role="data" />
+   <file baseinstalldir="/" md5sum="a2e5b635068347ae0938d4214958eb43" name="lib/vendor/google-api-php-client/src/Google/Service/Webmasters.php" role="data" />
+   <file baseinstalldir="/" md5sum="087cc9406657c834054099ceea0a5513" name="lib/vendor/google-api-php-client/src/Google/Service/YouTube.php" role="data" />
+   <file baseinstalldir="/" md5sum="3bc6f3332118df07d1dc2ca7741018c9" name="lib/vendor/google-api-php-client/src/Google/Service/YouTubeAnalytics.php" role="data" />
+   <file baseinstalldir="/" md5sum="ae819136b6bf530bccee81f993f45793" name="lib/vendor/google-api-php-client/src/Google/Signer/Abstract.php" role="data" />
+   <file baseinstalldir="/" md5sum="4f61481deaf0f014810c84c79c34780b" name="lib/vendor/google-api-php-client/src/Google/Signer/P12.php" role="data" />
+   <file baseinstalldir="/" md5sum="bffda0decadf98ad09d77a67bb28fa98" name="lib/vendor/google-api-php-client/src/Google/Utils/URITemplate.php" role="data" />
+   <file baseinstalldir="/" md5sum="1d71ba9df985da107ad727908a8a4ecb" name="lib/vendor/google-api-php-client/src/Google/Verifier/Abstract.php" role="data" />
+   <file baseinstalldir="/" md5sum="dd461d8d226cc802ce6d086292087a76" name="lib/vendor/google-api-php-client/src/Google/Verifier/Pem.php" role="data" />
+   <file baseinstalldir="/" md5sum="3b35ca889f86dca93b4f4ec9d9dcabbd" name="lib/vendor/google-api-php-client/style/ruleset.xml" role="data" />
+   <file baseinstalldir="/" md5sum="d6894010db5318d2c52690b1830f3b12" name="lib/vendor/google-api-php-client/tests/BaseTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="025fc43c6c893df53be6f41d1568afb8" name="lib/vendor/google-api-php-client/tests/bootstrap.php" role="data" />
+   <file baseinstalldir="/" md5sum="084f0d314ac40ec86a4fb27024a8bac8" name="lib/vendor/google-api-php-client/tests/OAuthHelper.php" role="data" />
+   <file baseinstalldir="/" md5sum="bad28dc2bac1695e4e4b349cb445c48a" name="lib/vendor/google-api-php-client/tests/README" role="data" />
+   <file baseinstalldir="/" md5sum="03363aae2be51331fba68910365a25e5" name="lib/vendor/google-api-php-client/tests/adsense/AdSenseTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="db856de7e412b5aa90663dd14764e220" name="lib/vendor/google-api-php-client/tests/general/ApiBatchRequestTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="4d9da137bc883c766c5816fe412252a9" name="lib/vendor/google-api-php-client/tests/general/ApiCacheParserTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="62ee219901b008746af638dd9b72441f" name="lib/vendor/google-api-php-client/tests/general/ApiClientTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="cb13322556c3c6a62fe220e05446a007" name="lib/vendor/google-api-php-client/tests/general/ApiMediaFileUploadTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="9152e52671f8f825f7f159b405247879" name="lib/vendor/google-api-php-client/tests/general/ApiModelTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="7feb114793ae1c2b444ac77dc1fad9a9" name="lib/vendor/google-api-php-client/tests/general/ApiOAuth2Test.php" role="data" />
+   <file baseinstalldir="/" md5sum="f49431f1af7becd4b4d0498b615beb32" name="lib/vendor/google-api-php-client/tests/general/AuthTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="a3a22481cbb4bbd0f000e862b465d989" name="lib/vendor/google-api-php-client/tests/general/CacheTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="a075981a9418e0e4aec804cf27656a18" name="lib/vendor/google-api-php-client/tests/general/IoTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="857a4bfaff2b9a0a7d5c42274d92d4d2" name="lib/vendor/google-api-php-client/tests/general/LoggerTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="00f4b4766cc6c03a1941f05e348e1df4" name="lib/vendor/google-api-php-client/tests/general/RequestTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="5521bd30583c110c8659111c49ee5d2a" name="lib/vendor/google-api-php-client/tests/general/RestTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="c6f66f71cb668426fed8328c325cac3d" name="lib/vendor/google-api-php-client/tests/general/ServiceTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="5e672fa93866960c00a0e19f2ef41a0e" name="lib/vendor/google-api-php-client/tests/general/URITemplateTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="2434ea045f2f993307ef2622c82ad5c8" name="lib/vendor/google-api-php-client/tests/general/testdata/cacert.json" role="data" />
+   <file baseinstalldir="/" md5sum="15106be9e25bf5275400caf58b2eb4c0" name="lib/vendor/google-api-php-client/tests/general/testdata/cacert.pem" role="data" />
+   <file baseinstalldir="/" md5sum="1a111b2ddf45cd3819b94f3bd0db68db" name="lib/vendor/google-api-php-client/tests/general/testdata/cert.p12" role="data" />
+   <file baseinstalldir="/" md5sum="0f49fa44eb0828e1d4d434d56bf1cd0a" name="lib/vendor/google-api-php-client/tests/general/testdata/privkey.pem" role="data" />
+   <file baseinstalldir="/" md5sum="53bcb7fe90c57212fc25b99551f57a6d" name="lib/vendor/google-api-php-client/tests/general/testdata/test.ini" role="data" />
+   <file baseinstalldir="/" md5sum="bc1ce8f68d565142145c30126cc1ea37" name="lib/vendor/google-api-php-client/tests/general/testdata/test_public_key.pem" role="data" />
+   <file baseinstalldir="/" md5sum="29cff54123446bec78c9fecd4d403ebc" name="lib/vendor/google-api-php-client/tests/pagespeed/PageSpeedTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="17cf78ef1d210bcfce897f162cb4fbdd" name="lib/vendor/google-api-php-client/tests/plus/PlusTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="7b4c6b41c633327ed30933f1522d69e6" name="lib/vendor/google-api-php-client/tests/tasks/TasksTest.php" role="data" />
+   <file baseinstalldir="/" md5sum="1d275b97e8b0d6171359572f7bae741f" name="lib/vendor/google-api-php-client/tests/urlshortener/UrlShortenerTests.php" role="data" />
+   <file baseinstalldir="/" md5sum="0e4522c86e2424b0837005dc2489c635" name="lib/vendor/google-api-php-client/tests/youtube/YouTubeTest.php" role="data" />
    <file baseinstalldir="/" md5sum="95667233a38f90c062306fe1a79f8050" name="lib/widget/opWidgetFormSelectEditable.class.php" role="data" />
    <file baseinstalldir="/" md5sum="742bc1fe7f313d37ad4abb247b3006ab" name="test/bootstrap/database.php" role="data" />
    <file baseinstalldir="/" md5sum="df048397a26ab2f8951a05f4ec2edb0f" name="test/bootstrap/functional.php" role="data" />
@@ -267,6 +432,21 @@ fixed bug. #2054
    <license>Apache</license>
    <notes>
 fixes 5 bugs and add 3 enhancement. http://redmine.openpne.jp/projects/plg-calendar/versions/170
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.5</release>
+    <api>0.9.5</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2015-04-24</date>
+   <license>Apache</license>
+   <notes>
+Upgrade Google Api OAuth 1.0 to 2.0
    </notes>
   </release>
  </changelog>
