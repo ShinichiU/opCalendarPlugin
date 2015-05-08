@@ -306,6 +306,14 @@
         <source>This calendar is used other SNS Member.</source>
         <target>このカレンダーは既に別のSNSメンバによって連携されています</target>
       </trans-unit>
+      <trans-unit id="">
+        <source>Is sync.</source>
+        <target>同期する</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>Is Google calendar aliways sync</source>
+        <target>作成・編集したスケジュールを Google Calendar と同期</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

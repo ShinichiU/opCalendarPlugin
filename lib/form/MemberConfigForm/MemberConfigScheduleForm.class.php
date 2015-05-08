@@ -19,6 +19,7 @@ class MemberConfigScheduleForm extends MemberConfigForm
 {
   const PUBLIC_FLAG = 'schedule_public_flag';
   const IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE = 'is_Google_calendar_OAuth_key_revoke';
+  const IS_GOOGLE_CALENDAR_ALWAYS_SYNC = 'is_Google_calendar_aliways_sync';
 
   protected
     $category = 'schedule';
@@ -54,34 +55,58 @@ class MemberConfigScheduleForm extends MemberConfigForm
         'required' => false,
       )));
       $this->widgetSchema->setHelp(self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE, 'Please note that the schedule data in cooperation with OAuth key will disappear all.');
+
+      $check = array(1 => 'Is sync.');
+      $this->setWidget(self::IS_GOOGLE_CALENDAR_ALWAYS_SYNC, new sfWidgetFormChoice(array(
+        'choices'  => $check,
+        'multiple' => true,
+        'expanded' => true,
+      )));
+      $this->setValidator(self::IS_GOOGLE_CALENDAR_ALWAYS_SYNC, new sfValidatorChoice(array(
+        'choices' => array_keys($check),
+        'multiple' => true,
+        'required' => false,
+      )));
+      $this->setDefault(self::IS_GOOGLE_CALENDAR_ALWAYS_SYNC, $this->member->getConfig(self::IS_GOOGLE_CALENDAR_ALWAYS_SYNC));
     }
   }
 
   public function save()
   {
-    if ($this->isOAuthAuthenticate() && array_key_exists(self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE, $this->values))
+    if ($this->isOAuthAuthenticate())
     {
-      $isDelete = (bool) $this->values[self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE];
-      unset($this->values[self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE]);
-
-      if ($isDelete)
+      try
       {
         $con = opDoctrineQuery::getMasterConnection();
         $con->beginTransaction();
 
-        try
+        if (array_key_exists(self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE, $this->values))
         {
-          $this->opCalendarOAuth->getClient()->revokeToken();
-          opCalendarPluginToolkit::deleteMemberGoogleCalendar($this->member);
+          $isDelete = (bool) $this->values[self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE];
+          unset($this->values[self::IS_GOOGLE_CALENDAR_OAUTH_KEY_REVOKE]);
 
-          $con->commit();
+          if ($isDelete)
+          {
+            $this->opCalendarOAuth->getClient()->revokeToken();
+            opCalendarPluginToolkit::deleteMemberGoogleCalendar($this->member);
+          }
         }
-        catch (Exception $e)
+
+        if (array_key_exists(self::IS_GOOGLE_CALENDAR_ALWAYS_SYNC, $this->values))
         {
-          $con->rollback();
-
-          return false;
+          $isSync = (bool) $this->values[self::IS_GOOGLE_CALENDAR_ALWAYS_SYNC];
+          unset($this->values[self::IS_GOOGLE_CALENDAR_ALWAYS_SYNC]);
+          $this->member->setConfig(self::IS_GOOGLE_CALENDAR_ALWAYS_SYNC, $isSync);
         }
+
+        $con->commit();
+
+      }
+      catch (Exception $e)
+      {
+        $con->rollback();
+
+        return false;
       }
     }
 
