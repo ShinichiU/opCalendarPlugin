@@ -30,7 +30,7 @@ class opCalendarPluginToolkit
   {
     if (null === $member)
     {
-      $member = sfContext::getInstance()->getMember();
+      $member = sfContext::getInstance()->getUser()->getMember();
     }
 
     $member->setConfig('google_cron_update', (bool) $cronFlag);
