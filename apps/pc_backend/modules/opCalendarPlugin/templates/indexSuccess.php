@@ -87,6 +87,7 @@ SNS利用者がすでにリソースを予約している可能性もあるの�
 </td><td>
 <?php echo get_auther_name($scheduleResourceForm->getObject(), true) ?>
 </td><td>
+<?php echo $scheduleResourceForm->renderHiddenFields() ?>
 <input type="submit" value=" 更 新 " />
 </td><td>
 </form>
