@@ -4,6 +4,7 @@ holiday:
 
 holiday_create:
   url: /holiday/create
+  class: sfRequestRoute
   param: { module: holiday, action: create }
   requirements:
     sf_method: [post]
@@ -36,6 +37,7 @@ opCalendarPlugin:
 
 opCalendarPlugin_resource_create:
   url: /opCalendarPlugin/resourceCreate
+  class: sfRequestRoute
   param: { module: opCalendarPlugin, action: resourceCreate }
   requirements:
     sf_method: [post]
@@ -68,6 +70,7 @@ opCalendarPlugin_resource_delete:
 
 opCalendarPlugin_resource_type_create:
   url: /opCalendarPlugin/resourceTypeCreate
+  class: sfRequestRoute
   param: { module: opCalendarPlugin, action: resourceTypeCreate }
   requirements:
     sf_method: [post]
@@ -100,6 +103,7 @@ opCalendarPlugin_resource_type_delete:
 
 opCalendarPlugin_google_data_api_update:
   url: /opCalendarPlugin/googleDataAPIUpdate
+  class: sfRequestRoute
   param: { module: opCalendarPlugin, action: googleDataAPIUpdate }
   requirements:
     sf_method: [post]
