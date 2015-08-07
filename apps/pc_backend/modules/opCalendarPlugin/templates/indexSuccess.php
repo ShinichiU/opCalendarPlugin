@@ -85,7 +85,7 @@ SNS利用者がすでにリソースを予約している可能性もあるの�
 </td><td>
 <?php echo $scheduleResourceForm['resource_limit']->render() ?>
 </td><td>
-<?php echo get_auther_name($scheduleResourceForm->getObject(), true) ?>
+<?php echo get_auther_name(sfOutputEscaper::escape(sfConfig::get('sf_escaping_method'), $scheduleResourceForm->getObject()), true) ?>
 </td><td>
 <?php echo $scheduleResourceForm->renderHiddenFields() ?>
 <input type="submit" value=" 更 新 " />
