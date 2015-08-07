@@ -175,6 +175,10 @@
         <target>スケジュールリソース%1%</target>
       </trans-unit>
       <trans-unit id="">
+        <source>Schedule resource lock</source>
+        <target>スケジュールリソース</target>
+      </trans-unit>
+      <trans-unit id="">
         <source>The input has some problem</source>
         <target>入力した値に問題があります</target>
       </trans-unit>
