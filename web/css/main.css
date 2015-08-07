@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-* {
-  word-wrap: break-word;
-}
-
 /*==============================================================================
  * weeklyCalendarTable
  * .weeklyCalendarTable => member home calendar
