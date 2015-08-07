@@ -63,12 +63,14 @@ schedule_new_for_this_date:
 
 schedule_create:
   url: /schedule/create
+  class: sfRequestRoute
   param: { module: schedule, action: create }
   requirements:
     sf_method: [post]
 
 schedule_create_mini:
   url: /schedule/createmini
+  class: sfRequestRoute
   param: { module: schedule, action: miniCreate }
   requirements:
     sf_method: [post]
