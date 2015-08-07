@@ -8,7 +8,7 @@ general:
     IsRequired: true
     Default:    "none"
     Choices:
-      all:                      "All Community Member's opened Schedule and Community Event"
+      all:                      "All %community% Member's opened Schedule and %community% Event"
       only_member_schedule:     "Only Member's opend Schedule"
-      only_community_event:     "Only Community Event"
+      only_community_event:     "Only %community% Event"
       none:                     "Invalidate a calendar"
