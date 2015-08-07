@@ -61,7 +61,7 @@ SELECT
 EOT;
 
     return $conn->fetchAll($sql, array(
-      md5('google_cron_update,1'),
+      Doctrine_Core::getTable('MemberConfig')->generateNameValueHash('google_cron_update', '1'),
       'google_cron_update',
       'google_cron_update_public_flag',
     ));
