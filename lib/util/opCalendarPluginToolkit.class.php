@@ -195,4 +195,11 @@ EOT;
 
     return false;
   }
+
+  public static function getMonthByPediod($period = 1, $format = 'Y-m', $timestamp = null)
+  {
+    $timestamp = $timestamp ?: time();
+
+    return date($format, strtotime(date('Y-m-01', $timestamp).sprintf(' %d month', $period)));
+  }
 }
