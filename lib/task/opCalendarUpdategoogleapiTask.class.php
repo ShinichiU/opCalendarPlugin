@@ -83,12 +83,12 @@ EOF;
 
   protected function getContents($id, Google_Service_Calendar $calendar)
   {
-    $endYear = date('Y', strtotime('+1 month'));
-    $endMonth = date('m', strtotime('+1 month'));
+    $endYear = opCalendarPluginToolkit::getMonthByPediod(1, 'Y');
+    $endMonth = opCalendarPluginToolkit::getMonthByPediod(1, 'm');
     $endDay = opCalendarPluginToolkit::getLastDay($endMonth, $endYear);
 
     return $calendar->events->listEvents($id, array(
-      'timeMin' => date('c', strtotime(sprintf('%s-01 00:00:00', date('Y-m', strtotime('-1 month'))))),
+      'timeMin' => date('c', strtotime(opCalendarPluginToolkit::getMonthByPediod(-1, 'Y-m-01 00:00:00'))),
       'timeMax' => date('c', strtotime(sprintf('%04d-%02d-%02d 23:59:59', $endYear, $endMonth, $endDay))),
       'showDeleted' => true,
     ));
