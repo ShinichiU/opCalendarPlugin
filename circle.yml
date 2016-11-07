@@ -1,1 +1,8 @@
+machine:
+    timezone: Asia/Tokyo
+    
+    hosts:   #/etc/hostsを書き換える
+        dev.calendar.com: 127.0.0.1
 
+    environment:
+        DATABASE_URL: mysql://shinichi:@127.0.0.1:3306/calendar
